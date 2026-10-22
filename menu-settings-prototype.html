@@ -1591,6 +1591,8 @@ function fitAttrs() {
   });
 }
 window.addEventListener('resize', fitAttrs);
+// 數字輸入框聚焦時，滾輪捲動頁面不要誤改數值
+document.addEventListener('wheel', () => { const a = document.activeElement; if (a && a.tagName === 'INPUT' && a.type === 'number') a.blur(); }, { passive: true });
 function updateSpy() {
   const c = document.querySelector('.content'); if (!c || !document.querySelector('.u-main')) return;
   const cats = [...document.querySelectorAll('.u-cat')]; if (!cats.length) return;
@@ -1985,7 +1987,7 @@ function drawerBody() {
     ${adv(`<label class="qp-fld"><span class="qp-fl">稅率</span><span class="qp-in"><input type="number" step="any" data-b="tax" value="${h(d.tax)}" placeholder="${h(menu ? menu.tax : '')}" /><em>%</em></span></label>
       ${F('數量', 'stock', { type:'number', opt:false })}
       ${swl('獨立品項', 'KDS 單獨改狀態、列印', d.standalone, 'standalone')}
-      ${swl('交易中可調價格', '只適用無屬性品項', d.adjustable, 'adjustable', d.attrs.length > 0, '只適用無屬性品項')}
+      ${swl('交易中可調價格', '僅限 POS 使用，且品項不可包含屬性。', d.adjustable, 'adjustable', d.attrs.length > 0, '僅限 POS 使用，且品項不可包含屬性。')}
       <div class="mn-g slots"><div class="mn-t">使用時段${helpIc('未設定時段＝全天供應；結束時間早於開始時間視為跨夜')}</div>
         ${(d.slots || []).map((sl, i) => `<div class="mn-slot"><div class="fld"><label>開始時間</label><input type="text" readonly class="pk-in pk-time" data-act="pkOpen" data-kind="time" data-b="slots.${i}.s" value="${sl.s}" /></div><span class="mn-to">至</span><div class="fld"><label>結束時間</label><input type="text" readonly class="pk-in pk-time" data-act="pkOpen" data-kind="time" data-b="slots.${i}.e" value="${sl.e}" /></div><button class="mn-del" data-act="slotDel" data-i="${i}" aria-label="移除時段" title="移除時段">${trash}</button></div>`).join('')}
         <button class="btn pri mn-add" data-act="slotAdd">${fi('plus', 20)}新增時段</button></div>`)}</div>`;
