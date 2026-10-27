@@ -1778,16 +1778,16 @@ function renderItems() {
   const sel = `<div class="msel one fcat ${ui.itemCatPop ? 'open' : ''}"><div class="msel-box" data-act="itemCatPop"><span class="msel-lbl">類別</span><span class="msel-chips"><span class="msel-val">${curC ? cn(curC) : '所有類別'}</span></span><span class="msel-act msel-act1"><button aria-label="展開">${fi('ddown')}</button></span></div>${ui.itemCatPop ? `<div class="msel-pop one"><div class="msel-opt ${curC ? '' : 'on'}" data-act="itemCatSet" data-id="">所有類別</div>${allCats.map(c => `<div class="msel-opt ${c.id === ui.itemCat ? 'on' : ''}" data-act="itemCatSet" data-id="${c.id}">${cn(c)}</div>`).join('')}</div>` : ''}</div>`;
   const ord = ui.itemOrder || {}, pending = Object.keys(ord).length > 0;
   const ordered = cid => { const l = itemsOf(cid), o = ord[cid]; return o ? o.map(id => l.find(i => i.id === id)).filter(Boolean) : l; };
-  const list = allCats.filter(c => !ui.itemCat || c.id === ui.itemCat).flatMap(c => ordered(c.id).map(it => ({ it, c }))).filter(({ it }) => !q || it.name.toLowerCase().includes(q) || it.sku.toLowerCase().includes(q));
+  const list = allCats.filter(c => !ui.itemCat || c.id === ui.itemCat).flatMap(c => ordered(c.id).map(it => ({ it, c }))).filter(({ it }) => !q || it.name.toLowerCase().includes(q) || (it.adminName || '').toLowerCase().includes(q) || it.sku.toLowerCase().includes(q));
   const rows = list.map(({ it, c }) => { const m = c.menuId ? byId(S.menus, c.menuId) : null, n = priceList(it).length;
     return `<tr class="${it.enabled ? '' : 'dim'}" data-kind="item" data-row="${it.id}" data-grp="${c.id}"><td class="sortc"><span class="drag-h" data-drag="${it.id}" title="拖曳調整順序">${MENU01}</span></td>
-    <td><div class="it-name"><span class="it-img" data-act="edit" data-t="item" data-id="${it.id}" title="編輯品項" style="background-image:url(${it.img || PH_IMG})"></span><div class="it-txt"><span>${h(it.name)}</span>${it.sku ? `<span class="it-sku">${h(it.sku)}</span>` : ''}</div></div></td>
+    <td><div class="it-name"><span class="it-img" data-act="edit" data-t="item" data-id="${it.id}" title="編輯品項" style="background-image:url(${it.img || PH_IMG})"></span><div class="it-txt"><span>${h(it.adminName || it.name)}</span>${it.sku ? `<span class="it-sku">${h(it.sku)}</span>` : ''}</div></div></td>
     <td>$${it.price}${n ? `<button class="pc-tag" data-act="pricePop" data-id="${it.id}" title="${h(priceList(it).join('\n'))}">${n} 項變價</button>` : ''}</td>
     <td>${multi && m ? h(m.name) + ' › ' : ''}${h(c.name)}</td>
     <td><button class="u-sold" data-act="qen" data-id="${it.id}"><span class="msw ${it.enabled ? 'on' : ''}"><i></i></span>${it.enabled ? '啟用中' : '未啟用'}</button></td>
     <td><div class="acell"><button data-act="dupItem" data-id="${it.id}" aria-label="複製" title="複製品項">${fi('copy', 24)}</button><button data-act="edit" data-t="item" data-id="${it.id}" aria-label="編輯">${fi('edit24', 24)}</button><button data-act="delItem" data-id="${it.id}" aria-label="刪除">${fi('trash', 24)}</button></div></td></tr>`; }).join('');
   return tabHead('建立餐點品項，如：咖哩飯、海鮮麵、貢丸湯等。', `<div class="tb-left">${sel}${searchBox('search', ui.search)}</div>`, (pending ? `<div class="ord-btns"><button class="tbtn-gray" data-act="itemOrderReset">還原排序</button><button class="tbtn-blue" data-act="itemOrderSave">完成</button></div>` : addBtn('item', '新增品項')))
-  + `<table class="tb drag-tb item-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>品項名稱 / SKU</th><th>基本價</th><th>類別</th><th>狀態</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無品項', '請點擊右上新增'))}</tbody></table>`;
+  + `<table class="tb drag-tb item-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>後台名稱 / SKU</th><th>基本價</th><th>類別</th><th>狀態</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無品項', '請點擊右上新增'))}</tbody></table>`;
 }
 function renderAttrs() {
   const q = (ui.attrSearch || '').trim().toLowerCase(), ord = ui.attrOrder, pending = !!ord;
@@ -1799,13 +1799,13 @@ function renderAttrs() {
   const rule = a => `${a.required ? '必選' : '選填'}，選 ${a.min === a.max ? a.min : a.min + '–' + (a.max || '不限')}${a.max !== 1 || a.repeat ? '，可複選' : ''}`;
   const rows = list.map(a => { const used = S.items.filter(i => i.attrs.includes(a.id)).length, two = a.options.some(o => o.sub);
     return `<tr data-kind="attr" data-row="${a.id}" data-grp="all"><td class="sortc"><span class="drag-h" data-drag="${a.id}" title="拖曳調整順序">${MENU01}</span></td>
-    <td>${h(a.name)}${two ? '<span class="pc-tag" style="cursor:default">雙層</span>' : ''}</td><td class="wrap">${rule(a)}</td>
+    <td>${h(a.adminName || a.name)}${two ? '<span class="pc-tag" style="cursor:default">雙層</span>' : ''}</td><td class="wrap">${rule(a)}</td>
     <td class="wrap"><div class="opt-chips">${a.options.map(o => `<span class="ochip">${h(o.name)}${o.price ? ` (+${o.price})` : ''}</span>`).join('')}</div></td>
     <td>${used} 個品項</td>
     <td><div class="acell"><button data-act="dupAttr" data-id="${a.id}" aria-label="複製" title="複製屬性">${fi('copy', 24)}</button><button data-act="edit" data-t="attr" data-id="${a.id}" aria-label="編輯">${fi('edit24', 24)}</button><button data-act="delAttr" data-id="${a.id}" aria-label="刪除">${fi('trash', 24)}</button></div></td></tr>`; }).join('');
   const btns = pending ? `<div class="ord-btns"><button class="tbtn-gray" data-act="attrOrderReset">還原排序</button><button class="tbtn-blue" data-act="attrOrderSave">完成</button></div>` : addBtn('attr', '新增屬性');
   return tabHead('建立品項的附加屬性，如：份量選擇、醬料選擇、甜度選擇等。', `<div class="tb-left">${sel}${searchBox('attrSearch', ui.attrSearch || '', '搜尋屬性名稱')}</div>`, btns)
-  + `<table class="tb drag-tb attr-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>屬性名稱</th><th>規則</th><th style="width:400px">包含選項</th><th>適用的品項</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q || curI ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無屬性', '請點擊右上新增'))}</tbody></table>`;
+  + `<table class="tb drag-tb attr-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>後台名稱</th><th>規則</th><th style="width:400px">包含選項</th><th>適用的品項</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q || curI ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無屬性', '請點擊右上新增'))}</tbody></table>`;
 }
 function previewItems(plat) {
   const m = byId(S.menus, ui.pvMenu);
