@@ -442,6 +442,37 @@ table.tb { width: 100%; border-collapse: collapse; background: #fff; border: 1px
 .topnav { height: 64px; background: #fff; border-bottom: 1px solid #D4D4D4; display: flex; align-items: center; gap: 20px; padding: 0 24px; flex-shrink: 0; }
 .topnav .acct { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--txt); margin-left: 8px; }
 .ptabs { box-sizing: border-box; height: 64px; background: #fff; display: flex; align-items: flex-end; gap: 12px; padding: 0 24px; flex-shrink: 0; border-bottom: 1px solid #D4D4D4; }
+.ptab.off { color: var(--txt); border-bottom-color: transparent; cursor: pointer; }
+.ptab.off:hover { color: var(--pri); }
+button.ptab { background: none; border: 0; border-bottom: 4px solid var(--pri); font-family: inherit; cursor: pointer; }
+button.ptab.off { border-bottom-color: transparent; }
+.tg-co { font-size: 16px; line-height: 1.5; color: #53545C; }
+.tg-chip { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 100px; font-size: 14px; line-height: 1.5; white-space: nowrap; }
+.tg-row { display: flex; align-items: center; gap: 24px; position: relative; min-height: 40px; }
+.tg-l { width: 160px; flex-shrink: 0; font-size: 16px; line-height: 1.5; color: #53545C; }
+.cp { position: absolute; z-index: 8; left: 184px; top: 40px; width: 250px; height: 403px; background: #fff; border-radius: 4px; box-shadow: 0 1px 8px rgba(0,0,0,.15); font-family: Roboto, "PingFang TC", sans-serif; user-select: none; }
+.cp-sat { position: absolute; left: 10.5px; right: 10.5px; top: 10px; height: 150px; cursor: crosshair; touch-action: none; background-image: linear-gradient(to top, #000, rgba(0,0,0,0)), linear-gradient(to right, #fff, rgba(255,255,255,0)); }
+.cp-sp { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0,0,0,.3), 0 0 1px 2px rgba(0,0,0,.4); pointer-events: none; }
+.cp-hue, .cp-alpha { position: absolute; left: 10.5px; width: 200px; height: 10px; cursor: pointer; touch-action: none; }
+.cp-hue { top: 164px; background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%); }
+.cp-alpha { top: 178px; background: repeating-conic-gradient(#e6e6e6 0 25%, #fff 0 50%) 0 0 / 8px 8px; }
+.cp-ab { position: absolute; inset: 0; }
+.cp-hp { position: absolute; top: 1px; width: 4px; height: 8px; margin-left: -2px; border-radius: 1px; background: #fff; box-shadow: 0 0 2px rgba(0,0,0,.6); pointer-events: none; }
+.cp-prev { position: absolute; left: 204.5px; top: 164px; width: 24px; height: 24px; border-radius: 2px; overflow: hidden; background: repeating-conic-gradient(#e6e6e6 0 25%, #fff 0 50%) 0 0 / 8px 8px; }
+.cp-prev span { position: absolute; inset: 0; }
+.cp-fields { position: absolute; left: 10.5px; top: 197px; display: flex; gap: 6px; }
+.cp-in { box-sizing: border-box; height: 20px; padding: 0 4px; border: 1px solid #ebebeb; font-size: 11px; font-family: inherit; color: #000; text-align: center; background: #fff; outline: none; border-radius: 0; }
+.cp-in:first-child { text-align: left; padding-left: 6px; text-transform: uppercase; }
+.cp-in:focus { border-color: #58B6A8; }
+.cp-labels { position: absolute; left: 10.5px; top: 220px; display: flex; gap: 6px; font-size: 11px; line-height: 13px; color: #222; text-align: center; text-transform: capitalize; }
+.cp-labels span { width: 33px; }
+.cp-line { position: absolute; left: .5px; right: .5px; top: 236px; height: 1px; background: #eee; }
+.cp-presets { position: absolute; left: 9px; top: 247px; display: flex; flex-direction: column; gap: 10px; }
+.cp-row { display: flex; gap: 8px; }
+.cp-sw { box-sizing: border-box; width: 16px; height: 16px; padding: 0; border: 0; border-radius: 3px; cursor: pointer; }
+.cp-sw.w { border: 1px solid #d4d4d4; }
+.cp-sw:hover { box-shadow: 0 0 0 2px rgba(88,182,168,.5); }
+.tg-sw { width: 120px; height: 24px; border: 0; border-radius: 8px; cursor: pointer; padding: 0; }
 .ptab { box-sizing: border-box; height: 40px; padding: 0 40px 20px; display: flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1.1; color: var(--pri); border-bottom: 4px solid var(--pri); margin-bottom: -1px; white-space: nowrap; }
 .ptabs .spacer { flex: 1; }
 .save-wrap { position: relative; display: inline-flex; }
@@ -917,6 +948,7 @@ table.tb td.sale-td { white-space: normal; }
 .sc-ph { font-size: 16px; color: #8E8F98; }
 .sc-grp { display: flex; align-items: center; min-height: 40px; padding: 0 16px 0 4px; margin-top: 4px; border-top: 1px solid #ECECEC; background: #FAFAFA; cursor: pointer; font-size: 14px; font-weight: 600; line-height: 1.5; color: #53545C; }
 .sc-grp:first-of-type { margin-top: 0; border-top: 0; }
+.sc-mf + .sc-grp, .st-head + .sc-grp { margin-top: 0; border-top: 0; }
 .sc-grp:hover { background: #F5FAF9; }
 .sc-grp .ckb-b { position: relative; box-sizing: border-box; width: 42px; height: 40px; padding: 0; flex-shrink: 0; }
 .sc-grp .ckb-b::before { content: ""; position: absolute; left: 12px; top: 11px; width: 18px; height: 18px; box-sizing: border-box; border: 2px solid #8E8F98; border-radius: 2px; }
@@ -951,8 +983,16 @@ table.tb td.sale-td { white-space: normal; }
 .mn .ckbs { gap: 0 24px; }
 .mn-g.slots { gap: 12px; }
 .mn-hint { font-size: 14px; line-height: 1.5; color: #8E8F98; }
-.ss-body { display: flex; flex-direction: column; gap: 16px; padding: 4px 0 8px; }
+.ss-body { display: flex; flex-direction: column; gap: 16px; padding: 12px; }
 .ss-copy { align-self: flex-start; }
+.ss-body .mn-t { padding: 0; }
+.ss-body .mn-t.sec { font-size: 18px; line-height: 1.1; font-weight: 600; }
+.ss-body .mn-g { gap: 0; }
+.ss-body .mn-g.mn-plat { gap: 12px; }
+.ss-body .mn-g.slots { gap: 12px; }
+.ss-body .mn-g > .mn-t + .ckbs { margin-top: 0; }
+.ss-body .ckbs { display: flex; flex-wrap: wrap; gap: 0 24px; }
+.ss-body .mn-plat .ckbs { gap: 0 16px; }
 .mn-g.slots .mn-t { padding-bottom: 0; }
 .mn-slot { display: flex; align-items: center; gap: 20px; }
 .mn-slot .fld { flex: 1 1 0; min-width: 0; }
@@ -967,7 +1007,20 @@ table.tb td.sale-td { white-space: normal; }
 .sc-v { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; }
 .sc-chip { display: inline-flex; align-items: center; background: rgba(141,140,140,.2); border-radius: 100px; padding: 4px 4px 4px 10px; font-size: 14px; line-height: 1.5; color: #53545C; max-width: 70%; white-space: nowrap; }
 .sc-chip button { border: 0; background: none; padding: 0; display: flex; margin-left: 4px; cursor: pointer; }
-.sc-more { font-size: 16px; color: #53545C; }
+.sc-more { font-size: 16px; color: #53545C; background: none; border: 0; padding: 0; font-family: inherit; cursor: pointer; }
+button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
+.sc-mf { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 16px; border-bottom: 1px solid #ECECEC; }
+.sc-mfl { font-size: 13px; color: #8E8F98; margin-right: 4px; }
+.sc-mfb { height: 28px; padding: 0 12px; border: 1px solid #D4D4D4; border-radius: 100px; background: #fff; font-size: 13px; color: #53545C; cursor: pointer; font-family: inherit; }
+.sc-mfb:hover { border-color: #58B6A8; }
+.sc-mfb.on { background: #E1F2F0; border-color: #58B6A8; color: #2f8f81; font-weight: 600; }
+.dlg-sel { width: 480px; max-width: calc(100vw - 32px); }
+.sel-b { max-height: 360px; overflow-y: auto; padding: 0 !important; }
+.sel-g { padding: 8px 20px; background: #FAFAFA; border-top: 1px solid #ECECEC; font-size: 14px; font-weight: 600; color: #53545C; }
+.sel-g:first-child { border-top: 0; }
+.sel-g small { margin-left: 8px; font-size: 12px; font-weight: 400; color: #8E8F98; }
+.sel-r { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 12px 4px 20px; font-size: 14px; color: #53545C; }
+.dlg-btn:disabled { opacity: .45; cursor: not-allowed; }
 .sc-ph { font-size: 16px; color: #8E8F98; }
 .sc-x { border: 0; background: none; padding: 0; display: flex; cursor: pointer; }
 .sc-sep { width: 1px; height: 36px; background: #D4D4D4; }
@@ -1058,10 +1111,14 @@ table.tb td.sale-td { white-space: normal; }
 .mn-oh .mn-del svg { fill: currentColor; }
 .mn-oh .oh-sum { font-size: 16px; line-height: 1.5; font-weight: 400; color: #53545C; white-space: nowrap; }
 .mn-oh .oh-sku { font-size: 14px; font-weight: 400; color: #8E8F98; }
+.ss-box .mn-oh .oh-sum { font-size: 14px; color: #8E8F98; }
 .opt-bar { display: flex; justify-content: space-between; align-items: center; font-size: 16px; line-height: 1.5; color: #8E8F98; }
 .opt-btns { display: flex; gap: 12px; }
 .opt-btn { height: 40px; padding: 8px 22px; border: 1px solid #D4D4D4; border-radius: 4px; background: #fff; font-size: 14px; font-weight: 600; letter-spacing: .5px; color: #53545C; }
-.mn .optbox { gap: 16px; }
+.mn .optbox { gap: 0; padding: 0; overflow: hidden; }
+.mn .optbox > .mn-oh { background: #F3F3F4; padding: 8px 12px; border-bottom: 1px solid #D4D4D4; }
+.mn .optbox.closed > .mn-oh { border-bottom: 0; }
+.mn .optbox .opt-body { display: flex; flex-direction: column; gap: 16px; padding: 12px; }
 .mn .prow { margin: 0; }
 .mn .optbox .prow { grid-template-columns: 168px 1fr; }
 .mn .stbox { border-color: #D4D4D4; }
@@ -1160,9 +1217,6 @@ const STORES = [
 ];
 // 其他語系：欄位路徑（英文沿用 enName，其餘為 name_<code>）
 const LANGS = [{ code:'en', label:'英文', path:'enName' }, { code:'ja', label:'日文', path:'name_ja' }, { code:'ko', label:'韓文', path:'name_ko' }];
-const TAGS = ['素食', '獨家限定', '區域限定'];
-// 品項標籤：沿用松屋線上點餐頁的標籤，另保留類別共用的標籤
-const ITEM_TAGS = ['新品', '牛肉', '肉2倍', '🌶', '🌶🌶', '韓式燒肉醬汁', ...TAGS];
 const menuLangs = m => LANGS.filter(l => (m ? m.stores : []).some(id => (byId(STORES, id)?.langs || []).includes(l.code)));
 const S = {
   menus: [
@@ -1345,6 +1399,40 @@ const S = {
       options:[ {id:'o77',itemId:"k18",name:'',sku:'',price:20,webDel:'',sub:''} ] },
   ],
 };
+const TAG_CATS = ['自定義', '肉類', '辣度', '素食'];
+const TAG_COLORS = ['#FF8A80', '#58B6A8', '#E0A800', '#F06292', '#8D4F4A', '#51C906', '#FFA13D', '#5292D9', '#9575CD', '#8D8C8C', '#FDE7E7', '#FFE9B8'];
+const tagNames = () => S.tags.map(x => x.name);
+const tagOf = n => S.tags.find(x => x.name === n);
+const cpParse = c => { c = String(c || '').trim(); let m = /^#([0-9a-f]{6})$/i.exec(c); if (m) { const n = parseInt(m[1], 16); return { r:n >> 16, g:(n >> 8) & 255, b:n & 255, a:1 }; } m = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+)\s*)?\)$/i.exec(c); return m ? { r:+m[1], g:+m[2], b:+m[3], a:m[4] === undefined ? 1 : +m[4] } : { r:255, g:138, b:128, a:1 }; };
+const tagFg = c => { const { r, g, b, a } = cpParse(c), bl = x => x * a + 255 * (1 - a); return (0.299 * bl(r) + 0.587 * bl(g) + 0.114 * bl(b)) / 255 > 0.8 ? '#53545C' : '#fff'; };
+const CP_PRESETS = [
+  ['#460a0b','#751212','#c11d1e','#da7879','#e9adae','#0b3153','#12528a','#1e88e5','#79b8f0','#aed4f6'],
+  ['#562f00','#904f00','#ef8200','#f5b467','#f9d2a3','#11223c','#1c3964','#2e5ea5','#829fc9','#b4c5df'],
+  ['#5c490d','#9a7b15','#ffcb23','#ffe07c','#ffecb0','#2f183e','#4f2867','#8242ab','#b48ecd','#d2bbe1'],
+  ['#5c5515','#9a8f22','#ffec39','#fff489','#fff8b8','#471536','#78245b','#c63b97','#dd8ac1','#eab8d9'],
+  ['#444b06','#727d0a','#bdcf11','#d8e271','#e7eea9','#31261e','#524032','#886a53','#b8a698','#d4c9c1'],
+  ['#284311','#43701c','#6fb92e','#a9d582','#cbe6b4','#000000','#434446','#646464','#e6e6e6','#ffffff']
+];
+const cpHsv = ({ r, g, b }) => { r /= 255; g /= 255; b /= 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; let hh = 0; if (d) { hh = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; hh *= 60; if (hh < 0) hh += 360; } return { h:hh, s:mx ? d / mx : 0, v:mx }; };
+const cpRgb = ({ h, s, v }) => { const c = v * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = v - c; const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x]; return { r:Math.round((r + m) * 255), g:Math.round((g + m) * 255), b:Math.round((b + m) * 255) }; };
+const cpHex = ({ r, g, b }) => '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+const cpStr = st => { const rgb = cpRgb(st); return st.a >= 1 ? cpHex(rgb).toLowerCase() : `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${Math.round(st.a * 100) / 100})`; };
+const tagStyle = n => { const t = tagOf(n); return t ? `background:${t.color};border-color:${t.color};color:${tagFg(t.color)}` : ''; };
+const tagChipHtml = (name, color) => `<span class="tg-chip" style="background:${color};color:${tagFg(color)}">${h(name)}</span>`;
+S.tags = [
+  { id:'t1', name:'新品', adminName:'新品', cat:'自定義', color:'#FF8A80' },
+  { id:'t2', name:'獨家限定', adminName:'獨家限定', cat:'自定義', color:'#58B6A8' },
+  { id:'t3', name:'區域限定', adminName:'區域限定', cat:'自定義', color:'#5292D9' },
+  { id:'t4', name:'牛肉', adminName:'牛肉', cat:'肉類', color:'#8D4F4A' },
+  { id:'t5', name:'肉2倍', adminName:'肉2倍', cat:'肉類', color:'#E0A800' },
+  { id:'t6', name:'韓式燒肉醬汁', adminName:'韓式燒肉醬汁', cat:'自定義', color:'#FFA13D' },
+  { id:'t7', name:'🌶', adminName:'🌶', cat:'辣度', color:'#FDE7E7' },
+  { id:'t8', name:'🌶🌶', adminName:'🌶🌶', cat:'辣度', color:'#FDE7E7' },
+  { id:'t9', name:'素食', adminName:'素食', cat:'素食', color:'#51C906' },
+  { id:'t10', name:'雞肉', adminName:'雞肉', cat:'肉類', color:'#E0A800' },
+  { id:'t11', name:'豬肉', adminName:'豬肉', cat:'肉類', color:'#F06292' },
+  { id:'t12', name:'熱門推薦', adminName:'熱門推薦', cat:'自定義', color:'#FF8A80' }
+];
 function optSync() { S.attrs.forEach(a => a.options.forEach(o => { const it = byId(S.items, o.itemId); if (it) { o.name = it.name; o.sku = it.sku; o.sub = it.attrs.find(x => x !== a.id) || ''; } })); }
 function optDef(o) { return Object.assign({ enabled:true, dinePrice:'', takePrice:'', uberPrice:'', fpPrice:'', dineCh:DP(), takeCh:DP() }, o); }
 S.attrs.forEach(a => a.options = a.options.map(optDef));
@@ -1353,7 +1441,7 @@ function mk(id, catId, name, sku, price, sort, o = {}) {
     attrs:[], uberPrice:'', fpPrice:'', webDelPrice:'', dinePrice:'', takePrice:'', dineCh:DP(), takeCh:DP(), slots:[], tax:'', stock:200, enName:'', standalone:false, adjustable:false, _prev:{} }, o);
 }
 
-const ui = { tab:'tree', open:new Set(['m:m3','m:m2','c:c5','c:c9','c:c10','c:c11','c:c12','c:c13','c:c14','c:c15','c:c16','c:c17']), checks:false, panel:null, advOpen:false,
+const ui = { page:'menu', tagSearch:'', tagOrder:null, tab:'tree', open:new Set(['m:m3','m:m2','c:c5','c:c9','c:c10','c:c11','c:c12','c:c13','c:c14','c:c15','c:c16','c:c17']), checks:false, panel:null, advOpen:false,
   editing:null, mhMore:false, delDlg:null, delMenuDlg:null, attrPop:null, treeQ:'', treeMenu:'m3', dirty:false, addMenu:false, pvPlat:'kiosk', pvMenu:'m3', search:'', syncDlg:null, syncRes:[], sellLog:[], attrQ:'', catMenu:'', delCatDlg:null, delAttrDlg:null, menus:[S.menus[0].id], selPop:false, pricePop:null, optPop:null };
 
 /* ================= Helpers ================= */
@@ -1515,8 +1603,8 @@ function render() {
   const firstCat = (catsOf(visMenus()[0]?.id || '')[0] || {}).id || '';
   document.getElementById('main').innerHTML = `
     <div class="topnav">${fi('logo')}<div class="spacer"></div>${fi('help')}${fi('globe')}${fi('bell')}<span class="acct">demo@cashier.tw ${fi('acct')}</span></div>
-    <div class="ptabs"><span class="ptab">菜單設定</span><div class="spacer"></div></div>
-    <div class="body">
+    <div class="ptabs"><button class="ptab ${ui.page === 'menu' ? '' : 'off'}" data-act="page" data-p="menu">菜單設定</button><button class="ptab ${ui.page === 'tags' ? '' : 'off'}" data-act="page" data-p="tags">標籤設定</button><div class="spacer"></div></div>
+    ${ui.page === 'tags' ? `<div class="body"><div class="content"><div class="sbar tg-co">公司名稱：鴻智互動股份有限公司</div><div class="sect"><div class="spanel scroll">${renderTags()}</div></div><div class="pfoot">隱私權政策　|　© 電小二智慧點餐系統</div></div></div>` : `<div class="body">
       <div class="content">
         <div class="sbar">${menuSelHtml()}
           <span class="save-wrap ${ui.dirty ? 'dirty' : ''}"><button class="btn-b" data-act="save" ${ui.dirty ? 'title="尚有未儲存的變更" aria-label="儲存（尚有未儲存的變更）"' : ''}>儲存</button></span>
@@ -1526,7 +1614,7 @@ function render() {
           <div class="spanel ${ui.tab === 'tree' ? 'first' : 'scroll'}">${{ tree:renderTree, menus:renderMenus, cats:renderCats, items:renderItems, attrs:renderAttrs }[ui.tab]()}</div></div>
         <div class="pfoot">隱私權政策　|　© 電小二智慧點餐系統</div>
       </div>
-    </div>`;
+    </div>`}`;
   const c = document.querySelector('.content'); if (c) c.scrollTop = sc;
   const inp = document.querySelector('.inl-input'); if (inp) { inp.focus(); inp.select(); }
   renderOverlay(); fitAttrs(); fitTags(); fitStores(); updateSpy();
@@ -1542,7 +1630,6 @@ function mheadHtml(m) {
   const tri = open ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>';
   return `<div class="u-mhead"><div class="mh-top"><button class="mh-tg" data-act="mhMore" aria-expanded="${open}" aria-label="${open ? '收合菜單資訊' : '展開菜單資訊'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#53545C" aria-hidden="true">${tri}</svg><span class="mh-name">${h(m.name)}</span></button><button class="mh-edit" data-act="edit" data-t="menu" data-id="${m.id}" aria-label="編輯菜單" title="編輯菜單">${fi('edit24', 20)}</button></div>
     ${open ? `<div class="mh-extra">
-      <button class="mh-ch store" data-act="edit" data-t="menu" data-id="${m.id}" data-focus="ss" title="各店的適用平台、時段、稅率獨立設定">各店設定：點擊編輯</button>
       <button class="mh-ch store" data-act="edit" data-t="menu" data-id="${m.id}" data-focus="stores" title="${h((m.stores || []).length ? STORES.filter(x => m.stores.includes(x.id)).map(x => x.name).join('、') : '尚未選擇')}｜點擊編輯適用商店">商店：${storeSummary(m)}</button>
     </div>` : ''}
   </div>`;
@@ -1724,7 +1811,7 @@ function uCard(it, i, n, cid) {
       <div class="u-skurow">${it.sku ? h(it.sku) : ''}</div>
       <div class="u-desc">${nameCell('item', it.id, 'desc', it.desc, '＋新增描述')}</div>
     </div>
-    <div class="u-img" data-act="edit" data-t="item" data-id="${it.id}" title="編輯品項" style="background-image:url(${it.img || PH_IMG})">${dis ? '<span class="u-badge off">未啟用</span>' : ''}${(it.tags || []).length ? `<span class="u-tags" title="${h((it.tags.length > 1 ? '標籤：' + it.tags.join('、') + '\n' : '') + '標籤的樣式與位置僅供預覽，實際顯示以顧客端畫面為準。')}">${it.tags.map(t => `<span class="u-tag" data-tg>${h(t)}</span>`).join('')}<span class="u-tag more" data-more hidden></span></span>` : ''}</div></div>
+    <div class="u-img" data-act="edit" data-t="item" data-id="${it.id}" title="編輯品項" style="background-image:url(${it.img || PH_IMG})">${dis ? '<span class="u-badge off">未啟用</span>' : ''}${(it.tags || []).length ? `<span class="u-tags" title="${h((it.tags.length > 1 ? '標籤：' + it.tags.join('、') + '\n' : '') + '標籤的樣式與位置僅供預覽，實際顯示以顧客端畫面為準。')}">${it.tags.map(t => `<span class="u-tag" data-tg style="${tagStyle(t)}">${h(t)}</span>`).join('')}<span class="u-tag more" data-more hidden></span></span>` : ''}</div></div>
     <div class="u-attrsec"><div class="u-seclabel">屬性：</div><div class="u-attrs">${attrChip(it)}</div></div>
     <div class="u-foot">
       <button class="u-sold" data-act="qen" data-id="${it.id}"><span class="msw ${it.enabled ? 'on' : ''}"><i></i></span>${it.enabled ? '啟用中' : '未啟用'}</button>
@@ -1807,6 +1894,17 @@ function renderAttrs() {
   return tabHead('建立品項的附加屬性，如：份量選擇、醬料選擇、甜度選擇等。', `<div class="tb-left">${sel}${searchBox('attrSearch', ui.attrSearch || '', '搜尋屬性名稱')}</div>`, btns)
   + `<table class="tb drag-tb attr-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>後台名稱</th><th>規則</th><th style="width:400px">包含選項</th><th>適用的品項</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q || curI ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無屬性', '請點擊右上新增'))}</tbody></table>`;
 }
+function renderTags() {
+  const q = (ui.tagSearch || '').trim().toLowerCase(), ord = ui.tagOrder, pending = !!ord;
+  const ids = ord || S.tags.map(x => x.id);
+  const list = ids.map(id => byId(S.tags, id)).filter(Boolean).filter(t => !q || t.name.toLowerCase().includes(q) || (t.adminName || '').toLowerCase().includes(q));
+  const rows = list.map(t => `<tr data-kind="tag" data-row="${t.id}" data-grp="all"><td class="sortc"><span class="drag-h" data-drag="${t.id}" title="拖曳調整順序">${MENU01}</span></td>
+    <td>${h(t.adminName || t.name)}</td><td>${tagChipHtml(t.name, t.color)}</td><td>${h(t.cat)}</td>
+    <td>${actCell('edit', t.id, 'delTag', 'tag')}</td></tr>`).join('');
+  const btns = pending ? `<div class="ord-btns"><button class="tbtn-gray" data-act="tagOrderReset">還原排序</button><button class="tbtn-blue" data-act="tagOrderSave">完成</button></div>` : addBtn('tag', '新增標籤');
+  return tabHead('標籤可以套用到類別和品項上，同公司下所有商店皆能共用。', searchBox('tagsSearch', ui.tagSearch || '', '搜尋標籤名稱'), btns)
+  + `<table class="tb drag-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>後台名稱</th><th><span class="th-q" title="預覽參考僅供參考，實際顯示以顧客端畫面為準">${QMARK}預覽參考</span></th><th>標籤類別</th><th class="ac" style="width:120px"><div class="acell"><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(5, '查無結果', '', 'noresult') : emptyRow(5, '尚無標籤', '請點擊右上新增'))}</tbody></table>`;
+}
 function previewItems(plat) {
   const m = byId(S.menus, ui.pvMenu);
   return catsOf(m.id).map(c => ({ c, its: itemsOf(c.id).filter(i => i.enabled && chOn(sale(i), plat)) })).filter(x => x.its.length);
@@ -1849,17 +1947,19 @@ function newDraft(t, parent) {
   if (t === 'menu') return { id:nid('m'), name:'', stores:STORES.map(x => x.id), channels:{kiosk:true,pos:true,web:true,staff:true,uber:false,fp:false}, start:'2026-01-01', end:'2026-12-31', days:[0,1,2,3,4,5,6], slots:[{s:'08:00',e:'22:00'}], tax:0 };
   if (t === 'cat') { const mid = parent || ui.catMenu || visMenus()[0]?.id || S.menus[0].id; return { id:nid('c'), menuId:mid, name:'', sort:catsOf(mid).length + 1, sale:menuSaleDefault(byId(S.menus, mid)), enName:'', desc:'', tags:[], img:'' }; }
   if (t === 'item') { const cid = parent === UNCAT ? '' : (parent || ''); return mk(nid('i'), cid, '', '', '', itemsOf(cid || UNCAT).length + 1, {}); }
+  if (t === 'tag') return { id:nid('t'), name:'', adminName:'', cat:'自定義', color:TAG_COLORS[0], enName:'', itemIds:[], catIds:[] };
   return { id:nid('a'), name:'', adminName:'', kitchen:'', required:false, min:0, max:1, repeat:false, sku:'', display:'text', enName:'', autoSel:false, hot:false, options:[] };
 }
 function openPanel(t, id, parent, focus, seed) {
   let draft, isNew = !id;
   if (seed) draft = seed;
   else if (isNew) draft = newDraft(t, parent);
-  else { draft = clone(byId({ menu:S.menus, cat:S.cats, item:S.items, attr:S.attrs }[t], id)); }
+  else { draft = clone(byId({ menu:S.menus, cat:S.cats, item:S.items, attr:S.attrs, tag:S.tags }[t], id)); }
   if (t === 'item') { draft.sale = clone(sale(draft.inherit ? { ...draft, inherit:true } : draft)); }
   if (t === 'attr') draft.itemIds = S.items.filter(i => i.attrs.includes(draft.id)).map(i => i.id);
+  if (t === 'tag' && !seed) { draft.itemIds = S.items.filter(i => (i.tags || []).includes(draft.name)).map(i => i.id); draft.catIds = S.cats.filter(c => (c.tags || []).includes(draft.name)).map(c => c.id); draft._old = draft.name; ui.tagCatPop = ui.tagColPop = ui.tcDd = false; ui.tcQ = ''; }
   if (t === 'menu') { ensureSS(draft); ui.ssOpen = new Set((draft.stores || []).slice(0, 1)); }
-  ui.panel = { t, isNew, draft }; ui.panelSnap = JSON.stringify(draft); ui.discardDlg = false; ui.panelFresh = true; ui.storeQ = ''; ui.storeDd = false; ui.tagQ = ''; ui.tagDd = false; ui.paQ = ''; ui.paDd = false; ui.catPop = false; ui.catQ = ''; ui.subPop = null; ui.dispPop = false; ui.aiQ = ''; ui.aiDd = false; ui.opQ = ''; ui.opDd = false; ui.optOpen = new Set(); ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; ui.advOpen = false; ui.langOpen = {}; ui.reqChk = false; ui.addMenu = false;
+  ui.panel = { t, isNew, draft }; ui.panelSnap = JSON.stringify(draft); ui.discardDlg = false; ui.panelFresh = true; ui.storeQ = ''; ui.storeDd = false; ui.tagQ = ''; ui.tagDd = false; ui.paQ = ''; ui.paDd = false; ui.catPop = false; ui.catQ = ''; ui.subPop = null; ui.dispPop = false; ui.aiQ = ''; ui.aiDd = false; ui.aiMenu = ''; ui.aiSelDlg = false; ui.tcMenu = ''; ui.opQ = ''; ui.opDd = false; ui.optOpen = new Set(); ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; ui.advOpen = false; ui.langOpen = {}; ui.reqChk = false; ui.addMenu = false;
   render();
   if (seed) { ui.reqChk = true; redrawDrawer(); const m = document.querySelector('#drbody [data-miss]'); if (m) { m.scrollIntoView({ block:'center' }); m.focus({ preventScroll:true }); } }
   if (focus) focusSection(focus);
@@ -1880,6 +1980,15 @@ function commitPanel() {
   const dupAdmin = document.querySelector('#drbody input.bad[data-b="adminName"]');
   if (dupAdmin) { dupAdmin.scrollIntoView({ block:'center', behavior:'smooth' }); dupAdmin.focus({ preventScroll:true }); toast('後台名稱不可重複', 'error'); return; }
   ui.reqChk = false;
+  if (t === 'tag') {
+    if (S.tags.some(x => x.id !== draft.id && (x.name === draft.name.trim() || x.adminName === draft.adminName.trim()))) { toast('標籤名稱或後台名稱不可重複', 'error'); return; }
+    const d = clone(draft), old = d._old, nm = d.name.trim(); d.name = nm; d.adminName = d.adminName.trim();
+    const ii = d.itemIds, cc = d.catIds; delete d.itemIds; delete d.catIds; delete d._old;
+    S.items.forEach(i => { i.tags = (i.tags || []).map(x => x === old ? nm : x).filter(x => x !== nm); if (ii.includes(i.id)) i.tags.push(nm); });
+    S.cats.forEach(c => { c.tags = (c.tags || []).map(x => x === old ? nm : x).filter(x => x !== nm); if (cc.includes(c.id)) c.tags.push(nm); });
+    const k = S.tags.findIndex(x => x.id === d.id); if (k >= 0) S.tags[k] = d; else S.tags.push(d);
+    ui.panel = null; ui.tagOrder = null; toast('已儲存'); render(); return;
+  }
   const d = clone(draft);
   if (t === 'item') { if (!d.dineCh.length) d.dineCh = []; d.price = +d.price; ['uberPrice','fpPrice','webDelPrice','dinePrice','takePrice'].forEach(k => { if (d[k] !== '') d[k] = +d[k]; }); if (d.inherit) d.sale = clone(sale({ ...d })); }
   if (t === 'attr') {
@@ -1928,7 +2037,7 @@ function ckb(label, path, checked, dis = false) { return `<label class="ckb ${ch
 function swRow(label, path, v, dis) { return `<label>${label} ${swHtml(v, 'dsw', `data-p="${path}"`, dis)}</label>`; }
 
 const helpIc = tip => `<span class="mn-help" title="${h(tip)}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E8F98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg></span>`;
-function tagBoxHtml(d, list = TAGS) {
+function tagBoxHtml(d, list = tagNames()) {
   const ord = x => { const i = list.indexOf(x); return i < 0 ? list.length : i; }, tagSel = (d.tags || []).slice().sort((a, b) => ord(a) - ord(b)), tq = (ui.tagQ || '').trim().toLowerCase(), tfl = list.filter(x => !tq || x.toLowerCase().includes(tq));
   const tagX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
   const tagChip = n => `<span class="sc-chip">${h(n)}<button data-act="tagRm" data-id="${h(n)}" aria-label="移除${h(n)}">${tagX}</button></span>`;
@@ -1943,19 +2052,96 @@ function tagBoxHtml(d, list = TAGS) {
 function ssForm(v, sid, errs, help, trash, many) {
   const pre = `storeSettings.${sid}.`;
   return `<div class="mn-g mn-plat"><div class="mn-t">適用平台${help('勾選外送（Uber Eats／Foodpanda）時，會啟用時段檢核')}</div><div class="ckbs">${CH.map(c => ckb(CH_NAME[c], pre + 'channels.' + c, v.channels[c])).join('')}</div></div>
-    <div class="mn-t">時段設定</div>
+    <hr class="mn-hr" />
+    <div class="mn-t sec">時段設定</div>
     <div class="mn-2">${F('套用日期（起）', pre + 'start', { type:'date', opt:false })}${F('套用日期（訖）', pre + 'end', { type:'date', opt:false })}</div>
-    <div class="mn-g"><div class="mn-t">營業星期</div><div class="ckbs">${DAYS.map((n, i) => ckb('週' + n, pre + 'day.' + i, v.days.includes(i))).join('')}</div></div>
+    <div class="mn-g"><div class="mn-t">營業星期</div><div class="ckbs">${[1, 2, 3, 4, 5, 6, 0].map(i => ckb('週' + DAYS[i], pre + 'day.' + i, v.days.includes(i))).join('')}</div></div>
     <div class="mn-g slots"><div class="mn-t">每日時段${help('結束時間早於開始時間視為跨夜，系統會自動拆成兩段')}</div>
       ${v.slots.map((sl, i) => `<div class="mn-slot"><div class="fld"><label>開始時間</label><input type="text" readonly class="pk-in pk-time" data-act="pkOpen" data-kind="time" data-b="${pre}slots.${i}.s" value="${sl.s}" /></div><span class="mn-to">至</span><div class="fld"><label>結束時間</label><input type="text" readonly class="pk-in pk-time" data-act="pkOpen" data-kind="time" data-b="${pre}slots.${i}.e" value="${sl.e}" /></div><button class="mn-del" data-act="slotDel" data-sid="${sid}" data-i="${i}" aria-label="移除時段" title="移除時段">${trash}</button></div>`).join('')}
       <button class="btn pri mn-add" data-act="slotAdd" data-sid="${sid}">${fi('plus', 20)}新增時段</button></div>
     ${errs.length ? `<div class="notice">${errs.map(h).join('<br>')}</div>` : ''}
+    <hr class="mn-hr" />
     <label class="qp-fld"><span class="qp-fl">稅率</span><span class="qp-in"><input type="number" step="any" data-b="${pre}tax" value="${h(v.tax)}" /><em>%</em></span></label>
     ${many ? `<button type="button" class="opt-btn ss-copy" data-act="ssCopy" data-s="${sid}">將此設定套用到其他商店</button>` : ''}`;
+}
+function cpHtml() {
+  const st = ui.cp, rgb = cpRgb(st), hex = cpHex(rgb).slice(1);
+  const inp = (k, v, w) => `<input class="cp-in" data-k="${k}" value="${v}" style="width:${w}px" spellcheck="false" autocomplete="off" />`;
+  return `<div class="cp" id="cp" role="dialog" aria-label="選擇背景顏色">
+    <div class="cp-sat" id="cpSat" style="background-color:hsl(${Math.round(st.h)},100%,50%)"><span class="cp-sp" id="cpSatP" style="left:${st.s * 100}%;top:${(1 - st.v) * 100}%"></span></div>
+    <div class="cp-hue" id="cpHue"><span class="cp-hp" id="cpHueP" style="left:${st.h / 360 * 100}%"></span></div>
+    <div class="cp-alpha" id="cpAlpha"><span class="cp-ab" id="cpAlphaB" style="background:linear-gradient(to right,rgba(${rgb.r},${rgb.g},${rgb.b},0),rgb(${rgb.r},${rgb.g},${rgb.b}))"></span><span class="cp-hp" id="cpAlphaP" style="left:${st.a * 100}%"></span></div>
+    <div class="cp-prev"><span id="cpPrev" style="background:${cpStr(st)}"></span></div>
+    <div class="cp-fields">${inp('hex', hex, 68)}${inp('r', rgb.r, 33)}${inp('g', rgb.g, 33)}${inp('b', rgb.b, 33)}${inp('a', Math.round(st.a * 100), 33)}</div>
+    <div class="cp-labels"><span style="width:68px">hex</span><span>r</span><span>g</span><span>b</span><span>a</span></div>
+    <div class="cp-line"></div>
+    <div class="cp-presets">${CP_PRESETS.map(row => `<div class="cp-row">${row.map(c => `<button type="button" class="cp-sw${c === '#ffffff' ? ' w' : ''}" style="background:${c}" data-act="cpPreset" data-c="${c}" aria-label="${c}"></button>`).join('')}</div>`).join('')}</div>
+  </div>`;
+}
+function cpApply(st, from) {
+  ui.cp = st; const rgb = cpRgb(st), col = cpStr(st), d = ui.panel && ui.panel.draft; if (d) d.color = col;
+  const $ = id => document.getElementById(id); if (!$('cp')) return;
+  $('cpSat').style.backgroundColor = `hsl(${Math.round(st.h)},100%,50%)`; $('cpSatP').style.left = st.s * 100 + '%'; $('cpSatP').style.top = (1 - st.v) * 100 + '%';
+  $('cpHueP').style.left = st.h / 360 * 100 + '%'; $('cpAlphaP').style.left = st.a * 100 + '%';
+  $('cpAlphaB').style.background = `linear-gradient(to right,rgba(${rgb.r},${rgb.g},${rgb.b},0),rgb(${rgb.r},${rgb.g},${rgb.b}))`; $('cpPrev').style.background = col;
+  const vals = { hex:cpHex(rgb).slice(1), r:rgb.r, g:rgb.g, b:rgb.b, a:Math.round(st.a * 100) };
+  document.querySelectorAll('.cp-in').forEach(i => { if (i !== from) i.value = vals[i.dataset.k]; });
+  const sw = document.querySelector('.tg-sw'); if (sw) sw.style.background = col;
+  const pv = document.querySelector('.tg-prevchip'); if (pv) { pv.style.background = col; pv.style.color = tagFg(col); }
+}
+(() => {
+  let drag = null;
+  const upd = e => { if (!drag) return; const r = drag.el.getBoundingClientRect(), x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)), st = { ...ui.cp };
+    if (drag.k === 'sat') { st.s = x; st.v = 1 - y; } else if (drag.k === 'hue') st.h = x * 360; else st.a = Math.round(x * 100) / 100; cpApply(st); };
+  document.addEventListener('pointerdown', e => { const el = e.target.closest && e.target.closest('#cpSat, #cpHue, #cpAlpha'); if (!el || !ui.cp) return; e.preventDefault(); drag = { el, k:el.id === 'cpSat' ? 'sat' : el.id === 'cpHue' ? 'hue' : 'alpha' }; ui.cpDrag = true; upd(e); });
+  document.addEventListener('pointermove', upd);
+  document.addEventListener('pointerup', () => { if (drag) { drag = null; setTimeout(() => { ui.cpDrag = false; }, 0); } });
+  document.addEventListener('input', e => { const t = e.target; if (!t.classList || !t.classList.contains('cp-in') || !ui.cp) return; const k = t.dataset.k, v = t.value.trim(); let st = { ...ui.cp };
+    if (k === 'hex') { if (!/^[0-9a-f]{6}$/i.test(v)) return; const c = cpHsv(cpParse('#' + v)); st = { ...st, h:st.s === 0 || c.s === 0 ? st.h : c.h, s:c.s, v:c.v }; }
+    else { const n = +v; if (v === '' || isNaN(n)) return; if (k === 'a') st.a = Math.min(100, Math.max(0, n)) / 100; else { const rgb = cpRgb(st); rgb[k] = Math.min(255, Math.max(0, Math.round(n))); const c = cpHsv(rgb); st = { ...st, h:c.s === 0 ? st.h : c.h, s:c.s, v:c.v }; } }
+    cpApply(st, t); }, true);
+})();
+const menuItemIds = mid => new Set(S.menus.find(m => m.id === mid) ? catsOf(mid).flatMap(c => S.items.filter(x => x.catIds.includes(c.id)).map(x => x.id)) : []);
+function aiFiltered() {
+  const q = (ui.aiQ || '').trim().toLowerCase(), inM = ui.aiMenu ? menuItemIds(ui.aiMenu) : null;
+  return S.items.filter(x => (!inM || inM.has(x.id)) && (!q || x.name.toLowerCase().includes(q) || (x.adminName || '').toLowerCase().includes(q) || (x.sku || '').toLowerCase().includes(q)));
+}
+const menuFilterHtml = (cur, act) => S.menus.length > 1 ? `<div class="sc-mf"><span class="sc-mfl">菜單</span>${[{ id:'', name:'全部菜單' }, ...S.menus].map(m => `<button type="button" class="sc-mfb ${cur === m.id ? 'on' : ''}" data-act="${act}" data-id="${m.id}">${h(m.name)}</button>`).join('')}</div>` : '';
+function aiBoxHtml(d, label = '適用的品項', ph = '選擇要使用此屬性的品項') {
+  const sel = d.itemIds || [], selOrd = byOrder(sel, itemOrder()), allIts = S.items;
+  const aiFl = aiFiltered();
+  const aiX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  const aiChip = id => { const it = byId(S.items, id); return it ? `<span class="sc-chip">${h(it.name)}<button data-act="aiRm" data-id="${id}" aria-label="移除${h(it.name)}">${aiX}</button></span>` : ''; };
+  const aiLim = 1;
+  const aiTags = ui.aiDd ? selOrd.map(aiChip).join('') : selOrd.slice(0, aiLim).map(aiChip).join('') + (sel.length > aiLim ? `<button type="button" class="sc-more" data-act="aiSelOpen" title="檢視已選項目">+${sel.length - aiLim}</button>` : '');
+  const aiBox = `<div class="sc ${ui.aiDd ? 'open' : ''}" id="sec-ai"><div class="sc-box" ${ui.aiDd ? '' : 'data-act="aiOpen"'}><span class="sc-l">${label}</span>
+    <div class="sc-v">${aiTags}${!sel.length && !ui.aiDd ? `<span class="sc-ph">${ph}</span>` : ''}${ui.aiDd ? `<input type="text" id="aiSearch" class="sc-in" placeholder="${sel.length ? '' : h(ph)}" value="${h(ui.aiQ || '')}" autocomplete="off" />` : ''}</div>
+    <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="aiClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="aiDd" aria-label="${ui.aiDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.aiDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.aiDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${sel.length}</b> / ${allIts.length}</span><span><a href="#" data-act="aiAll" data-v="1">全選</a>｜<a href="#" data-act="aiAll" data-v="0">全部清除</a></span></div>${menuFilterHtml(ui.aiMenu || '', 'aiMenu')}${aiFl.length ? [...S.menus.filter(m => !ui.aiMenu || m.id === ui.aiMenu).flatMap(m => catsOf(m.id).map(c => ({ c, g:c.name, l:aiFl.filter(x => x.catIds.includes(c.id)) }))), ...(ui.aiMenu ? [] : [{ g:'未分類', l:aiFl.filter(x => !x.catIds.length) }])].map(({ g, l }) => l.length ? (() => { const n = l.filter(x => sel.includes(x.id)).length, st = n === l.length ? 'on' : n ? 'part' : ''; return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="aiGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(g)}<small>${n} / ${l.length}</small></div>`; })() + l.map(x => `<label class="sc-opt ${sel.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="apply.${x.id}" ${sel.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('') : '').join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
+  return aiBox;
 }
 function drawerBody() {
   const { t, draft: d, isNew } = ui.panel;
   const adv = (inner) => `<button class="adv-toggle" data-act="adv" aria-expanded="${ui.advOpen}"><span>進階設定</span><svg width="24" height="24" viewBox="0 0 24 24" fill="#53545C"${ui.advOpen ? '' : ' style="transform:rotate(180deg)"'}><path d="M15.825 15.175L12 11.3583L8.175 15.175L7 14L12 9L17 14L15.825 15.175Z"/></svg></button>${ui.advOpen ? inner : ''}`;
+  if (t === 'tag') {
+    const dupName = d.name && S.tags.some(x => x.id !== d.id && x.name === d.name), dupAdmin = d.adminName && S.tags.some(x => x.id !== d.id && x.adminName === d.adminName);
+    const tcq = (ui.tcQ || '').trim().toLowerCase(), tcAll = S.menus.flatMap(m => catsOf(m.id).map(c => ({ c, m }))), tcFl = tcAll.filter(x => (!ui.tcMenu || x.m.id === ui.tcMenu) && (!tcq || x.c.name.toLowerCase().includes(tcq)));
+    const tcSel = byOrder(d.catIds || [], tcAll.map(x => x.c.id));
+    const tcX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
+    const tcChip = id => { const c = byId(S.cats, id); return c ? `<span class="sc-chip">${h(c.name)}<button data-act="tcRm" data-id="${id}" aria-label="移除${h(c.name)}">${tcX}</button></span>` : ''; };
+    const tcTags = ui.tcDd ? tcSel.map(tcChip).join('') : tcSel.slice(0, 1).map(tcChip).join('') + (tcSel.length > 1 ? `<span class="sc-more">+${tcSel.length - 1}</span>` : '');
+    const tcBox = `<div class="sc ${ui.tcDd ? 'open' : ''}" id="sec-tc"><div class="sc-box" ${ui.tcDd ? '' : 'data-act="tcOpen"'}><span class="sc-l">套用的類別</span>
+      <div class="sc-v">${tcTags}${!tcSel.length && !ui.tcDd ? '<span class="sc-ph">請選擇套用的類別</span>' : ''}${ui.tcDd ? `<input type="text" id="tcSearch" class="sc-in" placeholder="${tcSel.length ? '' : '請選擇套用的類別'}" value="${h(ui.tcQ || '')}" autocomplete="off" />` : ''}</div>
+      <div class="sc-ctl">${tcSel.length ? `<button class="sc-x" data-act="tcClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="tcDd" aria-label="${ui.tcDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.tcDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.tcDd ? `<div class="sc-dd" role="listbox">${menuFilterHtml(ui.tcMenu || '', 'tcMenu')}${tcFl.length ? tcFl.map(({ c, m }) => `<label class="sc-opt ${(d.catIds || []).includes(c.id) ? 'on' : ''}"><input type="checkbox" data-b="tcat.${c.id}" ${(d.catIds || []).includes(c.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(c.name)}${S.menus.length > 1 ? `<small>${h(m.name)}</small>` : ''}</span></label>`).join('') : '<div class="st-empty">找不到符合的類別</div>'}</div>` : ''}</div>`;
+    return `<div class="mn"><div class="mn-t sec">基本設定</div>
+    <div class="lang-grp">${F('標籤名稱', 'name', { req:true, ph:'建議勿超出標籤範圍，請參照「預覽參考」', help:'顧客點餐時看到的名稱，標籤名稱可重複', err:() => dupName ? '標籤名稱不可重複' : '' })}${langBlock(d, { stores:STORES.map(x => x.id) }, '標籤名稱')}</div>
+    ${F('後台名稱', 'adminName', { req:true, help:'後台網站顯示的名稱，每個後台名稱不可重複', err:() => dupAdmin ? '後台名稱不可重複' : '' })}
+    ${mselOne({ label:'標籤類別', value:d.cat, open:ui.tagCatPop, popAct:'tagCatPop', setAct:'tagCatSet', cur:d.cat, opts:TAG_CATS.map(n => ({ id:n, name:n })) })}
+    <div class="tg-row tg-colwrap"><span class="tg-l">背景顏色</span><button type="button" class="tg-sw" style="background:${d.color}" data-act="tagColPop" aria-label="選擇背景顏色" aria-expanded="${!!ui.tagColPop}"></button>${ui.tagColPop ? cpHtml() : ''}</div>
+    <div class="tg-row"><span class="tg-l">預覽參考</span>${d.name.trim() ? `<span class="tg-chip tg-prevchip" style="background:${d.color};color:${tagFg(d.color)}">${h(d.name.trim())}</span>` : `<span class="tg-chip tg-prevchip" style="background:${d.color};color:${tagFg(d.color)}">輸入標籤名稱以預覽</span>`}</div>
+    <hr class="mn-hr" />
+    ${aiBoxHtml(d, '套用的品項', '請選擇套用的品項')}
+    ${tcBox}</div>`;
+  }
   if (t === 'menu') {
     ensureSS(d); const errs = menuErrors(d), q = (u => u)(ui.storeQ || ''), selN = d.stores.length, first = byId(STORES, d.stores[0]);
     const help = helpIc;
@@ -1966,7 +2152,7 @@ function drawerBody() {
     const picked = byOrder(d.stores, STORES.map(x => x.id)).map(id => byId(STORES, id)).filter(Boolean), LIM = 1;
     const tags = ui.storeDd ? picked.map(chipOf).join('') : picked.slice(0, LIM).map(chipOf).join('') + (picked.length > LIM ? `<span class="sc-more">+${picked.length - LIM}</span>` : '');
     const trash = fi('trash', 20);
-    return `<div class="mn">${F('菜單名稱', 'name', { req:true })}
+    return `<div class="mn"><div class="mn-t sec">基本設定</div>${F('菜單名稱', 'name', { req:true })}
     <div class="sc ${ui.storeDd ? 'open' : ''}" id="sec-stores"><div class="sc-box" ${ui.storeDd ? '' : 'data-act="storeOpen"'}><span class="sc-l">套用商店</span>
       <div class="sc-v">${tags}${ui.storeDd ? `<input type="text" id="storeSearch" class="sc-in" value="${h(ui.storeQ || '')}" autocomplete="off" />` : ''}</div>
       <div class="sc-ctl">${selN ? `<button class="sc-x" data-act="storeAll" data-v="0" data-clear="1" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="storeDd" aria-label="${ui.storeDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.storeDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${stDd}</div>
@@ -1974,7 +2160,7 @@ function drawerBody() {
     <div class="mn-t sec" id="sec-ss">各店設定${help('每間商店可獨立設定適用平台、時段與稅率；新加入的商店會先複製目前設定')}</div>
     ${d.stores.length ? `<div class="opt-bar"><span>共 ${d.stores.length} 間商店</span><span class="opt-btns"><button type="button" class="opt-btn" data-act="ssOpenAll" data-v="1">全部展開</button><button type="button" class="opt-btn" data-act="ssOpenAll" data-v="0">全部收合</button></span></div>` : '<div class="mn-hint">請先選擇套用商店</div>'}
     ${d.stores.map(sid => { const v = storeView(d, sid), open = ui.ssOpen.has(sid), se = storeErrs(d, sid, v);
-      const sum = [CH.filter(c => v.channels[c]).map(c => CH_NAME[c]).join('、') || '未設定平台', fmtDays(v.days), fmtSlots(v) || '未設定時段', v.tax + '%'].join('・');
+      const sum = [fmtDays(v.days), fmtSlots(v) || '未設定時段'].join('・');
       return `<div class="box optbox ss-box ${open ? '' : 'closed'}"><div class="mn-oh" data-act="ssTog" data-s="${sid}" role="button" aria-expanded="${open}" tabindex="0"><span class="oh-l"><span class="oh-caret">${fi(open ? 'dup' : 'tdown', 24)}</span><span class="oh-n">${h(storeName(sid))}</span>${se.length ? '<span class="chip w">待處理</span>' : ''}</span><span class="oh-r"><span class="oh-sum">${h(sum)}</span></span></div>
       ${open ? `<div class="ss-body">${ssForm(v, sid, se, help, trash, d.stores.length > 1)}</div>` : ''}</div>`; }).join('')}</div>`;
   }
@@ -2042,7 +2228,7 @@ function drawerBody() {
     ${imgUpload(d, '品項圖片')}
     <div class="lang-grp">${F('描述', 'desc', { ph:'輸入描述' })}${langBlock(d, menu, '描述', 'desc')}</div>
     ${paBox}
-    ${tagBoxHtml(d, ITEM_TAGS)}
+    ${tagBoxHtml(d)}
     <hr class="mn-hr" />
     <div class="mn-t sec">販售設定${helpIc('「啟用」為各平台共用；未啟用時，下方販售開關全部停用')}</div>
     ${swl('啟用', '', d.enabled, 'enabled')}
@@ -2057,15 +2243,7 @@ function drawerBody() {
         <button class="btn pri mn-add" data-act="slotAdd">${fi('plus', 20)}新增時段</button></div>`)}</div>`;
   }
   /* attr */
-  const sel = d.itemIds || [], selOrd = byOrder(sel, itemOrder()), allIts = S.items;
-  const aiq = (ui.aiQ || '').trim().toLowerCase(), aiFl = allIts.filter(x => !aiq || x.name.toLowerCase().includes(aiq));
-  const aiX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
-  const aiChip = id => { const it = byId(S.items, id); return it ? `<span class="sc-chip">${h(it.name)}<button data-act="aiRm" data-id="${id}" aria-label="移除${h(it.name)}">${aiX}</button></span>` : ''; };
-  const aiLim = 1;
-  const aiTags = ui.aiDd ? selOrd.map(aiChip).join('') : selOrd.slice(0, aiLim).map(aiChip).join('') + (sel.length > aiLim ? `<span class="sc-more">+${sel.length - aiLim}</span>` : '');
-  const aiBox = `<div class="sc ${ui.aiDd ? 'open' : ''}" id="sec-ai"><div class="sc-box" ${ui.aiDd ? '' : 'data-act="aiOpen"'}><span class="sc-l">適用的品項</span>
-    <div class="sc-v">${aiTags}${!sel.length && !ui.aiDd ? '<span class="sc-ph">選擇要使用此屬性的品項</span>' : ''}${ui.aiDd ? `<input type="text" id="aiSearch" class="sc-in" placeholder="${sel.length ? '' : '選擇要使用此屬性的品項'}" value="${h(ui.aiQ || '')}" autocomplete="off" />` : ''}</div>
-    <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="aiClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="aiDd" aria-label="${ui.aiDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.aiDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.aiDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${sel.length}</b> / ${allIts.length}</span><span><a href="#" data-act="aiAll" data-v="1">全選</a>｜<a href="#" data-act="aiAll" data-v="0">全部清除</a></span></div>${aiFl.length ? [...S.menus.flatMap(m => catsOf(m.id).map(c => ({ c, g:c.name, l:aiFl.filter(x => x.catIds.includes(c.id)) }))), { g:'未分類', l:aiFl.filter(x => !x.catIds.length) }].map(({ g, l }) => l.length ? (() => { const n = l.filter(x => sel.includes(x.id)).length, st = n === l.length ? 'on' : n ? 'part' : ''; return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="aiGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(g)}<small>${n} / ${l.length}</small></div>`; })() + l.map(x => `<label class="sc-opt ${sel.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="apply.${x.id}" ${sel.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('') : '').join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
+  const aiBox = aiBoxHtml(d);
   const dispName = { text:'只有文字', imgV:'圖片+文字（直式）', imgH:'圖片+文字（橫式）' };
   const dispSel = mselOne({ label:'Kiosk 顯示樣式', value:dispName[d.display] || '', open:ui.dispPop, popAct:'dispPop', setAct:'dispSet', cur:d.display, opts:Object.entries(dispName).map(([id, name]) => ({ id, name })) });
   const opIds = d.options.map(o => o.itemId), opq = (ui.opQ || '').trim().toLowerCase();
@@ -2085,9 +2263,9 @@ function drawerBody() {
     const open = ui.optOpen.has(o.id), price = +o.price || 0;
     return `<div class="box optbox ${open ? '' : 'closed'}"><div class="mn-oh" data-act="optTog" data-id="${o.id}" role="button" aria-expanded="${open}" tabindex="0"><span class="oh-l"><span class="oh-caret">${fi(open ? 'dup' : 'tdown', 24)}</span><span class="oh-n">${it ? h(it.name) : '（品項已刪除）'}</span>${it && it.sku ? `<span class="oh-sku">${h(it.sku)}</span>` : ''}</span>
         <span class="oh-r">${price ? `<span class="oh-sum">+ $${h(price)}</span>` : ''}<button class="mn-del" data-act="optDel" data-i="${i}" aria-label="從此屬性移除" title="從此屬性移除（不會刪除品項）">${fi('close', 20)}</button></span></div>
-      ${open ? `${priceFld('基本加價', pre + 'price', '0', false, d)}
+      ${open ? `<div class="opt-body">${priceFld('基本加價', pre + 'price', '0', false, d)}
       ${priceRows(d, bp, [['內用加價', pre + 'dinePrice', pre + 'dineCh'], ['外帶加價', pre + 'takePrice', pre + 'takeCh'], ['外送加價', pre + 'webDel', null, 'Web 外送'], ['Uber Eats 加價', pre + 'uberPrice', null, 'Uber Eats'], ['Foodpanda 加價', pre + 'fpPrice', null, 'Foodpanda']], true)}
-      <div class="mn-g opt-plat"><div class="mn-t">各平台販售開關${helpIc('此選項在哪些平台、哪些服務類型可供選擇，與上方各情境價格獨立設定')}</div>${optSaleTbl(o, pre)}</div>` : ''}</div>`;
+      <div class="mn-g opt-plat"><div class="mn-t">各平台販售開關${helpIc('此選項在哪些平台、哪些服務類型可供選擇，與上方各情境價格獨立設定')}</div>${optSaleTbl(o, pre)}</div></div>` : ''}</div>`;
   }).join('');
   return `<div class="mn"><div class="mn-t sec">基本設定</div>
     <div class="lang-grp">${F('屬性名稱', 'name', { req:true, help:'顧客點餐時看到的名稱，屬性名稱可重複' })}${langBlock(d, { stores:STORES.map(x => x.id) }, '屬性名稱')}</div>
@@ -2157,11 +2335,11 @@ function renderOverlay() {
   const _db = document.getElementById('drbody'), _sc = _db && !ui.panelFresh ? _db.scrollTop : 0;
   let html = '';
   if (ui.panel) {
-    const { t, isNew } = ui.panel, title = { menu:'菜單', cat:'類別', item:'品項', attr:'屬性', ss:'商店設定' }[t];
-    const tagc = { menu:'menu', cat:'cat', item:'item', attr:'attr', ss:'menu' }[t];
-    html += `<div class="scrim" data-act="cancel"></div><div class="drawer w-${t === 'ss' ? 'menu' : t} ${ui.panelFresh ? 'anim' : ''}" role="dialog" aria-modal="true" aria-label="${isNew ? '新增' : '編輯'}${title}"><div class="dr-head"><h2>${isNew ? '新增' : '編輯'}${title}</h2></div>
+    const { t, isNew } = ui.panel, title = { menu:'菜單', cat:'類別', item:'品項', attr:'屬性', ss:'商店設定', tag:'標籤' }[t];
+    const tagc = { menu:'menu', cat:'cat', item:'item', attr:'attr', ss:'menu', tag:'menu' }[t];
+    html += `<div class="scrim" data-act="cancel"></div><div class="drawer w-${t === 'ss' || t === 'tag' ? 'menu' : t} ${ui.panelFresh ? 'anim' : ''}" role="dialog" aria-modal="true" aria-label="${isNew ? '新增' : '編輯'}${title}"><div class="dr-head"><h2>${isNew ? '新增' : '編輯'}${title}</h2></div>
       <div class="dr-body mn" id="drbody">${drawerBody()}</div>
-      <div class="dr-foot">${!isNew && t !== 'ss' ? `<button class="btn danger" data-act="delAsk">刪除</button>` : '<div class="spacer"></div>'}<div class="dr-btns"><button class="btn" data-act="cancel">取消</button><button class="btn pri" data-act="done">完成</button></div></div></div>`;
+      <div class="dr-foot">${!isNew && t !== 'ss' ? `<button class="btn danger" data-act="delAsk">刪除</button>` : '<div class="spacer"></div>'}<div class="dr-btns"><button class="btn" data-act="cancel">取消</button><button class="btn pri" data-act="done">${t === 'tag' ? '儲存' : '完成'}</button></div></div></div>`;
   }
   if (ui.syncDlg) {
     const plat = [['uber','Uber Eats'],['fp','Foodpanda']];
@@ -2204,6 +2382,21 @@ function renderOverlay() {
       <div class="dlg-h"><h2>刪除屬性</h2><button class="dlg-x" data-act="delAttrClose" aria-label="關閉">${fi('close', 20)}</button></div>
       <div class="dlg-b">即將刪除：${h(a.name)}<br>${n ? `此屬性已套用在 <b>${n}</b> 個品項，會一併從這些品項移除` : '此屬性尚未套用在任何品項'}，且無法復原。</div>
       <div class="dlg-f"><button class="dlg-btn" data-act="delAttrClose">取消</button><button class="dlg-btn danger" data-act="delAttrOk">刪除</button></div></div>`;
+  }
+  if (ui.aiSelDlg && ui.panel) {
+    const d = ui.panel.draft, ids = byOrder(d.itemIds || [], itemOrder()), grp = {};
+    ids.forEach(id => { const it = byId(S.items, id); if (!it) return; const c = it.catIds.map(x => byId(S.cats, x)).find(Boolean), m = c && byId(S.menus, c.menuId), k = c ? (S.menus.length > 1 && m ? m.name + ' › ' : '') + c.name : '未分類'; (grp[k] = grp[k] || []).push(it); });
+    html += `<div class="scrim mscrim" style="z-index:70" data-act="aiSelClose"></div><div class="dlg dlg-sel" style="z-index:71" role="dialog" aria-label="已選品項">
+      <div class="dlg-h"><h2>已選品項（${ids.length}）</h2><button class="dlg-x" data-act="aiSelClose" aria-label="關閉">${fi('close', 20)}</button></div>
+      <div class="dlg-b sel-b">${ids.length ? Object.entries(grp).map(([k, l]) => `<div class="sel-g">${h(k)}<small>${l.length}</small></div>${l.map(it => `<div class="sel-r"><span>${h(it.name)}</span><button type="button" class="mn-del" data-act="aiRm" data-id="${it.id}" aria-label="移除${h(it.name)}">${fi('close', 20)}</button></div>`).join('')}`).join('') : '<div class="muted">尚未選擇品項</div>'}</div>
+      <div class="dlg-f"><button class="dlg-btn" data-act="aiClear" ${ids.length ? '' : 'disabled'}>全部清除</button><button class="dlg-btn" data-act="aiSelClose" style="background:var(--pri);color:#fff">完成</button></div></div>`;
+  }
+  if (ui.delTagDlg) {
+    const tg = byId(S.tags, ui.delTagDlg.id), n = tg ? S.items.filter(i => (i.tags || []).includes(tg.name)).length + S.cats.filter(c => (c.tags || []).includes(tg.name)).length : 0;
+    if (tg) html += `<div class="scrim mscrim" style="z-index:70" data-act="delTagClose"></div><div class="dlg" style="z-index:71" role="dialog" aria-label="刪除標籤">
+      <div class="dlg-h"><h2>刪除標籤</h2><button class="dlg-x" data-act="delTagClose" aria-label="關閉">${fi('close', 20)}</button></div>
+      <div class="dlg-b">即將刪除：${h(tg.name)}<br>${n ? `此標籤已套用在 <b>${n}</b> 個類別／品項，會一併從這些項目移除` : '此標籤尚未套用在任何類別或品項'}，且無法復原。</div>
+      <div class="dlg-f"><button class="dlg-btn" data-act="delTagClose">取消</button><button class="dlg-btn danger" data-act="delTagOk">刪除</button></div></div>`;
   }
   if (ui.attrPop) html += attrPopHtml();
   if (ui.pricePop) html += pricePopHtml();
@@ -2276,6 +2469,8 @@ document.addEventListener('click', e => {
   if (ui.panel && (ui.subPop != null || ui.dispPop) && !e.target.closest('.msel')) { ui.subPop = null; ui.dispPop = false; redrawDrawer(); }
   if (ui.opDd && ui.panel && !e.target.closest('#sec-op')) { ui.opDd = false; ui.opQ = ''; redrawDrawer(); }
   if (ui.aiDd && ui.panel && !e.target.closest('#sec-ai')) { ui.aiDd = false; ui.aiQ = ''; redrawDrawer(); }
+  if (ui.tcDd && ui.panel && !e.target.closest('#sec-tc')) { ui.tcDd = false; ui.tcQ = ''; redrawDrawer(); }
+  if (ui.tagColPop && ui.panel && !ui.cpDrag && !e.target.closest('.tg-colwrap')) { ui.tagColPop = false; redrawDrawer(); }
   if (ui.catPop && ui.panel && !e.target.closest('#sec-catsel')) { ui.catPop = false; ui.catQ = ''; redrawDrawer(); }
   if (ui.paDd && ui.panel && !e.target.closest('#sec-pa')) { ui.paDd = false; ui.paQ = ''; redrawDrawer(); }
   if (ui.tagDd && ui.panel && !e.target.closest('#sec-tags')) { ui.tagDd = false; ui.tagQ = ''; redrawDrawer(); }
@@ -2301,6 +2496,20 @@ document.addEventListener('click', e => {
     case 'addMenuToggle': ui.addMenu = !ui.addMenu; break;
     case 'new': openPanel(D.t, null, D.p); return;
     case 'edit': openPanel(D.t, D.id, undefined, D.focus); return;
+    case 'page': ui.page = D.p; ui.panel = null; ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; break;
+    case 'tagOrderSave': { toast('已完成'); const o = ui.tagOrder; if (o) S.tags = o.map(id => byId(S.tags, id)).filter(Boolean); ui.tagOrder = null; break; }
+    case 'tagOrderReset': { toast('已還原排序'); ui.tagOrder = null; break; }
+    case 'delTag': ui.delTagDlg = { id:D.id }; renderOverlay(); return;
+    case 'delTagClose': ui.delTagDlg = null; renderOverlay(); return;
+    case 'delTagOk': { const tg = byId(S.tags, ui.delTagDlg.id); S_log('刪除標籤：' + tg.name); S.items.forEach(i => { i.tags = (i.tags || []).filter(x => x !== tg.name); }); S.cats.forEach(c => { c.tags = (c.tags || []).filter(x => x !== tg.name); }); S.tags = S.tags.filter(x => x.id !== tg.id); ui.delTagDlg = null; ui.panel = null; toast('已刪除標籤'); break; }
+    case 'tagCatPop': ui.tagCatPop = !ui.tagCatPop; ui.tagColPop = false; redrawDrawer(); return;
+    case 'tagCatSet': ui.panel.draft.cat = D.id; ui.tagCatPop = false; redrawDrawer(); return;
+    case 'tagColPop': ui.tagColPop = !ui.tagColPop; ui.tagCatPop = false; if (ui.tagColPop) { const c = cpParse(ui.panel.draft.color), h = cpHsv(c); ui.cp = { h:h.h, s:h.s, v:h.v, a:c.a }; } redrawDrawer(); return;
+    case 'cpPreset': { const c = cpHsv(cpParse(D.c)); cpApply({ h:c.s === 0 ? ui.cp.h : c.h, s:c.s, v:c.v, a:1 }); return; }
+    case 'tcOpen': ui.tcDd = true; redrawDrawer(); document.getElementById('tcSearch')?.focus(); return;
+    case 'tcDd': ui.tcDd = !ui.tcDd; if (!ui.tcDd) ui.tcQ = ''; redrawDrawer(); if (ui.tcDd) document.getElementById('tcSearch')?.focus(); return;
+    case 'tcRm': ui.panel.draft.catIds = ui.panel.draft.catIds.filter(x => x !== D.id); redrawDrawer(); if (ui.tcDd) document.getElementById('tcSearch')?.focus(); return;
+    case 'tcClear': ui.panel.draft.catIds = []; redrawDrawer(); if (ui.tcDd) document.getElementById('tcSearch')?.focus(); return;
     case 'attrPop': { const b = el.getBoundingClientRect(), cur = ui.attrPop; ui.pricePop = ui.optPop = null; ui.attrPop = cur && cur.id === D.id ? null : { id:D.id, x:b.left, y:b.bottom, h:b.height }; renderOverlay(); return; }
     case 'pricePop': { const b = el.getBoundingClientRect(), cur = ui.pricePop; ui.attrPop = ui.optPop = null; ui.pricePop = cur && cur.id === D.id ? null : { id:D.id, x:b.left, y:b.bottom, h:b.height }; if (!ui.pricePop) { render(); return; } renderOverlay(); return; }
     case 'optPop': { const b = el.getBoundingClientRect(), cur = ui.optPop; ui.attrPop = ui.pricePop = null; ui.optPop = cur && cur.id === D.id && cur.a === D.a ? null : { id:D.id, a:D.a, x:b.left, y:b.bottom, h:b.height }; if (!ui.optPop) { render(); return; } renderOverlay(); return; }
@@ -2369,7 +2578,7 @@ document.addEventListener('click', e => {
     case 'adv': { ui.advOpen = !ui.advOpen; redrawDrawer(); if (ui.advOpen) { const b = document.getElementById('drbody'); if (b) b.scrollTop = b.scrollHeight; } return; }
     case 'delMenuClose': ui.delMenuDlg = null; renderOverlay(); return;
     case 'delMenuOk': ui.delMenuDlg = null; deleteCurrent(); return;
-    case 'delAsk': if (ui.panel.t === 'menu') { ui.delMenuDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } if (ui.panel.t === 'cat') { ui.delCatDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } if (ui.panel.t === 'item') { ui.delDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } ui.delAttrDlg = { id:ui.panel.draft.id }; renderOverlay(); return;
+    case 'delAsk': if (ui.panel.t === 'menu') { ui.delMenuDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } if (ui.panel.t === 'cat') { ui.delCatDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } if (ui.panel.t === 'item') { ui.delDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } if (ui.panel.t === 'tag') { ui.delTagDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } ui.delAttrDlg = { id:ui.panel.draft.id }; renderOverlay(); return;
     case 'slotAdd': (D.sid ? ui.panel.draft.storeSettings[D.sid] : ui.panel.draft).slots.push({ s:'17:00', e:'21:00' }); redrawDrawer(); return;
     case 'slotDel': (D.sid ? ui.panel.draft.storeSettings[D.sid] : ui.panel.draft).slots.splice(+D.i, 1); redrawDrawer(); return;
     case 'ssTog': ui.ssOpen.has(D.s) ? ui.ssOpen.delete(D.s) : ui.ssOpen.add(D.s); redrawDrawer(); return;
@@ -2388,10 +2597,14 @@ document.addEventListener('click', e => {
     case 'dispSet': { const d = ui.panel.draft; d.display = D.id; ui.dispPop = false; redrawDrawer(); return; }
     case 'aiOpen': ui.aiDd = true; redrawDrawer(); document.getElementById('aiSearch')?.focus(); return;
     case 'aiDd': ui.aiDd = !ui.aiDd; if (!ui.aiDd) ui.aiQ = ''; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
+    case 'aiMenu': ui.aiMenu = D.id; redrawDrawer(); document.getElementById('aiSearch')?.focus(); return;
+    case 'aiSelOpen': ui.aiSelDlg = true; ui.aiDd = false; renderOverlay(); return;
+    case 'aiSelClose': ui.aiSelDlg = false; renderOverlay(); return;
+    case 'tcMenu': ui.tcMenu = D.id; redrawDrawer(); document.getElementById('tcSearch')?.focus(); return;
     case 'aiRm': ui.panel.draft.itemIds = ui.panel.draft.itemIds.filter(x => x !== D.id); redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
     case 'aiClear': ui.panel.draft.itemIds = []; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
     case 'aiGrp': { const ids = (D.ids || '').split(',').filter(Boolean), cur = ui.panel.draft.itemIds || [], all = ids.every(id => cur.includes(id)); ui.panel.draft.itemIds = all ? cur.filter(id => !ids.includes(id)) : [...new Set([...cur, ...ids])]; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return; }
-    case 'aiAll': { const q = (ui.aiQ || '').trim().toLowerCase(), ids = S.items.filter(x => !q || x.name.toLowerCase().includes(q)).map(x => x.id), cur = ui.panel.draft.itemIds; ui.panel.draft.itemIds = D.v === '1' ? [...new Set([...cur, ...ids])] : cur.filter(id => !ids.includes(id)); redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return; }
+    case 'aiAll': { const ids = aiFiltered().map(x => x.id), cur = ui.panel.draft.itemIds; ui.panel.draft.itemIds = D.v === '1' ? [...new Set([...cur, ...ids])] : cur.filter(id => !ids.includes(id)); redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return; }
     case 'catOpen': ui.catPop = true; redrawDrawer(); document.getElementById('catSearch')?.focus(); return;
     case 'catPop': ui.catPop = !ui.catPop; if (!ui.catPop) ui.catQ = ''; redrawDrawer(); if (ui.catPop) document.getElementById('catSearch')?.focus(); return;
     case 'catRm': { const d = ui.panel.draft; d.catIds = d.catIds.filter(x => x !== D.id); syncCats(d); redrawDrawer(); if (ui.catPop) document.getElementById('catSearch')?.focus(); return; }
@@ -2440,19 +2653,20 @@ function deleteCurrent() {
 }
 /* input handling */
 function applySearch(t) {
-  const key = t.id === 'treeSearch' ? 'treeQ' : t.id === 'catSearch' ? 'catQ' : t.id === 'attrSearch' ? 'attrSearch' : 'search'; ui[key] = t.value;
+  const key = t.id === 'treeSearch' ? 'treeQ' : t.id === 'catSearch' ? 'catQ' : t.id === 'attrSearch' ? 'attrSearch' : t.id === 'tagsSearch' ? 'tagSearch' : 'search'; ui[key] = t.value;
   const pos = t.selectionStart; render(); const n = document.getElementById(t.id); n.focus(); n.setSelectionRange(pos, pos);
 }
 document.addEventListener('compositionend', e => {
-  if (e.target.id === 'storeSearch') { ui.storeQ = e.target.value; redrawDrawer(); const n = document.getElementById('storeSearch'); if (n) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); } return; } if (e.target.id === 'treeSearch' || e.target.id === 'search' || e.target.id === 'catSearch' || e.target.id === 'attrSearch') applySearch(e.target); });
+  if (e.target.id === 'storeSearch') { ui.storeQ = e.target.value; redrawDrawer(); const n = document.getElementById('storeSearch'); if (n) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); } return; } if (e.target.id === 'treeSearch' || e.target.id === 'search' || e.target.id === 'catSearch' || e.target.id === 'attrSearch' || e.target.id === 'tagsSearch') applySearch(e.target); });
 document.addEventListener('input', e => {
+  if (e.target.id === 'tcSearch' && !e.isComposing) { ui.tcQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('tcSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'opSearch' && !e.isComposing) { ui.opQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('opSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'aiSearch' && !e.isComposing) { ui.aiQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('aiSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'catSearch' && !e.isComposing) { ui.catQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('catSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'paSearch' && !e.isComposing) { ui.paQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('paSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'tagSearch' && !e.isComposing) { ui.tagQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('tagSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'storeSearch' && !e.isComposing) { ui.storeQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('storeSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
-  if ((e.target.id === 'treeSearch' || e.target.id === 'search' || e.target.id === 'catSearch' || e.target.id === 'attrSearch') && !e.isComposing) { applySearch(e.target); return; }
+  if ((e.target.id === 'treeSearch' || e.target.id === 'search' || e.target.id === 'catSearch' || e.target.id === 'attrSearch' || e.target.id === 'tagsSearch') && !e.isComposing) { applySearch(e.target); return; }
   const b = e.target.dataset.b; if (!b || !ui.panel) return;
   if (e.target.type === 'checkbox') return;
   let v = e.target.value; setp(ui.panel.draft, b, v);
@@ -2506,6 +2720,7 @@ document.addEventListener('change', e => {
     else if (b.startsWith('cat.')) { const id = b.slice(4); d.catIds = v ? [...new Set([...d.catIds, id])] : d.catIds.filter(x => x !== id); syncCats(d); redrawDrawer(); document.getElementById('catSearch')?.focus(); return; }
     else if (b.startsWith('optItem.')) { const id = b.slice(8), it = byId(S.items, id); if (v) { if (it && !d.options.some(o => o.itemId === id)) d.options.push(optDef({ id:nid('o'), itemId:id, name:it.name, sku:it.sku, price:0, webDel:'', sub:it.attrs.find(x => x !== d.id) || '' })); } else d.options = d.options.filter(o => o.itemId !== id); redrawDrawer(); document.getElementById('opSearch')?.focus(); return; }
     else if (b.startsWith('tag.')) { const n = b.slice(4); d.tags = v ? [...new Set([...(d.tags || []), n])] : (d.tags || []).filter(x => x !== n); redrawDrawer(); document.getElementById('tagSearch')?.focus(); return; }
+    else if (b.startsWith('tcat.')) { const id = b.slice(5); d.catIds = v ? [...new Set([...(d.catIds || []), id])] : (d.catIds || []).filter(x => x !== id); redrawDrawer(); document.getElementById('tcSearch')?.focus(); return; }
     else if (b.startsWith('store.')) { const id = b.slice(6); d.stores = v ? [...new Set([...d.stores, id])] : d.stores.filter(x => x !== id); redrawDrawer(); document.getElementById('storeSearch')?.focus(); return; }
     else if (/^storeSettings\.[^.]+\.day\.\d$/.test(b)) { const m = b.match(/^storeSettings\.([^.]+)\.day\.(\d)$/), ss = d.storeSettings[m[1]], n = +m[2]; ss.days = v ? [...new Set([...ss.days, n])] : ss.days.filter(x => x !== n); }
     else if (b.startsWith('day.')) { const n = +b.slice(4); d.days = v ? [...new Set([...d.days, n])] : d.days.filter(x => x !== n); }
@@ -2561,7 +2776,11 @@ document.addEventListener('scroll', e => { if ((ui.attrPop || ui.pricePop || ui.
     if (!src) return; const tr = e.target.closest(ROW); if (!same(tr)) { clr(); return; }
     e.preventDefault(); const after = tr.classList.contains('drop-after');
     const kind = src.dataset.kind, g = src.dataset.grp, id = src.dataset.row;
-    if (kind === 'attr') {
+    if (kind === 'tag') {
+      const ids = (ui.tagOrder || S.tags.map(x => x.id)).slice();
+      ids.splice(ids.indexOf(id), 1); let j = ids.indexOf(tr.dataset.row); if (after) j++;
+      ids.splice(j, 0, id); ui.tagOrder = ids;
+    } else if (kind === 'attr') {
       const ids = (ui.attrOrder || S.attrs.map(x => x.id)).slice();
       ids.splice(ids.indexOf(id), 1); let j = ids.indexOf(tr.dataset.row); if (after) j++;
       ids.splice(j, 0, id); ui.attrOrder = ids;
