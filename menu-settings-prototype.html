@@ -526,6 +526,10 @@ table.tb { width: 100%; border-collapse: collapse; background: #fff; border: 1px
 .u-main > .toolbar { position: static; background: none; padding: 0; margin-bottom: 12px; justify-content: space-between; gap: 12px; }
 .u-main .sbox .search { width: 400px; height: 40px; padding: 8px 12px 8px 44px; }
 .sbox .s-ic { left: 12px; }
+/* MUI outlined：標籤預設在框內，聚焦或有內容時浮到框線上 */
+.sbox .s-lbl { position: absolute; left: 44px; top: 50%; transform: translateY(-50%); max-width: calc(100% - 56px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; line-height: 1.5; color: #8E8F98; background: #fff; pointer-events: none; transition: all .15s ease; }
+.sbox .search:focus ~ .s-lbl, .sbox .search:not(:placeholder-shown) ~ .s-lbl { top: 0; left: 36px; transform: translateY(-50%); padding: 0 4px; font-size: 12px; }
+.sbox .search:focus ~ .s-lbl { color: #58B6A8; }
 .tbtn { height: 40px; padding: 0 22px; border: 1px solid #D4D4D4; border-radius: 4px; background: #fff; font-size: 14px; font-weight: 600; letter-spacing: .5px; color: var(--txt); }
 .tbtn:hover { background: #F3F3F4; }
 .split { position: relative; display: inline-flex; align-items: stretch; background: var(--pri); border-radius: 4px; }
@@ -1554,7 +1558,7 @@ function renderTree() {
     </nav>
     <div class="u-main">
       <div class="u-sticky"><div class="u-hint">名稱與價格可直接點選快速修改；更多設定請進入編輯。</div>
-      <div class="toolbar"><span class="sbox">${fi('search', 24).replace('class="ic"', 'class="ic s-ic"')}<input class="search" id="treeSearch" placeholder="搜尋品項名稱或 SKU" value="${h(ui.treeQ)}" /></span>
+      <div class="toolbar">${searchBox('treeSearch', ui.treeQ)}
         <div style="display:flex;gap:12px;align-items:center"><button class="tbtn" data-act="expandAll">全部展開</button><button class="tbtn" data-act="collapseAll">全部收合</button>
         <div class="add-wrap"><button class="tbtn-pri" data-act="addMenuToggle" aria-haspopup="menu" aria-expanded="${ui.addMenu}">${fi('plus', 20)}新增</button>
           ${ui.addMenu ? `<div class="dropdown"><button data-act="new" data-t="menu">新增菜單</button><button data-act="new" data-t="cat" data-p="${vm[0].id}">新增類別</button><button data-act="new" data-t="item" data-p="">新增品項</button><button data-act="new" data-t="attr">新增屬性</button></div>` : ''}</div></div></div></div>
@@ -1749,7 +1753,7 @@ function catSaleInfo(c) {
   return `<span class="sale-own">${names(c.sale)}</span>`;
 }
 const addBtn = (t, label, p) => `<button class="tbtn-pri" data-act="new" data-t="${t}" ${p !== undefined ? `data-p="${p}"` : ''}>${fi('plus', 20)}${label}</button>`;
-const searchBox = (id, v, ph = '搜尋品項名稱或 SKU') => `<span class="sbox">${fi('search', 24).replace('class="ic"', 'class="ic s-ic"')}<input class="search" id="${id}" placeholder="${ph}" value="${h(v)}" /></span>`;
+const searchBox = (id, v, ph = '搜尋品項名稱或 SKU') => `<span class="sbox">${fi('search', 24).replace('class="ic"', 'class="ic s-ic"')}<input class="search" id="${id}" placeholder=" " value="${h(v)}" autocomplete="off" /><label class="s-lbl" for="${id}">${ph}</label></span>`;
 const tabHead = (hint, left, btn) => `<div class="u-hint">${hint}</div><div class="toolbar tb-bar">${left}<div class="spacer"></div>${btn}</div>`;
 const actCell = (act, id, delAct, nm) => `<div class="acell"><button data-act="${act}" data-t="${act === 'edit' ? nm : ''}" data-id="${id}" aria-label="編輯">${fi('edit24', 24)}</button><button data-act="${delAct}" data-id="${id}" aria-label="刪除">${fi('trash', 24)}</button></div>`;
 const MENU01 = '<svg class="drag-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E8F98" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
