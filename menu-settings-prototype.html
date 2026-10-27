@@ -612,15 +612,14 @@ table.tb td.sale-td { white-space: normal; }
 .item-tb .u-sold .msw { margin: 0 13px 0 5px !important; }
 .item-tb tr.dim td { color: #8E8F98; }
 .item-tb tr.dim td:nth-last-child(-n+2) { opacity: 1; }
-.drag-tb .drag-h { display: inline-flex; vertical-align: middle; margin-right: 12px; cursor: grab; padding: 2px; border-radius: 4px; }
+.drag-tb .drag-h { display: inline-flex; vertical-align: middle; margin-right: 0; cursor: grab; padding: 0; border-radius: 4px; }
+.drag-tb th:first-child, .drag-tb td.sortc { width: 80px; min-width: 80px; box-sizing: border-box; }
 .drag-tb .drag-h:hover { background: #F3F3F4; }
 .drag-tb .drag-h:active { cursor: grabbing; }
 .drag-tb .th-q { display: inline-flex; align-items: center; gap: 4px; position: relative; }
 .drag-tb th { vertical-align: middle; }
 .drag-tb .th-q { display: flex; height: 21px; line-height: 21px; }
 .drag-tb .th-q > svg { cursor: help; display: block; }
-.drag-tb .th-tip { display: none; position: absolute; left: 0; top: calc(100% + 6px); z-index: 50; background: #53545C; color: #fff; font-size: 12px; font-weight: 400; line-height: 1.5; padding: 6px 10px; border-radius: 4px; white-space: nowrap; pointer-events: none; }
-.drag-tb .th-q > svg:hover + .th-tip { display: block; }
 .ord-btns { display: flex; gap: 12px; }
 .tbtn-gray, .tbtn-blue { height: 40px; padding: 0 22px; border: 0; border-radius: 4px; font-size: 14px; font-weight: 600; letter-spacing: .5px; white-space: nowrap; cursor: pointer; }
 .tbtn-gray { background: #F3F3F4; color: #53545C; }
@@ -696,7 +695,7 @@ table.tb td.sale-td { white-space: normal; }
 .dlg-btn.danger { color: #fff; }
 
 /* Tooltip（依 Figma 1725:19161） */
-.kds-tip { position: fixed; z-index: 300; pointer-events: none; background: #545454; color: #fff; font-size: 10px; font-weight: 500; line-height: 1.5; text-align: center; padding: 4px 10px; border-radius: 4px; max-width: 320px; white-space: pre-line; overflow-wrap: anywhere; opacity: 0; transition: opacity .12s; }
+.kds-tip { position: fixed; z-index: 300; pointer-events: none; background: #545454; color: #fff; font-size: 12px; font-weight: 500; line-height: 1.5; text-align: center; padding: 4px 10px; border-radius: 4px; max-width: 320px; white-space: pre-line; overflow-wrap: anywhere; opacity: 0; transition: opacity .12s; }
 .kds-tip.show { opacity: 1; }
 
 .u-desc .name i { font-style: normal; }
@@ -912,7 +911,15 @@ table.tb td.sale-td { white-space: normal; }
 .mn .qp-fld.bad .qp-fl { color: #FF8A80; }
 .fld-help { position: absolute; right: 12px; top: 16px; display: flex; }
 .sc-ph { font-size: 16px; color: #8E8F98; }
-.sc-grp { padding: 8px 16px 2px; font-size: 12px; line-height: 1.5; color: #8E8F98; }
+.sc-grp { display: flex; align-items: center; min-height: 40px; padding: 0 16px 0 4px; margin-top: 4px; border-top: 1px solid #ECECEC; background: #FAFAFA; cursor: pointer; font-size: 14px; font-weight: 600; line-height: 1.5; color: #53545C; }
+.sc-grp:first-of-type { margin-top: 0; border-top: 0; }
+.sc-grp:hover { background: #F5FAF9; }
+.sc-grp .ckb-b { position: relative; box-sizing: border-box; width: 42px; height: 40px; padding: 0; flex-shrink: 0; }
+.sc-grp .ckb-b::before { content: ""; position: absolute; left: 12px; top: 11px; width: 18px; height: 18px; box-sizing: border-box; border: 2px solid #8E8F98; border-radius: 2px; }
+.sc-grp.on .ckb-b::before, .sc-grp.part .ckb-b::before { background: #58B6A8; border-color: #58B6A8; }
+.sc-grp.on .ckb-b::after { content: ""; position: absolute; left: 12px; top: 11px; width: 18px; height: 18px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4.5 9.5l3 3 6-6.5'/></svg>") center / 18px 18px no-repeat; }
+.sc-grp.part .ckb-b::after { content: ""; position: absolute; left: 16px; top: 19px; width: 10px; height: 2px; background: #fff; border-radius: 1px; }
+.sc-grp small { margin-left: 8px; font-size: 12px; font-weight: 400; color: #8E8F98; }
 .pt-c { padding: 8px 16px; font-size: 14px; line-height: 1.5; color: #53545C; display: flex; align-items: center; }
 .ct-head .pt-c { font-weight: 600; }
 .pt-a { flex: 0.8 1 0; min-width: 0; }
@@ -1082,9 +1089,20 @@ table.tb td.sale-td { white-space: normal; }
 .chk-lv { background: rgba(141,140,140,.2); border-radius: 100px; padding: 0 10px; height: 24px; display: inline-flex; align-items: center; font-size: 14px; font-weight: 400; line-height: 1.5; color: #53545C; flex-shrink: 0; }
 .chk-m { padding-top: 2px; font-size: 14px; line-height: 21px; color: #53545C; }
 .chk-go { display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 8px 12px; font-size: 14px; font-weight: 600; letter-spacing: .5px; color: #58B6A8; white-space: nowrap; flex-shrink: 0; }
+.dlg-checks .res { border: 1px solid #D4D4D4; border-radius: 8px; padding: 12px; margin: 0; font-size: 14px; color: #53545C; display: flex; flex-direction: column; gap: 4px; }
+.dlg-checks .res + .res { margin-top: 12px; }
+.res-h { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; line-height: 1.5; }
+.res-st { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 100px; background: #F3F3F4; font-size: 14px; font-weight: 400; color: #53545C; }
+.res-st::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #FF8A80; }
+.res-st.fail::before { background: #FF8A80; }
+.res-st.part::before { background: #FFCA28; }
+.res-st.ok::before { background: #66BB6A; }
+.res-l { font-size: 14px; line-height: 1.5; color: #53545C; }
+.res-l.sub { color: #8E8F98; }
 .dlg-scroll .chk-ok { padding: 12px 16px; border-radius: 8px; background: #E1F2F0; color: #53545C; font-size: 14px; }
 .dlg-scroll .muted { font-size: 14px; color: #8E8F98; }
-.dlg-scroll .log { padding: 8px 0; font-size: 14px; color: #53545C; border-bottom: 1px dashed #D4D4D4; }
+.dlg-scroll .log { padding: 8px 0; font-size: 14px; color: #53545C; border-bottom: 1px solid #D4D4D4; }
+.dlg-scroll .log:last-child { border-bottom: 0; }
 .dlg-scroll .log small { display: block; font-size: 12px; color: #8E8F98; }
 .drag-tb tr.empty-tr td, table.tb tr.empty-tr td { padding: 0; border-bottom: 0; background: #F5F8F9; }
 .empty-blk { background: #F5F8F9; border-radius: 10px; margin-top: 12px; }
@@ -1474,7 +1492,7 @@ function render() {
         <div class="sbar">${menuSelHtml()}
           <span class="save-wrap ${ui.dirty ? 'dirty' : ''}"><button class="btn-b" data-act="save" ${ui.dirty ? 'title="尚有未儲存的變更" aria-label="儲存（尚有未儲存的變更）"' : ''}>儲存</button></span>
           <button class="btn-b" data-act="publish" ${ui.dirty ? 'disabled title="請先儲存"' : ''}>${fi('refresh')}更新商店</button>
-          <button class="btn-b" data-act="sync">同步至外送平台</button></div>
+          <button class="btn-b" data-act="sync" ${ui.dirty ? 'disabled title="請先儲存"' : ''}>同步至外送平台</button></div>
         <div class="sect"><div class="stabs">${tabs.map(t => `<button class="stab ${ui.tab === t[0] ? 'active' : ''}" data-act="tab" data-t="${t[0]}">${t[1]}</button>`).join('')}</div>
           <div class="spanel ${ui.tab === 'tree' ? 'first' : 'scroll'}">${{ tree:renderTree, menus:renderMenus, cats:renderCats, items:renderItems, attrs:renderAttrs }[ui.tab]()}</div></div>
         <div class="pfoot">隱私權政策　|　© 電小二智慧點餐系統</div>
@@ -1713,19 +1731,19 @@ const addBtn = (t, label, p) => `<button class="tbtn-pri" data-act="new" data-t=
 const searchBox = (id, v, ph = '搜尋品項名稱或 SKU') => `<span class="sbox">${fi('search', 24).replace('class="ic"', 'class="ic s-ic"')}<input class="search" id="${id}" placeholder="${ph}" value="${h(v)}" /></span>`;
 const tabHead = (hint, left, btn) => `<div class="u-hint">${hint}</div><div class="toolbar tb-bar">${left}<div class="spacer"></div>${btn}</div>`;
 const actCell = (act, id, delAct, nm) => `<div class="acell"><button data-act="${act}" data-t="${act === 'edit' ? nm : ''}" data-id="${id}" aria-label="編輯">${fi('edit24', 24)}</button><button data-act="${delAct}" data-id="${id}" aria-label="刪除">${fi('trash', 24)}</button></div>`;
-const MENU01 = '<svg class="drag-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#53545C" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+const MENU01 = '<svg class="drag-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E8F98" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
 const QMARK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#53545C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>';
 function renderCats() {
   const ms = visMenus(), multi = ms.length > 1, q = (ui.catQ || '').trim().toLowerCase();
   const ord = ui.catOrder || {}, pending = Object.keys(ord).length > 0;
   const orderedCats = mid => { const l = catsOf(mid), o = ord[mid]; return o ? o.map(id => l.find(c => c.id === id)).filter(Boolean) : l; };
   const rows = ms.map(m => orderedCats(m.id).filter(c => !q || c.name.toLowerCase().includes(q) || (c.enName || '').toLowerCase().includes(q)).map(c => `<tr data-kind="cat" data-row="${c.id}" data-grp="${m.id}">
-    <td class="sortc"><span class="drag-h" data-drag="${c.id}" title="拖曳調整順序">${MENU01}</span><span>${c.sort}</span></td>
+    <td class="sortc"><span class="drag-h" data-drag="${c.id}" title="拖曳調整順序">${MENU01}</span></td>
     <td>${h(c.name)}${c.enName ? `<div class="muted" style="font-size:12px">${h(c.enName)}</div>` : ''}${multi ? `<div class="muted" style="font-size:12px">${h(m.name)}</div>` : ''}</td>
     <td>${itemsOf(c.id).length}</td><td class="sale-td">${catSaleInfo(c)}</td>
     <td>${actCell('edit', c.id, 'delCat', 'cat')}</td></tr>`).join('')).join('');
   return tabHead('建立品項類別，如：飯類、麵類、湯品、單點等。', searchBox('catSearch', ui.catQ || '', '搜尋類別名稱'), (pending ? `<div class="ord-btns"><button class="tbtn-gray" data-act="catOrderReset">還原排序</button><button class="tbtn-blue" data-act="catOrderSave">完成</button></div>` : addBtn('cat', '新增類別', '')))
-  + `<table class="tb drag-tb"><thead><tr><th style="width:100px"><span class="th-q">${QMARK}排序<span class="th-tip">拖曳可變更排序，變更後請記得儲存排序</span></span></th><th>類別名稱</th><th>品項數</th><th>適用平台</th><th class="ac" style="width:120px"><div class="acell"><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(5, '查無結果', '', 'noresult') : emptyRow(5, '尚無類別', '請點擊右上新增'))}</tbody></table>`;
+  + `<table class="tb drag-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>類別名稱</th><th>品項數</th><th>適用平台</th><th class="ac" style="width:120px"><div class="acell"><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(5, '查無結果', '', 'noresult') : emptyRow(5, '尚無類別', '請點擊右上新增'))}</tbody></table>`;
 }
 function renderItems() {
   const q = ui.search.trim().toLowerCase();
@@ -1737,14 +1755,14 @@ function renderItems() {
   const ordered = cid => { const l = itemsOf(cid), o = ord[cid]; return o ? o.map(id => l.find(i => i.id === id)).filter(Boolean) : l; };
   const list = allCats.filter(c => !ui.itemCat || c.id === ui.itemCat).flatMap(c => ordered(c.id).map(it => ({ it, c }))).filter(({ it }) => !q || it.name.toLowerCase().includes(q) || it.sku.toLowerCase().includes(q));
   const rows = list.map(({ it, c }) => { const m = c.menuId ? byId(S.menus, c.menuId) : null, n = priceList(it).length;
-    return `<tr class="${it.enabled ? '' : 'dim'}" data-kind="item" data-row="${it.id}" data-grp="${c.id}"><td class="sortc"><span class="drag-h" data-drag="${it.id}" title="拖曳調整順序">${MENU01}</span><span>${it.sort}</span></td>
+    return `<tr class="${it.enabled ? '' : 'dim'}" data-kind="item" data-row="${it.id}" data-grp="${c.id}"><td class="sortc"><span class="drag-h" data-drag="${it.id}" title="拖曳調整順序">${MENU01}</span></td>
     <td><div class="it-name"><span class="it-img" data-act="edit" data-t="item" data-id="${it.id}" title="編輯品項" style="background-image:url(${it.img || PH_IMG})"></span><div class="it-txt"><span>${h(it.name)}</span>${it.sku ? `<span class="it-sku">${h(it.sku)}</span>` : ''}</div></div></td>
     <td>$${it.price}${n ? `<button class="pc-tag" data-act="pricePop" data-id="${it.id}" title="${h(priceList(it).join('\n'))}">${n} 項變價</button>` : ''}</td>
     <td>${multi && m ? h(m.name) + ' › ' : ''}${h(c.name)}</td>
     <td><button class="u-sold" data-act="qen" data-id="${it.id}"><span class="msw ${it.enabled ? 'on' : ''}"><i></i></span>${it.enabled ? '啟用中' : '未啟用'}</button></td>
     <td><div class="acell"><button data-act="dupItem" data-id="${it.id}" aria-label="複製" title="複製品項">${fi('copy', 24)}</button><button data-act="edit" data-t="item" data-id="${it.id}" aria-label="編輯">${fi('edit24', 24)}</button><button data-act="delItem" data-id="${it.id}" aria-label="刪除">${fi('trash', 24)}</button></div></td></tr>`; }).join('');
   return tabHead('建立餐點品項，如：咖哩飯、海鮮麵、貢丸湯等。', `<div class="tb-left">${sel}${searchBox('search', ui.search)}</div>`, (pending ? `<div class="ord-btns"><button class="tbtn-gray" data-act="itemOrderReset">還原排序</button><button class="tbtn-blue" data-act="itemOrderSave">完成</button></div>` : addBtn('item', '新增品項')))
-  + `<table class="tb drag-tb item-tb"><thead><tr><th style="width:100px"><span class="th-q">${QMARK}排序<span class="th-tip">拖曳可變更排序，變更後請記得儲存排序</span></span></th><th>品項名稱 / SKU</th><th>基本價</th><th>類別</th><th>狀態</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無品項', '請點擊右上新增'))}</tbody></table>`;
+  + `<table class="tb drag-tb item-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>品項名稱 / SKU</th><th>基本價</th><th>類別</th><th>狀態</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無品項', '請點擊右上新增'))}</tbody></table>`;
 }
 function renderAttrs() {
   const q = (ui.attrSearch || '').trim().toLowerCase(), ord = ui.attrOrder, pending = !!ord;
@@ -1755,14 +1773,14 @@ function renderAttrs() {
   const list = ids.map(id => byId(S.attrs, id)).filter(Boolean).filter(a => (!curI || curI.attrs.includes(a.id)) && (!q || a.name.toLowerCase().includes(q) || (a.adminName || '').toLowerCase().includes(q)));
   const rule = a => `${a.required ? '必選' : '選填'}，選 ${a.min === a.max ? a.min : a.min + '–' + (a.max || '不限')}${a.max !== 1 || a.repeat ? '，可複選' : ''}`;
   const rows = list.map(a => { const used = S.items.filter(i => i.attrs.includes(a.id)).length, two = a.options.some(o => o.sub);
-    return `<tr data-kind="attr" data-row="${a.id}" data-grp="all"><td class="sortc"><span class="drag-h" data-drag="${a.id}" title="拖曳調整順序">${MENU01}</span><span>${base.indexOf(a.id) + 1}</span></td>
+    return `<tr data-kind="attr" data-row="${a.id}" data-grp="all"><td class="sortc"><span class="drag-h" data-drag="${a.id}" title="拖曳調整順序">${MENU01}</span></td>
     <td>${h(a.name)}${two ? '<span class="pc-tag" style="cursor:default">雙層</span>' : ''}</td><td class="wrap">${rule(a)}</td>
     <td class="wrap"><div class="opt-chips">${a.options.map(o => `<span class="ochip">${h(o.name)}${o.price ? ` (+${o.price})` : ''}</span>`).join('')}</div></td>
     <td>${used} 個品項</td>
     <td><div class="acell"><button data-act="dupAttr" data-id="${a.id}" aria-label="複製" title="複製屬性">${fi('copy', 24)}</button><button data-act="edit" data-t="attr" data-id="${a.id}" aria-label="編輯">${fi('edit24', 24)}</button><button data-act="delAttr" data-id="${a.id}" aria-label="刪除">${fi('trash', 24)}</button></div></td></tr>`; }).join('');
   const btns = pending ? `<div class="ord-btns"><button class="tbtn-gray" data-act="attrOrderReset">還原排序</button><button class="tbtn-blue" data-act="attrOrderSave">完成</button></div>` : addBtn('attr', '新增屬性');
   return tabHead('建立品項的附加屬性，如：份量選擇、醬料選擇、甜度選擇等。', `<div class="tb-left">${sel}${searchBox('attrSearch', ui.attrSearch || '', '搜尋屬性名稱')}</div>`, btns)
-  + `<table class="tb drag-tb attr-tb"><thead><tr><th style="width:100px"><span class="th-q">${QMARK}排序<span class="th-tip">拖曳可變更排序，變更後請記得儲存排序</span></span></th><th>屬性名稱</th><th>規則</th><th style="width:400px">包含選項</th><th>適用的品項</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q || curI ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無屬性', '請點擊右上新增'))}</tbody></table>`;
+  + `<table class="tb drag-tb attr-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>屬性名稱</th><th>規則</th><th style="width:400px">包含選項</th><th>適用的品項</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q || curI ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無屬性', '請點擊右上新增'))}</tbody></table>`;
 }
 function previewItems(plat) {
   const m = byId(S.menus, ui.pvMenu);
@@ -1787,12 +1805,17 @@ function renderPreview() {
 }
 function renderChecks(iss) {
   const pre = ui.checks === 'save';
-  const list = `<section>${pre ? `<div class="chk-lead">以下項目尚未完成設定，儲存後相關品項不會同步到外送平台。可以先返回修改，或直接儲存。</div>` : '<h3>檢核結果</h3>'}${iss.length ? iss.map((x, i) => `<div class="chk-item" data-act="goIssue" data-i="${i}" role="button" tabindex="0"><div class="chk-main"><div class="chk-t"><span class="chk-lv">${x.lv}</span>${h(x.title)}</div><div class="chk-m">${h(x.msg)}</div></div><span class="chk-go">前往修改</span></div>`).join('') : '<div class="chk-ok">所有項目檢核通過</div>'}</section>`;
-  const more = `<section><h3>同步結果</h3>${ui.syncRes.length ? ui.syncRes.map(r => `<div class="res"><b>${r.plat}</b> <span class="badge ${r.cls}">${r.label}</span><div class="muted" style="margin-top:4px">${r.detail}</div></div>`).join('') : '<div class="muted">尚未同步</div>'}</section>
-      <section><h3>操作紀錄</h3>${ui.sellLog.length ? ui.sellLog.map(l => `<div class="log">${h(l.msg)}<small>${l.t}</small></div>`).join('') : '<div class="muted">儲存、更新至商店、刪除等操作會記錄於此</div>'}</section>`;
-  return `<div class="scrim mscrim" data-act="toggleChecks"></div><div class="dlg dlg-checks" role="dialog" aria-label="${pre ? '存檔前檢核' : '同步結果與檢核'}">
-    <div class="dlg-h"><h2>${pre ? '存檔前檢核' : '同步結果與檢核'}${iss.length && !pre ? `<span class="chk-count">${iss.length}</span>` : ''}</h2><button class="dlg-x" data-act="toggleChecks" aria-label="關閉">${fi('close', 20)}</button></div>
-    <div class="dlg-b dlg-scroll">${list}${pre ? '' : more}</div>
+  const items = iss.map((x, i) => `<div class="chk-item" data-act="goIssue" data-i="${i}" role="button" tabindex="0"><div class="chk-main"><div class="chk-t"><span class="chk-lv">${x.lv}</span>${h(x.title)}</div><div class="chk-m">${h(x.msg)}</div></div><span class="chk-go">前往修改</span></div>`).join('');
+  const sync = `<section>${ui.syncRes.length ? ui.syncRes.map(r => `<div class="res"><div class="res-h"><span>${r.plat}</span><span class="res-st ${r.cls}">${r.label}</span></div>${r.detail}</div>`).join('') : '<div class="muted">還沒有同步紀錄</div>'}</section>`;
+  const todo = iss.length ? `<section><h3>還有 ${iss.length} 項待處理</h3>${items}</section>` : '';
+  const log = ui.sellLog.length ? `<section><h3>最近操作</h3>${ui.sellLog.slice(0, 5).map(l => `<div class="log">${h(l.msg)}<small>${l.t}</small></div>`).join('')}</section>` : '';
+  const body = pre
+    ? `<section><div class="chk-lead">以下項目尚未完成設定，儲存後相關品項不會同步到外送平台。可以先返回修改，或直接儲存。</div>${items}</section>`
+    : sync + todo + log;
+  const title = pre ? '存檔前檢核' : '同步結果';
+  return `<div class="scrim mscrim" data-act="toggleChecks"></div><div class="dlg dlg-checks" role="dialog" aria-label="${title}">
+    <div class="dlg-h"><h2>${title}</h2><button class="dlg-x" data-act="toggleChecks" aria-label="關閉">${fi('close', 20)}</button></div>
+    <div class="dlg-b dlg-scroll">${body}</div>
     <div class="dlg-f">${pre ? `<button class="dlg-btn" data-act="toggleChecks">返回修改</button><button class="dlg-btn" data-act="saveAnyway" style="background:#5292D9;color:#fff">仍要儲存</button>` : `<button class="dlg-btn" data-act="toggleChecks">關閉</button>`}</div></div>`;
 }
 
@@ -1803,14 +1826,16 @@ function newDraft(t, parent) {
   if (t === 'item') { const cid = parent === UNCAT ? '' : (parent || ''); return mk(nid('i'), cid, '', '', '', itemsOf(cid || UNCAT).length + 1, {}); }
   return { id:nid('a'), name:'', adminName:'', kitchen:'', required:false, min:0, max:1, repeat:false, sku:'', display:'text', enName:'', autoSel:false, hot:false, options:[] };
 }
-function openPanel(t, id, parent, focus) {
+function openPanel(t, id, parent, focus, seed) {
   let draft, isNew = !id;
-  if (isNew) draft = newDraft(t, parent);
+  if (seed) draft = seed;
+  else if (isNew) draft = newDraft(t, parent);
   else { draft = clone(byId({ menu:S.menus, cat:S.cats, item:S.items, attr:S.attrs }[t], id)); }
   if (t === 'item') { draft.sale = clone(sale(draft.inherit ? { ...draft, inherit:true } : draft)); }
   if (t === 'attr') draft.itemIds = S.items.filter(i => i.attrs.includes(draft.id)).map(i => i.id);
   ui.panel = { t, isNew, draft }; ui.panelSnap = JSON.stringify(draft); ui.discardDlg = false; ui.panelFresh = true; ui.storeQ = ''; ui.storeDd = false; ui.tagQ = ''; ui.tagDd = false; ui.paQ = ''; ui.paDd = false; ui.catPop = false; ui.catQ = ''; ui.subPop = null; ui.dispPop = false; ui.aiQ = ''; ui.aiDd = false; ui.opQ = ''; ui.opDd = false; ui.optOpen = new Set(); ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; ui.advOpen = false; ui.langOpen = {}; ui.reqChk = false; ui.addMenu = false;
   render();
+  if (seed) { ui.reqChk = true; redrawDrawer(); const m = document.querySelector('#drbody [data-miss]'); if (m) { m.scrollIntoView({ block:'center' }); m.focus({ preventScroll:true }); } }
   if (focus) focusSection(focus);
 }
 function focusSection(name) {
@@ -1840,9 +1865,11 @@ function commitPanel() {
   if (t === 'menu') d.tax = +d.tax || 0;
   if (t === 'cat') { d.sort = +d.sort; if (d.saleInh !== false) d.sale = menuSaleDefault(byId(S.menus, d.menuId)); delete d.saleInh; }
   if (t === 'item') d.sort = +d.sort || 99;
+  const after = d._after; delete d._after;
   const coll = { menu:S.menus, cat:S.cats, item:S.items, attr:S.attrs }[t];
   const i = coll.findIndex(x => x.id === d.id);
-  if (i >= 0) coll[i] = d; else coll.push(d);
+  if (i >= 0) coll[i] = d; else if (after && t === 'attr') coll.splice(coll.findIndex(x => x.id === after) + 1, 0, d); else coll.push(d);
+  if (after && t === 'item') itemsOf(d.catIds[0] || UNCAT).forEach((x, k) => { x.sort = k + 1; });
   if (t === 'item') (d.catIds.length ? d.catIds : [UNCAT]).forEach(id => ui.open.add('c:' + id));
   if (t === 'cat') ui.open.add('m:' + d.menuId);
   if (isNew && t === 'menu') { ui.open.add('m:' + d.id); ui.menus = [d.id]; }
@@ -1923,7 +1950,6 @@ function drawerBody() {
     const tbl = its.length ? `<div class="cat-tbl"><div class="ct-row ct-head"><div class="ct-c ct-n">品項</div>${CH.map(c => `<div class="ct-c"><span>${CH_NAME[c]}</span>${swHtml(colOn(c), 'catAll', `data-id="${d.id}" data-ch="${c}" data-v="${colOn(c) ? 0 : 1}"`)}</div>`).join('')}</div>
       ${its.map(i => `<div class="ct-row"><div class="ct-c ct-n">${h(i.name)}${i.enabled ? '' : ' <span class="chip">未啟用</span>'}</div>${CH.map(c => `<div class="ct-c">${swHtml(chOn(sale(i), c), 'qt2', `data-id="${i.id}" data-ch="${c}"`, !i.enabled)}</div>`).join('')}</div>`).join('')}</div>` : '<div class="muted">此類別沒有品項</div>';
     const chList = CH.filter(c => chOn(mdef, c)).map(c => CH_NAME[c]).join(', ');
-    const upl = imgUpload(d, '類別圖片');
     return `<div class="mn"><div class="mn-t sec">基本設定</div>
     <div class="lang-grp">${F('類別名稱', 'name', { req:true })}${langBlock(d, menu, '類別名稱')}</div>
     ${!isNew ? `<hr class="mn-hr" /><div class="mn-g"><div class="mn-t">品項各平台開關${helpIc('全開／全關會跳過未啟用品項；調整後即時生效')}</div></div>${tbl}` : ''}
@@ -1932,8 +1958,7 @@ function drawerBody() {
       <div class="ckbs sale-ch">${CH.map(c => ckb(CH_NAME[c], 'saleCh.' + c, chOn(sv, c), inh)).join('')}</div></div>
     <hr class="mn-hr" />
     <div class="lang-grp">${F('描述', 'desc', { ph:'輸入描述' })}${langBlock(d, menu, '描述', 'desc')}</div>
-    ${tagBox}
-    <hr class="mn-hr" />${upl}`)}</div>`;
+    ${tagBox}`)}</div>`;
   }
   if (t === 'item') {
     const dis = !d.enabled, s = d.sale;
@@ -2001,7 +2026,7 @@ function drawerBody() {
   const aiTags = ui.aiDd ? sel.map(aiChip).join('') : sel.slice(0, aiLim).map(aiChip).join('') + (sel.length > aiLim ? `<span class="sc-more">+${sel.length - aiLim}</span>` : '');
   const aiBox = `<div class="sc ${ui.aiDd ? 'open' : ''}" id="sec-ai"><div class="sc-box" ${ui.aiDd ? '' : 'data-act="aiOpen"'}><span class="sc-l">適用的品項</span>
     <div class="sc-v">${aiTags}${!sel.length && !ui.aiDd ? '<span class="sc-ph">選擇要使用此屬性的品項</span>' : ''}${ui.aiDd ? `<input type="text" id="aiSearch" class="sc-in" placeholder="${sel.length ? '' : '選擇要使用此屬性的品項'}" value="${h(ui.aiQ || '')}" autocomplete="off" />` : ''}</div>
-    <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="aiClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="aiDd" aria-label="${ui.aiDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.aiDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.aiDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${sel.length}</b> / ${allIts.length}</span><span><a href="#" data-act="aiAll" data-v="1">全選</a>｜<a href="#" data-act="aiAll" data-v="0">全部清除</a></span></div>${aiFl.length ? [...S.menus.flatMap(m => catsOf(m.id).map(c => ({ c, g:(S.menus.length > 1 ? m.name + ' › ' : '') + c.name, l:aiFl.filter(x => x.catIds.includes(c.id)) }))), { g:'未分類', l:aiFl.filter(x => !x.catIds.length) }].map(({ g, l }) => l.length ? `<div class="sc-grp">${h(g)}</div>` + l.map(x => `<label class="sc-opt ${sel.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="apply.${x.id}" ${sel.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('') : '').join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
+    <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="aiClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="aiDd" aria-label="${ui.aiDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.aiDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.aiDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${sel.length}</b> / ${allIts.length}</span><span><a href="#" data-act="aiAll" data-v="1">全選</a>｜<a href="#" data-act="aiAll" data-v="0">全部清除</a></span></div>${aiFl.length ? [...S.menus.flatMap(m => catsOf(m.id).map(c => ({ c, g:c.name, l:aiFl.filter(x => x.catIds.includes(c.id)) }))), { g:'未分類', l:aiFl.filter(x => !x.catIds.length) }].map(({ g, l }) => l.length ? (() => { const n = l.filter(x => sel.includes(x.id)).length, st = n === l.length ? 'on' : n ? 'part' : ''; return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="aiGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(g)}<small>${n} / ${l.length}</small></div>`; })() + l.map(x => `<label class="sc-opt ${sel.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="apply.${x.id}" ${sel.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('') : '').join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
   const dispName = { text:'只有文字', imgV:'圖片+文字（直式）', imgH:'圖片+文字（橫式）' };
   const dispSel = mselOne({ label:'Kiosk 顯示樣式', value:dispName[d.display] || '', open:ui.dispPop, popAct:'dispPop', setAct:'dispSet', cur:d.display, opts:Object.entries(dispName).map(([id, name]) => ({ id, name })) });
   const opIds = d.options.map(o => o.itemId), opq = (ui.opQ || '').trim().toLowerCase();
@@ -2147,7 +2172,7 @@ function runSync() {
   const res = [];
   [['uber','Uber Eats'],['fp','Foodpanda']].forEach(([ch, name]) => {
     const stores = ui.syncDlg.sel[ch];
-    if (!stores.length) { res.push({ plat:name, cls:'part', label:'未同步', detail:'未選擇任何商店' }); return; }
+    if (!stores.length) { res.push({ plat:name, cls:'fail', label:'未同步', detail:'<div class="res-l sub">沒有選擇任何商店</div>' }); return; }
     let ok = 0; const lines = [], skipped = [], failed = [], noMenu = [], done = new Set();
     stores.forEach(sid => {
       const ms = S.menus.filter(m => (m.stores || []).includes(sid) && m.channels[ch]);
@@ -2166,8 +2191,15 @@ function runSync() {
       });
       if (synced.length) lines.push(`${storeName(sid)}：${synced.join('、')}`);
     });
-    const cls = failed.length && !ok ? 'fail' : (failed.length || skipped.length || noMenu.length) ? 'part' : 'ok';
-    res.push({ plat:name, cls, label:{ ok:'成功', part:'部分成功', fail:'整份失敗' }[cls], detail:`${ok} 個品項已送出` + lines.map(x => `<br>• ${h(x)}`).join('') + (noMenu.length ? `<br>• 沒有可同步菜單，已跳過：${h(noMenu.join('、'))}` : '') + [...new Set([...failed, ...skipped])].map(x => `<br>• ${h(x)}`).join('') });
+    const cls = !ok ? 'fail' : (failed.length || skipped.length || noMenu.length) ? 'part' : 'ok';
+    const L = t => `<div class="res-l">${t}</div>`, G = t => `<div class="res-l sub">${t}</div>`;
+    const skipItems = [...new Set(skipped)];
+    res.push({ plat:name, cls, label:{ ok:'已完成', part:'部分完成', fail:'未完成' }[cls],
+      detail: L(ok ? `已送出 ${ok} 個品項` : '沒有品項被送出')
+        + lines.map(x => G(`已同步　${h(x)}`)).join('')
+        + (noMenu.length ? G(`${noMenu.length} 間商店沒有綁定可同步的菜單，已略過：${h(noMenu.join('、'))}`) : '')
+        + failed.map(x => G(h(x))).join('')
+        + skipItems.map(x => G(h(x))).join('') });
   });
   S_log('同步至外送平台：' + res.map(r => `${r.plat} ${r.label}`).join('、'));
   ui.syncRes = res; ui.syncDlg = null; ui.checks = true; toast('同步完成（模擬）'); render();
@@ -2210,7 +2242,7 @@ document.addEventListener('click', e => {
     case 'attrItemSet': ui.attrItem = D.id; ui.attrItemPop = false; break;
     case 'attrOrderSave': { toast('已完成'); const o = ui.attrOrder; if (o) S.attrs = o.map(id => byId(S.attrs, id)).filter(Boolean); ui.attrOrder = null; touch(); break; }
     case 'attrOrderReset': { toast('已還原排序'); ui.attrOrder = null; break; }
-    case 'dupAttr': { const o = byId(S.attrs, D.id), n = clone(o); n.id = nid('a'); n.name += '（複本）'; n.adminName = n.name; n.options.forEach(x => { x.id = nid('o'); }); S.attrs.splice(S.attrs.indexOf(o) + 1, 0, n); touch(); toast('已複製'); break; }
+    case 'dupAttr': { const o = byId(S.attrs, D.id), n = clone(o); n.id = nid('a'); n.name += '（複本）'; n.adminName = n.name; n.options.forEach(x => { x.id = nid('o'); }); n._after = o.id; openPanel('attr', null, null, null, n); return; }
     case 'itemCatPop': ui.itemCatPop = !ui.itemCatPop; break;
     case 'itemCatSet': ui.itemCat = D.id; ui.itemCatPop = false; break;
     case 'selPop': ui.selPop = !ui.selPop; break;
@@ -2251,7 +2283,7 @@ document.addEventListener('click', e => {
     case 'qen': { const it = byId(S.items, D.id); it.enabled = !it.enabled; touch(); break; }
     case 'itemMove': { moveIn(itemsOf(D.g), D.id, +D.d); break; }
     case 'catOrderSave': { toast('已完成'); Object.values(ui.catOrder || {}).forEach(ids => ids.forEach((id, k) => { byId(S.cats, id).sort = k + 1; })); ui.catOrder = null; touch(); break; }
-    case 'dupItem': { const o = byId(S.items, D.id), ni = clone(o); ni.id = nid('i'); ni.name += '（複本）'; ni.sku = ''; { let an = (o.adminName || o.name) + '（複本）', k = 2; while (S.items.some(x => x.adminName === an)) an = (o.adminName || o.name) + '（複本' + k++ + '）'; ni.adminName = an; } const l = itemsOf(o.catIds[0] || UNCAT), at = l.findIndex(x => x.id === o.id) + 1; l.splice(at, 0, ni); S.items.push(ni); l.forEach((x, k) => x.sort = k + 1); touch(); toast('已複製'); break; }
+    case 'dupItem': { const o = byId(S.items, D.id), ni = clone(o); ni.id = nid('i'); ni.name += '（複本）'; ni.sku = ''; { let an = (o.adminName || o.name) + '（複本）', k = 2; while (S.items.some(x => x.adminName === an)) an = (o.adminName || o.name) + '（複本' + k++ + '）'; ni.adminName = an; } ni.sort = o.sort + 0.5; ni._after = o.id; openPanel('item', null, null, null, ni); return; }
     case 'itemOrderSave': { toast('已完成'); Object.values(ui.itemOrder || {}).forEach(ids => ids.forEach((id, k) => { byId(S.items, id).sort = k + 1; })); ui.itemOrder = null; touch(); break; }
     case 'itemOrderReset': { toast('已還原排序'); ui.itemOrder = null; break; }
     case 'catOrderReset': { toast('已還原排序'); ui.catOrder = null; break; }
@@ -2260,7 +2292,7 @@ document.addEventListener('click', e => {
     case 'save': { if (issues().length) { ui.checks = 'save'; break; } toast('已儲存'); S_log('儲存'); ui.dirty = false; break; }
     case 'saveAnyway': { const n = issues().length; ui.checks = false; toast(`已儲存（仍有 ${n} 項待處理，相關品項不會同步）`); S_log('儲存'); ui.dirty = false; break; }
     case 'publish': { if (ui.dirty) { toast('請先儲存', 'error'); break; } const vm = visMenus(); if (!vm.length) { toast('請先選擇菜單', 'error'); break; } const tg = vm.map(m => m.name).join('、'); S_log(`更新至商店：${tg}`); toast(`已更新「${tg}」至商店（Kiosk／POS 需執行「更新菜單」後生效）`); break; }
-    case 'sync': { const vm = visMenus(); ui.syncDlg = { sel:{ uber:storesOf(vm, 'uber'), fp:storesOf(vm, 'fp') } }; break; }
+    case 'sync': { if (ui.dirty) { toast('請先儲存', 'error'); break; } const vm = visMenus(); ui.syncDlg = { sel:{ uber:storesOf(vm, 'uber'), fp:storesOf(vm, 'fp') } }; break; }
     case 'syncAll': ui.syncDlg.sel[D.ch] = D.v === '1' ? STORES.map(x => x.id) : []; renderOverlay(); return;
     case 'syncClose': ui.syncDlg = null; break;
     case 'syncGo': runSync(); return;
@@ -2305,6 +2337,7 @@ document.addEventListener('click', e => {
     case 'aiDd': ui.aiDd = !ui.aiDd; if (!ui.aiDd) ui.aiQ = ''; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
     case 'aiRm': ui.panel.draft.itemIds = ui.panel.draft.itemIds.filter(x => x !== D.id); redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
     case 'aiClear': ui.panel.draft.itemIds = []; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
+    case 'aiGrp': { const ids = (D.ids || '').split(',').filter(Boolean), cur = ui.panel.draft.itemIds || [], all = ids.every(id => cur.includes(id)); ui.panel.draft.itemIds = all ? cur.filter(id => !ids.includes(id)) : [...new Set([...cur, ...ids])]; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return; }
     case 'aiAll': { const q = (ui.aiQ || '').trim().toLowerCase(), ids = S.items.filter(x => !q || x.name.toLowerCase().includes(q)).map(x => x.id), cur = ui.panel.draft.itemIds; ui.panel.draft.itemIds = D.v === '1' ? [...new Set([...cur, ...ids])] : cur.filter(id => !ids.includes(id)); redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return; }
     case 'catOpen': ui.catPop = true; redrawDrawer(); document.getElementById('catSearch')?.focus(); return;
     case 'catPop': ui.catPop = !ui.catPop; if (!ui.catPop) ui.catQ = ''; redrawDrawer(); if (ui.catPop) document.getElementById('catSearch')?.focus(); return;
