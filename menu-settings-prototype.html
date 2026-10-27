@@ -2090,7 +2090,7 @@ function drawerBody() {
       <div class="mn-g opt-plat"><div class="mn-t">各平台販售開關${helpIc('此選項在哪些平台、哪些服務類型可供選擇，與上方各情境價格獨立設定')}</div>${optSaleTbl(o, pre)}</div>` : ''}</div>`;
   }).join('');
   return `<div class="mn"><div class="mn-t sec">基本設定</div>
-    <div class="lang-grp">${F('屬性名稱', 'name', { req:true })}${langBlock(d, { stores:STORES.map(x => x.id) }, '屬性名稱')}</div>
+    <div class="lang-grp">${F('屬性名稱', 'name', { req:true, help:'顧客點餐時看到的名稱，屬性名稱可重複' })}${langBlock(d, { stores:STORES.map(x => x.id) }, '屬性名稱')}</div>
     ${F('後台名稱', 'adminName', { req:true, help:'後台網站顯示的名稱，每個後台名稱不可重複', err:v => v && S.attrs.some(a => a.id !== d.id && a.adminName === v) ? '後台名稱不可重複' : '' })}
     ${F('SKU', 'sku', { opt:false, help:'屬性 SKU，供外送平台串接使用' })}
     <hr class="mn-hr" />
