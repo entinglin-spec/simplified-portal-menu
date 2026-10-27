@@ -1918,12 +1918,14 @@ function setp(o, p, v) { const ks = p.split('.'); const last = ks.pop(); ks.redu
 function pick(label, path, checked, dis = false) {
   return `<label class="pick ${checked ? 'on' : ''} ${dis ? 'dis' : ''}"><input type="checkbox" data-b="${path}" ${checked ? 'checked' : ''} ${dis ? 'disabled' : ''} />${label}</label>`;
 }
+const byOrder = (ids, order) => { const ix = x => { const i = order.indexOf(x); return i < 0 ? order.length : i; }; return ids.slice().sort((a, b) => ix(a) - ix(b)); };
+const itemOrder = () => [...S.menus.flatMap(m => catsOf(m.id).flatMap(c => S.items.filter(x => x.catIds.includes(c.id)).map(x => x.id))), ...S.items.filter(x => !x.catIds.length).map(x => x.id)];
 function ckb(label, path, checked, dis = false) { return `<label class="ckb ${checked ? 'on' : ''} ${dis ? 'dis' : ''}"><input type="checkbox" data-b="${path}" ${checked ? 'checked' : ''} ${dis ? 'disabled' : ''} /><span class="ckb-b"></span><span class="ckb-t">${label}</span></label>`; }
 function swRow(label, path, v, dis) { return `<label>${label} ${swHtml(v, 'dsw', `data-p="${path}"`, dis)}</label>`; }
 
 const helpIc = tip => `<span class="mn-help" title="${h(tip)}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E8F98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg></span>`;
 function tagBoxHtml(d, list = TAGS) {
-  const tagSel = d.tags || [], tq = (ui.tagQ || '').trim().toLowerCase(), tfl = list.filter(x => !tq || x.toLowerCase().includes(tq));
+  const ord = x => { const i = list.indexOf(x); return i < 0 ? list.length : i; }, tagSel = (d.tags || []).slice().sort((a, b) => ord(a) - ord(b)), tq = (ui.tagQ || '').trim().toLowerCase(), tfl = list.filter(x => !tq || x.toLowerCase().includes(tq));
   const tagX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
   const tagChip = n => `<span class="sc-chip">${h(n)}<button data-act="tagRm" data-id="${h(n)}" aria-label="移除${h(n)}">${tagX}</button></span>`;
   const tagLim = 1;
@@ -1957,7 +1959,7 @@ function drawerBody() {
     const stDd = ui.storeDd ? `<div class="sc-dd" role="listbox">${fl.length ? fl.map(x => `<label class="sc-opt ${d.stores.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="store.${x.id}" ${d.stores.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('') : '<div class="st-empty">找不到符合的商店</div>'}</div>` : '';
     const chipX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
     const chipOf = st => `<span class="sc-chip">${h(st.name)}<button data-act="storeRm" data-id="${st.id}" aria-label="移除${h(st.name)}">${chipX}</button></span>`;
-    const picked = d.stores.map(id => byId(STORES, id)).filter(Boolean), LIM = 1;
+    const picked = byOrder(d.stores, STORES.map(x => x.id)).map(id => byId(STORES, id)).filter(Boolean), LIM = 1;
     const tags = ui.storeDd ? picked.map(chipOf).join('') : picked.slice(0, LIM).map(chipOf).join('') + (picked.length > LIM ? `<span class="sc-more">+${picked.length - LIM}</span>` : '');
     const trash = fi('trash', 20);
     return `<div class="mn">${F('菜單名稱', 'name', { req:true })}
@@ -1997,7 +1999,7 @@ function drawerBody() {
     const skuNeeded = (s.uber || s.fp);
     const skuErr = skuError(d, d.sku, d.id);
     const menu = byId(S.menus, catOf(d)?.menuId) || { stores:STORES.map(x => x.id) };
-    const ccSel = d.catIds || [], ccq = (ui.catQ || '').trim().toLowerCase();
+    const ccSel = byOrder(d.catIds || [], S.menus.flatMap(m => catsOf(m.id).map(c => c.id))), ccq = (ui.catQ || '').trim().toLowerCase();
     const ccFl = S.menus.flatMap(m => catsOf(m.id).map(c => ({ c, m }))).filter(x => !ccq || x.c.name.toLowerCase().includes(ccq));
     const ccX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
     const ccChip = id => { const c = byId(S.cats, id); return c ? `<span class="sc-chip">${h(c.name)}<button data-act="catRm" data-id="${id}" aria-label="移除${h(c.name)}">${ccX}</button></span>` : ''; };
@@ -2014,7 +2016,7 @@ function drawerBody() {
       <div class="ct-row"><div class="pt-c st-a"><b>Web</b></div><div class="pt-c st-b">${swc('內用', 'web_in')}${swc('外帶', 'web_out')}${swc('外送', 'web_del')}</div></div>
       <div class="ct-row"><div class="pt-c st-a"><b>員工</b></div><div class="pt-c st-b">${swc('內用', 'staff_in')}${swc('外帶', 'staff_out')}${swc('外送', 'staff_del')}</div></div>
       <div class="ct-row"><div class="pt-c st-a"><b>外送平台</b></div><div class="pt-c st-b">${swc('Uber Eats', 'uber')}${swc('Foodpanda', 'fp')}</div></div></div>`;
-    const paSel = d.attrs || [], paq = (ui.paQ || '').trim().toLowerCase(), paFl = S.attrs.filter(x => !paq || x.name.toLowerCase().includes(paq));
+    const paSel = byOrder(d.attrs || [], S.attrs.map(x => x.id)), paq = (ui.paQ || '').trim().toLowerCase(), paFl = S.attrs.filter(x => !paq || x.name.toLowerCase().includes(paq));
     const paX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
     const paChip = id => { const a = byId(S.attrs, id); return a ? `<span class="sc-chip">${h(a.name)}<button data-act="paRm" data-id="${id}" aria-label="移除${h(a.name)}">${paX}</button></span>` : ''; };
     const paLim = 1;
@@ -2051,12 +2053,12 @@ function drawerBody() {
         <button class="btn pri mn-add" data-act="slotAdd">${fi('plus', 20)}新增時段</button></div>`)}</div>`;
   }
   /* attr */
-  const sel = d.itemIds || [], allIts = S.items;
+  const sel = d.itemIds || [], selOrd = byOrder(sel, itemOrder()), allIts = S.items;
   const aiq = (ui.aiQ || '').trim().toLowerCase(), aiFl = allIts.filter(x => !aiq || x.name.toLowerCase().includes(aiq));
   const aiX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
   const aiChip = id => { const it = byId(S.items, id); return it ? `<span class="sc-chip">${h(it.name)}<button data-act="aiRm" data-id="${id}" aria-label="移除${h(it.name)}">${aiX}</button></span>` : ''; };
   const aiLim = 1;
-  const aiTags = ui.aiDd ? sel.map(aiChip).join('') : sel.slice(0, aiLim).map(aiChip).join('') + (sel.length > aiLim ? `<span class="sc-more">+${sel.length - aiLim}</span>` : '');
+  const aiTags = ui.aiDd ? selOrd.map(aiChip).join('') : selOrd.slice(0, aiLim).map(aiChip).join('') + (sel.length > aiLim ? `<span class="sc-more">+${sel.length - aiLim}</span>` : '');
   const aiBox = `<div class="sc ${ui.aiDd ? 'open' : ''}" id="sec-ai"><div class="sc-box" ${ui.aiDd ? '' : 'data-act="aiOpen"'}><span class="sc-l">適用的品項</span>
     <div class="sc-v">${aiTags}${!sel.length && !ui.aiDd ? '<span class="sc-ph">選擇要使用此屬性的品項</span>' : ''}${ui.aiDd ? `<input type="text" id="aiSearch" class="sc-in" placeholder="${sel.length ? '' : '選擇要使用此屬性的品項'}" value="${h(ui.aiQ || '')}" autocomplete="off" />` : ''}</div>
     <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="aiClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="aiDd" aria-label="${ui.aiDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.aiDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.aiDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${sel.length}</b> / ${allIts.length}</span><span><a href="#" data-act="aiAll" data-v="1">全選</a>｜<a href="#" data-act="aiAll" data-v="0">全部清除</a></span></div>${aiFl.length ? [...S.menus.flatMap(m => catsOf(m.id).map(c => ({ c, g:c.name, l:aiFl.filter(x => x.catIds.includes(c.id)) }))), { g:'未分類', l:aiFl.filter(x => !x.catIds.length) }].map(({ g, l }) => l.length ? (() => { const n = l.filter(x => sel.includes(x.id)).length, st = n === l.length ? 'on' : n ? 'part' : ''; return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="aiGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(g)}<small>${n} / ${l.length}</small></div>`; })() + l.map(x => `<label class="sc-opt ${sel.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="apply.${x.id}" ${sel.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('') : '').join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
@@ -2067,7 +2069,8 @@ function drawerBody() {
   const opX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
   const opChip = (o, i) => { const it = byId(S.items, o.itemId); return it ? `<span class="sc-chip">${h(it.name)}<button data-act="optDel" data-i="${i}" aria-label="移除${h(it.name)}">${opX}</button></span>` : ''; };
   const opLim = 1;
-  const opTags = ui.opDd ? d.options.map(opChip).join('') : d.options.slice(0, opLim).map(opChip).join('') + (d.options.length > opLim ? `<span class="sc-more">+${d.options.length - opLim}</span>` : '');
+  const opOrd = (() => { const ord = itemOrder(); return d.options.map((o, i) => [o, i]).sort((a, b) => { const f = x => { const k = ord.indexOf(x[0].itemId); return k < 0 ? ord.length : k; }; return f(a) - f(b); }); })();
+  const opTags = ui.opDd ? opOrd.map(([o, i]) => opChip(o, i)).join('') : opOrd.slice(0, opLim).map(([o, i]) => opChip(o, i)).join('') + (d.options.length > opLim ? `<span class="sc-more">+${d.options.length - opLim}</span>` : '');
   const opList = [...new Map([...S.menus.flatMap(m => catsOf(m.id).flatMap(c => opFl.filter(x => x.catIds.includes(c.id)))), ...opFl.filter(x => !x.catIds.length)].map(x => [x.id, x])).values()];
   const opBox = `<div class="sc ${ui.opDd ? 'open' : ''}" id="sec-op"><div class="sc-box" ${ui.opDd ? '' : 'data-act="opOpen"'}><span class="sc-l">選項</span>
     <div class="sc-v">${opTags}${!d.options.length && !ui.opDd ? '<span class="sc-ph">從既有品項選擇選項</span>' : ''}${ui.opDd ? `<input type="text" id="opSearch" class="sc-in" placeholder="${d.options.length ? '' : '從既有品項選擇選項'}" value="${h(ui.opQ || '')}" autocomplete="off" />` : ''}</div>
