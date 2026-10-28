@@ -1334,7 +1334,7 @@ const LANGS = [{ code:'en', label:'英文', path:'enName' }, { code:'ja', label:
 const menuLangs = m => LANGS.filter(l => (m ? m.stores : []).some(id => (byId(STORES, id)?.langs || []).includes(l.code)));
 const S = {
   menus: [
-    { id:'m3', name:'松屋菜單', stores:['s4','s6'], channels:{kiosk:true,pos:true,web:true,staff:true,uber:false,fp:false}, start:'2026-01-01', end:'2026-12-31', days:[0,1,2,3,4,5,6], slots:[{s:'00:00',e:'23:59'}], tax:5 },
+    { id:'m3', name:'松屋菜單', stores:['s4','s6'], channels:{kiosk:true,pos:true,web:true,staff:true,uber:true,fp:true}, start:'2026-01-01', end:'2026-12-31', days:[0,1,2,3,4,5,6], slots:[{s:'00:00',e:'23:59'}], tax:5 },
     { id:'m2', name:'早餐菜單', stores:['s1','s2'], channels:{kiosk:true,pos:true,web:true,staff:true,uber:false,fp:false}, start:'2026-01-01', end:'2026-12-31', days:[1,2,3,4,5], slots:[{s:'07:00',e:'10:30'}], tax:5 },
   ],
   cats: [
@@ -1373,10 +1373,10 @@ const S = {
     mk("k18",'',"米飯增量","MYO18",20,18),
     mk("k19",'',"米飯增量(免費)","MYO19",0,19),
     mk("k20",'',"飯少","MYO20",0,20),
-    mk("j1","c9","牛肉半熟蛋烏龍麵","MY001",159,1,{tags:["新品"],attrs:["a9", "a11", "a14"],desc:"期間限定商品。",soldOut:true,img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/b0b78dd9-8c7a-4e10-a326-3cdb05d06751_m.JPEG"}),
-    mk("j2","c9","牛肉烏龍麵","MY002",139,2,{tags:["新品"],attrs:["a9", "a11", "a14"],desc:"期間限定商品。",img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/1fc311a8-8ef7-41aa-a50d-2db6c73a3f7e_m.JPEG"}),
-    mk("j3","c9","半熟蛋烏龍麵","MY003",129,3,{tags:["新品"],attrs:["a9", "a11", "a14"],desc:"期間限定商品。",soldOut:true,img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/963b3acd-fd5e-436c-a8bf-264aae88bf68_m.JPEG"}),
-    mk("j4","c9","湯烏龍麵","MY004",109,4,{tags:["新品"],attrs:["a9", "a11", "a14"],desc:"期間限定商品。",img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/6e7ab1e0-9b04-499d-8fad-de24c8250b71_m.JPEG"}),
+    mk("j1","c9","牛肉半熟蛋烏龍麵","MY001",159,1,{dinePrice:149,uberPrice:169,fpPrice:169,tags:["新品"],attrs:["a9", "a11", "a14"],desc:"期間限定商品。",soldOut:true,img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/b0b78dd9-8c7a-4e10-a326-3cdb05d06751_m.JPEG"}),
+    mk("j2","c9","牛肉烏龍麵","MY002",139,2,{dinePrice:129,uberPrice:149,fpPrice:149,tags:["新品"],attrs:["a9", "a11", "a14"],desc:"期間限定商品。",img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/1fc311a8-8ef7-41aa-a50d-2db6c73a3f7e_m.JPEG"}),
+    mk("j3","c9","半熟蛋烏龍麵","MY003",129,3,{dinePrice:119,uberPrice:139,fpPrice:139,tags:["新品"],attrs:["a9", "a11", "a14"],desc:"期間限定商品。",soldOut:true,img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/963b3acd-fd5e-436c-a8bf-264aae88bf68_m.JPEG"}),
+    mk("j4","c9","湯烏龍麵","MY004",109,4,{dinePrice:99,uberPrice:119,fpPrice:119,tags:["新品"],attrs:["a9", "a11", "a14"],desc:"期間限定商品。",img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/6e7ab1e0-9b04-499d-8fad-de24c8250b71_m.JPEG"}),
     mk("j5","c10","唐揚雞雙拼牛肉飯","MY005",189,1,{tags:["新品", "獨家限定", "區域限定"],attrs:["a6", "a9", "a11", "a14", "a15", "a16"],desc:"期間限定商品。 點餐後需等候十分鐘左右。",img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/5943b237-bd5c-4218-9d23-4b819ee711fe_m.png"}),
     mk("j6","c10","牛肉飯 (中)","MY006",95,2,{tags:["牛肉", "獨家限定"],attrs:["a6", "a9", "a11", "a14", "a15", "a16"],img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/02165021-c0d1-4b74-8a3f-dcc548e6fb95_m.png"}),
     mk("j7","c10","牛肉飯 (大)","MY007",129,3,{attrs:["a6", "a9", "a11", "a14", "a15", "a16"],img:"https://d3nh12072g3vdp.cloudfront.net/public/staging/item/7568a868-b34c-464f-92e0-bbca390852d4_m.png"}),
