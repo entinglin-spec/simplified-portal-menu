@@ -496,7 +496,6 @@ button.ptab.off { border-bottom-color: transparent; }
 .u-mhead { padding: 0 0 12px; margin: 0 0 12px; border-bottom: 1px solid #D4D4D4; }
 .mh-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
 .mh-name { font-size: 16px; font-weight: 600; color: var(--txt); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mh-edit { border: 0; background: none; padding: 0; display: flex; flex-shrink: 0; }
 .btn-b.off, .btn-b:disabled { background: #F3F3F4; color: #D3D4DD; opacity: 1; filter: none; cursor: not-allowed; }
 .btn-b:disabled img { filter: grayscale(1) brightness(1.6) contrast(.6); }
 .msel-val { font-size: 16px; color: var(--txt); white-space: nowrap; }
@@ -550,6 +549,8 @@ button.ptab.off { border-bottom-color: transparent; }
 .u-navitem.sys { margin-top: 16px; position: relative; color: #8E8F98; }
 .u-navitem.sys::before { content: ''; position: absolute; left: 0; right: 0; top: -8px; border-top: 1px solid #D4D4D4; }
 .u-navitem.sys.active { color: var(--txt); }
+.u-navlist > .u-navitem.sys:first-child { margin-top: 0; }
+.u-navlist > .u-navitem.sys:first-child::before { display: none; }
 .u-main { overflow: visible; padding: 0; min-width: 0; }
 .u-sticky { position: sticky; top: -24px; z-index: 20; background: #fff; margin: -24px 0 0; padding: 24px 0 12px; }
 .u-sticky .toolbar { margin-bottom: 0; justify-content: space-between; gap: 12px; }
@@ -688,6 +689,47 @@ table.tb td.sale-td { white-space: normal; }
 
 /* 快速編輯價格／屬性（依 Figma 77:3147、77:4099） */
 .attr-pop.qp { width: 320px; border: 1px solid #D4D4D4; box-sizing: border-box; border-radius: 8px; box-shadow: 0 24px 48px -12px rgba(0,0,0,.25); }
+.sbs { position: relative; display: inline-flex; }
+.sbs .btn-b:first-child { border-radius: 4px 0 0 4px; }
+.sbs-arrow { width: 48px; padding: 0 !important; border-radius: 0 4px 4px 0 !important; border-left: 1px solid rgba(255,255,255,.5) !important; }
+.sbs-arrow:disabled { border-left-color: #fff !important; }
+.btn-g { background: #58B6A8; }
+.btn-g:hover { background: #2F9E8C; filter: none; }
+.sbs.open .sbs-arrow.btn-g { background: #2F9E8C; }
+.sbs.open .sbs-arrow:not(.btn-g) { filter: brightness(.9); }
+.btn-b.btn-sm { height: 40px; padding: 0 20px; font-size: 14px; }
+.sbar.sbar-v { display: block; padding: 0; }
+.sbar-head { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; height: auto; padding: 16px 24px; border-bottom: 1px solid #D4D4D4; }
+.sbar-head h2 { margin: 0; white-space: nowrap; font-size: 16px; line-height: 24px; font-weight: 600; color: #53545C; }
+.sbar-hbtns { display: flex; gap: 12px; }
+.sbar-row { display: flex; gap: 12px; align-items: center; padding: 24px; }
+.sbs-menu.left { left: 0; right: auto; }
+.sbs-menu button { display: flex !important; align-items: center; gap: 8px; }
+.sbs-menu.left button.danger { color: #FF8A80; }
+.sbs-menu:not(.left) button { color: #5292D9; }
+.sbs-menu.left button { color: #58B6A8; }
+.sbs-menu { position: absolute; top: 60px; right: 0; z-index: 40; min-width: 100%; padding: 8px 0; background: #fff; border-radius: 4px; box-shadow: 0 4px 4px rgba(0,0,0,.1), 0 2px 2px rgba(0,0,0,.05); }
+.sbs-menu button { display: block; width: 100%; border: 0; background: none; padding: 6px 16px; font-size: 16px; line-height: 1.5; color: var(--txt); text-align: left; white-space: nowrap; cursor: pointer; }
+.sbs-menu button:hover { background: #E1F2F0; }
+.dlg-imp { width: 640px; }
+.dlg-imp .dlg-b { max-height: 62vh; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+.upl.imp-upl { width: 100%; margin-top: 0; }
+.imp-hint { margin-top: -8px; font-size: 14px; color: #8E8F98; }
+.imp-drop { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 32px 16px; border: 1px dashed #B5B6BE; border-radius: 4px; color: #53545C; cursor: pointer; text-align: center; }
+.imp-drop:hover { background: #FAFAFB; border-color: #58B6A8; }
+.imp-drop b { color: #58B6A8; }
+.imp-drop input { display: none; }
+.imp-tpl { color: #58B6A8; font-weight: 600; cursor: pointer; text-decoration: none; }
+.imp-sum { display: flex; flex-wrap: wrap; gap: 8px; }
+.imp-sum span { padding: 4px 12px; border-radius: 100px; background: #F3F3F4; font-size: 14px; color: #53545C; }
+.imp-sum span.ok { background: #E5F4F1; color: #2F8576; }
+.imp-sum span.err { background: #FFE9E7; color: #D6453A; }
+.imp-sum span.warn { background: #FFF3DC; color: #A76B00; }
+.imp-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 14px; line-height: 1.5; }
+.imp-list li.err { color: #D6453A; }
+.imp-list li.warn { color: #A76B00; }
+.imp-file { font-size: 14px; color: #8E8F98; }
+
 .qp-head { justify-content: space-between; box-sizing: border-box; min-height: 60px; display: flex; align-items: center; padding: 0 12px; font-size: 16px; font-weight: 600; line-height: 1.5; color: #53545C; }
 .qp-body { padding: 12px; border-top: 1px solid #D4D4D4; border-bottom: 1px solid #D4D4D4; display: flex; flex-direction: column; gap: 12px; }
 .qp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -1177,6 +1219,77 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .empty-st { height: 303px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
 .empty-st .es-t { font-size: 20px; font-weight: 600; line-height: 1.1; color: #8E8F98; }
 .empty-st .es-s { font-size: 16px; line-height: 1.5; color: #8E8F98; }
+
+/* ================= Textfield 狀態（依 Portal 2.0 Style Guide 2545:7755）=================
+   enable：1px #D4D4D4／hover：1px #232323／focus：2px #86CBC1，標籤 #58B6A8／disable：底 #F3F3F4／error：#FF8A80 */
+.fld input[type=text],
+.fld input[type=number],
+.fld input[type=date],
+.fld input[type=time],
+.fld select,
+.fld textarea,
+.search,
+.drawer .st-search input,
+.drawer .slot input,
+.drawer .optrow input,
+.drawer .optrow select,
+.drawer .prow input,
+.inl-input,
+.qp-in,
+.msel-box,
+.sc-box { border-radius: 4px; }
+.fld input[type=text]:hover:not(:focus):not(:disabled):not(.bad),
+.fld input[type=number]:hover:not(:focus):not(:disabled):not(.bad),
+.fld input[type=date]:hover:not(:focus):not(:disabled):not(.bad),
+.fld input[type=time]:hover:not(:focus):not(:disabled):not(.bad),
+.fld select:hover:not(:focus):not(:disabled):not(.bad),
+.fld textarea:hover:not(:focus):not(:disabled):not(.bad),
+.search:hover:not(:focus):not(:disabled):not(.bad),
+.drawer .st-search input:hover:not(:focus):not(:disabled):not(.bad),
+.drawer .slot input:hover:not(:focus):not(:disabled):not(.bad),
+.drawer .optrow input:hover:not(:focus):not(:disabled):not(.bad),
+.drawer .optrow select:hover:not(:focus):not(:disabled):not(.bad),
+.drawer .prow input:hover:not(:focus):not(:disabled):not(.bad),
+.inl-input:hover:not(:focus):not(:disabled):not(.bad),
+.qp-in:hover:not(:focus-within):not(.bad),
+.msel-box:hover:not(:focus-within):not(.bad),
+.sc-box:hover:not(:focus-within):not(.bad) { border-color: #232323 !important; }
+.fld input[type=text]:focus,
+.fld input[type=number]:focus,
+.fld input[type=date]:focus,
+.fld input[type=time]:focus,
+.fld select:focus,
+.fld textarea:focus,
+.search:focus,
+.drawer .st-search input:focus,
+.drawer .slot input:focus,
+.drawer .optrow input:focus,
+.drawer .optrow select:focus,
+.drawer .prow input:focus,
+.inl-input:focus,
+.qp-in:focus-within,
+.msel-box:focus-within,
+.sc-box:focus-within { outline: none !important; border-color: #86CBC1 !important; box-shadow: inset 0 0 0 1px #86CBC1 !important; }
+.qp-in:focus-within input { box-shadow: none !important; }
+.fld:focus-within > label, .qp-fld:focus-within .qp-fl, .sbox .search:focus ~ .s-lbl { color: #58B6A8 !important; }
+.fld input[type=text]:disabled,
+.fld input[type=number]:disabled,
+.fld input[type=date]:disabled,
+.fld input[type=time]:disabled,
+.fld select:disabled,
+.fld textarea:disabled,
+.search:disabled,
+.drawer .st-search input:disabled,
+.drawer .slot input:disabled,
+.drawer .optrow input:disabled,
+.drawer .optrow select:disabled,
+.drawer .prow input:disabled,
+.inl-input:disabled { background: #F3F3F4 !important; border-color: #D4D4D4 !important; color: #8E8F98 !important; cursor: not-allowed; box-shadow: none !important; }
+.qp-in:has(input:disabled) { background: #F3F3F4; border-color: #D4D4D4; }
+.fld:has(> :disabled) > label, .qp-fld:has(input:disabled) .qp-fl { color: #8E8F98 !important; background: linear-gradient(to bottom, transparent 50%, #F3F3F4 50%) !important; }
+.fld input.bad, .fld select.bad, .fld textarea.bad, .qp-in.bad, .msel-box.bad, .sc-box.bad { border-color: #FF8A80 !important; }
+.fld input.bad:focus, .fld select.bad:focus, .fld textarea.bad:focus, .qp-in.bad:focus-within, .msel-box.bad:focus-within, .sc-box.bad:focus-within { box-shadow: inset 0 0 0 1px #FF8A80 !important; }
+.fld:has(> .bad) > label, .qp-fld.bad .qp-fl, .fld:has(> .bad):focus-within > label { color: #FF8A80 !important; }
 </style>
 </head>
 <body>
@@ -1197,6 +1310,7 @@ IC.noresult = 'data:image/svg+xml;utf8,%3Csvg%20preserveAspectRatio=%22none%22%2
 const emptyBlock = (title, sub = '', img = 'empty') => `<div class="empty-blk"><div class="empty-st"><img src="${IC[img]}" width="160" height="160" alt=""><div class="es-t">${title}</div>${sub ? `<div class="es-s">${sub}</div>` : ''}</div></div>`;
 const emptyRow = (cols, title, sub, img = 'empty') => `<tr class="empty-tr"><td colspan="${cols}"><div class="empty-st"><img src="${IC[img]}" width="160" height="160" alt=""><div class="es-t">${title}</div>${sub ? `<div class="es-s">${sub}</div>` : ''}</div></td></tr>`;
 IC.copy = 'data:image/svg+xml;utf8,%3Csvg%20preserveAspectRatio=%22none%22%20overflow=%22visible%22%20style=%22display:%20block;%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%0A%3Cg%20id=%22icon/24x24/copy-06%22%3E%0A%3Cpath%20id=%22copy%22%20d=%22M7.5%203H14.6C16.8402%203%2017.9603%203%2018.816%203.43597C19.5686%203.81947%2020.1805%204.43139%2020.564%205.18404C21%206.03969%2021%207.15979%2021%209.4V16.5M6.2%2021H14.3C15.4201%2021%2015.9802%2021%2016.408%2020.782C16.7843%2020.5903%2017.0903%2020.2843%2017.282%2019.908C17.5%2019.4802%2017.5%2018.9201%2017.5%2017.8V9.7C17.5%208.57989%2017.5%208.01984%2017.282%207.59202C17.0903%207.21569%2016.7843%206.90973%2016.408%206.71799C15.9802%206.5%2015.4201%206.5%2014.3%206.5H6.2C5.0799%206.5%204.51984%206.5%204.09202%206.71799C3.71569%206.90973%203.40973%207.21569%203.21799%207.59202C3%208.01984%203%208.57989%203%209.7V17.8C3%2018.9201%203%2019.4802%203.21799%2019.908C3.40973%2020.2843%203.71569%2020.5903%204.09202%2020.782C4.51984%2021%205.0799%2021%206.2%2021Z%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20stroke=%22%2358B6A8%22/%3E%0A%3C/g%3E%0A%3C/svg%3E%0A';
+IC.refreshB = IC.refresh.replace('stroke=%22white%22', 'stroke=%22%235292D9%22');
 const fi = (n, s) => `<img class="ic" src="${IC[n]}" alt=""${s ? ` width="${s}" height="${s}"` : ''}>`;
 /* ================= Data ================= */
 const CH = ['kiosk','pos','web','staff','uber','fp'];
@@ -1606,10 +1720,16 @@ function render() {
     <div class="ptabs"><button class="ptab ${ui.page === 'menu' ? '' : 'off'}" data-act="page" data-p="menu">菜單設定</button><button class="ptab ${ui.page === 'tags' ? '' : 'off'}" data-act="page" data-p="tags">標籤設定</button><div class="spacer"></div></div>
     ${ui.page === 'tags' ? `<div class="body"><div class="content"><div class="sbar tg-co">公司名稱：鴻智互動股份有限公司</div><div class="sect"><div class="spanel scroll">${renderTags()}</div></div><div class="pfoot">隱私權政策　|　© 電小二智慧點餐系統</div></div></div>` : `<div class="body">
       <div class="content">
-        <div class="sbar">${menuSelHtml()}
-          <span class="save-wrap ${ui.dirty ? 'dirty' : ''}"><button class="btn-b" data-act="save" ${ui.dirty ? 'title="尚有未儲存的變更" aria-label="儲存（尚有未儲存的變更）"' : ''}>儲存</button></span>
-          <button class="btn-b" data-act="publish" ${ui.dirty ? 'disabled title="請先儲存"' : ''}>${fi('refresh')}更新商店</button>
-          <button class="btn-b" data-act="sync" ${ui.dirty ? 'disabled title="請先儲存"' : ''}>同步至外送平台</button></div>
+        <div class="sbar sbar-v">
+          <div class="sbar-head"><h2>菜單</h2><div class="sbar-hbtns"><button class="btn-b btn-sm" data-act="impOpen">匯入</button><button class="btn-b btn-sm" data-act="expMenu">匯出</button></div></div>
+          <div class="sbar-row">${menuSelHtml()}
+            <div class="sbs ${ui.splitMenu === 'menu' ? 'open' : ''}"><button class="btn-b btn-g" data-act="edit" data-t="menu" data-id="${visMenus()[0]?.id || ''}" ${visMenus().length ? '' : 'disabled'}>編輯</button><button class="btn-b btn-g sbs-arrow" data-act="splitMenu" data-m="menu" aria-label="更多菜單操作" aria-expanded="${ui.splitMenu === 'menu'}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+              ${ui.splitMenu === 'menu' ? `<div class="sbs-menu left"><button data-act="new" data-t="menu">${fi('plusP', 24)}新增</button>${visMenus().length ? `<button data-act="dupMenu" data-id="${visMenus()[0].id}">${fi('copy', 24)}複製</button><button class="danger" data-act="delMenuAsk" data-id="${visMenus()[0].id}">${fi('trash', 24)}刪除</button>` : ''}</div>` : ''}</div>
+            <span class="save-wrap ${ui.dirty ? 'dirty' : ''}"><button class="btn-b" data-act="save" ${ui.dirty ? 'title="尚有未儲存的變更" aria-label="儲存（尚有未儲存的變更）"' : ''}>儲存</button></span>
+            <div class="sbs ${ui.splitMenu === 'pub' ? 'open' : ''}"><button class="btn-b" data-act="publish" ${ui.dirty ? 'disabled title="請先儲存"' : ''}>${fi('refresh')}更新商店</button><button class="btn-b sbs-arrow" data-act="splitMenu" data-m="pub" aria-label="更多發佈選項" aria-expanded="${ui.splitMenu === 'pub'}" ${ui.dirty ? 'disabled title="請先儲存"' : ''}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+              ${ui.splitMenu === 'pub' ? `<div class="sbs-menu"><button data-act="sync">${fi('refreshB', 24)}同步至外送平台</button></div>` : ''}</div>
+          </div>
+        </div>
         <div class="sect"><div class="stabs">${tabs.map(t => `<button class="stab ${ui.tab === t[0] ? 'active' : ''}" data-act="tab" data-t="${t[0]}">${t[1]}</button>`).join('')}</div>
           <div class="spanel ${ui.tab === 'tree' ? 'first' : 'scroll'}">${{ tree:renderTree, menus:renderMenus, cats:renderCats, items:renderItems, attrs:renderAttrs }[ui.tab]()}</div></div>
         <div class="pfoot">隱私權政策　|　© 電小二智慧點餐系統</div>
@@ -1628,9 +1748,9 @@ function nameCell(kind, id, field, text, ph) {
 function mheadHtml(m) {
   const open = !!ui.mhMore;
   const tri = open ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>';
-  return `<div class="u-mhead"><div class="mh-top"><button class="mh-tg" data-act="mhMore" aria-expanded="${open}" aria-label="${open ? '收合菜單資訊' : '展開菜單資訊'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#53545C" aria-hidden="true">${tri}</svg><span class="mh-name">${h(m.name)}</span></button><button class="mh-edit" data-act="edit" data-t="menu" data-id="${m.id}" aria-label="編輯菜單" title="編輯菜單">${fi('edit24', 20)}</button></div>
+  return `<div class="u-mhead"><div class="mh-top"><button class="mh-tg" data-act="mhMore" aria-expanded="${open}" aria-label="${open ? '收合菜單資訊' : '展開菜單資訊'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#53545C" aria-hidden="true">${tri}</svg><span class="mh-name">${h(m.name)}</span></button></div>
     ${open ? `<div class="mh-extra">
-      <button class="mh-ch store" data-act="edit" data-t="menu" data-id="${m.id}" data-focus="stores" title="${h((m.stores || []).length ? STORES.filter(x => m.stores.includes(x.id)).map(x => x.name).join('、') : '尚未選擇')}｜點擊編輯適用商店">商店：${storeSummary(m)}</button>
+      <div class="mh-ch">商店：${(m.stores || []).length ? h(STORES.filter(x => m.stores.includes(x.id)).map(x => x.name).join('、')) : '尚未選擇'}</div>
     </div>` : ''}
   </div>`;
 }
@@ -1648,7 +1768,7 @@ function renderTree() {
       <div class="toolbar">${searchBox('treeSearch', ui.treeQ)}
         <div style="display:flex;gap:12px;align-items:center"><button class="tbtn" data-act="expandAll">全部展開</button><button class="tbtn" data-act="collapseAll">全部收合</button>
         <div class="add-wrap"><button class="tbtn-pri" data-act="addMenuToggle" aria-haspopup="menu" aria-expanded="${ui.addMenu}">${fi('plus', 20)}新增</button>
-          ${ui.addMenu ? `<div class="dropdown"><button data-act="new" data-t="menu">新增菜單</button><button data-act="new" data-t="cat" data-p="${vm[0].id}">新增類別</button><button data-act="new" data-t="item" data-p="">新增品項</button><button data-act="new" data-t="attr">新增屬性</button></div>` : ''}</div></div></div></div>
+          ${ui.addMenu ? `<div class="dropdown"><button data-act="new" data-t="cat" data-p="${vm[0].id}">新增類別</button><button data-act="new" data-t="item" data-p="">新增品項</button><button data-act="new" data-t="attr">新增屬性</button></div>` : ''}</div></div></div></div>
       ${groups.map(g => g.cats.map((c, ci) => uCat(c, ci, g.cats.length, multi ? g.m.name : '')).join('')).join('') + uCat({ id:UNCAT, name:'未分類' }, 0, 1, '')}
     </div></div>`;
 }
@@ -2341,6 +2461,32 @@ function renderOverlay() {
       <div class="dr-body mn" id="drbody">${drawerBody()}</div>
       <div class="dr-foot">${!isNew && t !== 'ss' ? `<button class="btn danger" data-act="delAsk">刪除</button>` : '<div class="spacer"></div>'}<div class="dr-btns"><button class="btn" data-act="cancel">取消</button><button class="btn pri" data-act="done">${t === 'tag' ? '儲存' : '完成'}</button></div></div></div>`;
   }
+  if (ui.impDlg) {
+    const r = ui.impDlg;
+    let body, foot;
+    if (!r.file) {
+      body = `<div class="sy-desc">匯入檔案會建立一份全新的菜單，檔案中的類別與品項都會加入這份新菜單，不會更動現有菜單。</div>
+        <label class="upl imp-upl"><input type="file" id="impFile" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" /><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#D4D4D4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M26 14L23.7689 9.53783C23.1268 8.25361 22.8057 7.61146 22.3267 7.14233C21.9032 6.72746 21.3926 6.41195 20.8321 6.21862C20.1983 6 19.4804 6 18.0446 6H10.4C8.15979 6 7.03969 6 6.18404 6.43597C5.43139 6.81947 4.81947 7.43139 4.43597 8.18404C4 9.03969 4 10.1598 4 12.4V14M4 14H34.4C37.7603 14 39.4405 14 40.7239 14.654C41.8529 15.2292 42.7708 16.1471 43.346 17.2761C44 18.5595 44 20.2397 44 23.6V32.4C44 35.7603 44 37.4405 43.346 38.7239C42.7708 39.8529 41.8529 40.7708 40.7239 41.346C39.4405 42 37.7603 42 34.4 42H13.6C10.2397 42 8.55953 42 7.27606 41.346C6.14708 40.7708 5.2292 39.8529 4.65396 38.7239C4 37.4405 4 35.7603 4 32.4V14ZM24 34V22M18 28H30"/></svg><span>拖曳上傳 或 <b>選取檔案</b></span></label>
+        <div class="imp-hint">僅支援 CSV 或 XLSX 格式</div>
+        <div class="sy-desc">不確定格式？<a class="imp-tpl" data-act="impTpl" href="#">下載範本</a>，或先「匯出」現有菜單再編輯。</div>`;
+      foot = `<button class="dlg-btn" data-act="impClose">取消</button>`;
+    } else if (r.fatal) {
+      body = `<div class="imp-file">${h(r.file)}</div><ul class="imp-list"><li class="err">${h(r.fatal)}</li></ul>`;
+      foot = `<button class="dlg-btn" data-act="impClose">取消</button><button class="dlg-btn" data-act="impReset" style="background:var(--pri);color:#fff">重新選擇檔案</button>`;
+    } else {
+      const bad = r.errors.length, ne = impNameErr(r);
+      body = `<div class="imp-file">${h(r.file)}</div>
+        ${bad ? '' : `<label class="qp-fld"><span class="qp-fl">新菜單名稱<b>*</b></span><span class="qp-in"><input id="impName" value="${h(r.name)}" maxlength="40" /></span></label><div class="sy-desc" id="impNameErr" style="color:#D6453A;margin-top:-8px">${h(ne)}</div>`}
+        <div class="imp-sum">${bad ? '' : `<span class="ok">${r.cats.length} 個類別</span><span class="ok">${r.ops.length} 個品項</span>`}${bad ? `<span class="err">${bad} 筆錯誤</span>` : ''}${r.warns.length ? `<span class="warn">${r.warns.length} 筆提醒</span>` : ''}</div>
+        ${bad ? `<div class="sy-desc">請修正檔案後重新選擇；有錯誤時不會建立菜單。</div>` : ''}
+        ${bad || r.warns.length ? `<ul class="imp-list">${r.errors.slice(0, 50).map(x => `<li class="err">${h(x)}</li>`).join('')}${r.warns.slice(0, 50).map(x => `<li class="warn">${h(x)}</li>`).join('')}${bad + r.warns.length > 100 ? '<li>…其餘已省略</li>' : ''}</ul>` : ''}
+        ${!bad ? `<div class="sy-desc">類別：${h(r.cats.join('、'))}</div>` : ''}`;
+      foot = `<button class="dlg-btn" data-act="impReset">重新選擇檔案</button><button class="dlg-btn" id="impGo" data-act="impGo" ${bad || ne ? 'disabled' : ''} style="background:var(--pri);color:#fff">建立菜單</button>`;
+    }
+    html += `<div class="scrim mscrim" data-act="impClose"></div><div class="dlg dlg-imp" role="dialog" aria-label="匯入菜單">
+      <div class="dlg-h"><h2>匯入菜單</h2><button class="dlg-x" data-act="impClose" aria-label="關閉">${fi('close', 20)}</button></div>
+      <div class="dlg-b">${body}</div><div class="dlg-f">${foot}</div></div>`;
+  }
   if (ui.syncDlg) {
     const plat = [['uber','Uber Eats'],['fp','Foodpanda']];
     const noSel = !(ui.syncDlg.sel.uber.length + ui.syncDlg.sel.fp.length);
@@ -2448,6 +2594,94 @@ function runSync() {
   ui.syncRes = res; ui.syncDlg = null; ui.checks = true; toast('同步完成（模擬）'); render();
 }
 
+/* ================= 菜單匯入／匯出（CSV） ================= */
+const IMP_COLS = ['類別', '品項名稱', '後台名稱', 'SKU', '價格', '說明', '販售', '屬性'];
+const csvCell = v => { v = String(v ?? ''); return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+function csvDownload(name, rows) {
+  const blob = new Blob(['﻿' + rows.map(r => r.map(csvCell).join(',')).join('\r\n')], { type:'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+function csvParse(text) {
+  const rows = []; let row = [], cur = '', q = false;
+  text = text.replace(/^﻿/, '');
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { row.push(cur); cur = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(cur); rows.push(row); row = []; cur = ''; }
+    else cur += c;
+  }
+  if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+  return rows.filter(r => r.some(x => x.trim() !== ''));
+}
+function exportMenu() {
+  const m = visMenus()[0]; if (!m) return;
+  const rows = [IMP_COLS];
+  catsOf(m.id).forEach(c => itemsOf(c.id).forEach(i => rows.push([c.name, i.name, i.adminName || '', i.sku, i.price, i.desc || '', i.enabled === false ? 'N' : 'Y', (i.attrs || []).map(a => attrById(a)?.name).filter(Boolean).join('、')])));
+  if (rows.length === 1) { toast('這份菜單還沒有品項可匯出', 'error'); return; }
+  const d = new Date(), ds = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+  csvDownload(`${m.name}_${ds}.csv`, rows);
+  S_log('匯出菜單：' + m.name); toast(`已匯出 ${rows.length - 1} 個品項`);
+}
+function impTemplate() {
+  csvDownload('菜單匯入範本.csv', [IMP_COLS, ['烏龍麵', '牛肉烏龍麵', 'beef-udon', 'MY002', 139, '期間限定商品', 'Y', '味噌湯套餐、飲料套餐'], ['烏龍麵', '湯烏龍麵', '', 'MY004', 109, '', 'Y', '']]);
+}
+function impAnalyze(text, fileName) {
+  const res = { file:fileName, name:fileName.replace(/\.(csv|xlsx)$/i, '').trim(), errors:[], warns:[], ops:[], cats:[] };
+  const rows = (Array.isArray(text) ? text : csvParse(text)).map(r => r.map(x => String(x ?? '')));
+  if (!rows.length) { res.fatal = '檔案是空的'; return res; }
+  const head = rows[0].map(x => x.trim()), ix = {};
+  IMP_COLS.forEach(c => ix[c] = head.indexOf(c));
+  const miss = ['類別', '品項名稱', '價格'].filter(c => ix[c] < 0);
+  if (miss.length) { res.fatal = `找不到必要欄位：${miss.join('、')}。請使用匯出檔或下載範本來編輯`; return res; }
+  if (rows.length < 2) { res.fatal = '檔案中沒有任何品項資料'; return res; }
+  const g = (r, c) => ix[c] < 0 ? '' : (r[ix[c]] || '').trim();
+  const seenSku = {}, cats = [];
+  rows.slice(1).forEach((r, k) => {
+    const n = k + 2, cat = g(r, '類別'), name = g(r, '品項名稱'), sku = g(r, 'SKU'), price = g(r, '價格'), sale = g(r, '販售').toUpperCase();
+    const bad = msg => res.errors.push(`第 ${n} 列：${msg}`);
+    if (!cat) return bad('「類別」不可空白');
+    if (!name) return bad('「品項名稱」不可空白');
+    if (price === '' || isNaN(+price) || +price < 0) return bad(`「價格」需為 0 以上的數字（目前是「${price}」）`);
+    if (sale && !['Y', 'N'].includes(sale)) return bad('「販售」只能填 Y 或 N');
+    if (sku) { if (seenSku[sku]) return bad(`SKU「${sku}」與第 ${seenSku[sku]} 列重複`); seenSku[sku] = n; }
+    const attrs = [];
+    g(r, '屬性').split(/[、,，]/).map(x => x.trim()).filter(Boolean).forEach(an => { const a = S.attrs.find(x => x.name === an || x.adminName === an); if (a) attrs.push(a.id); else res.warns.push(`第 ${n} 列：找不到屬性「${an}」，已略過`); });
+    if (!cats.includes(cat)) cats.push(cat);
+    res.ops.push({ cat, name, adminName:g(r, '後台名稱'), sku, price:+price, desc:g(r, '說明'), enabled:sale !== 'N', attrs });
+  });
+  res.cats = cats;
+  return res;
+}
+function impLoad(f) {
+  const done = r => { ui.impDlg = r; render(); };
+  if (!/\.xlsx?$/i.test(f.name)) return f.text().then(tx => done(impAnalyze(tx, f.name)));
+  const lib = window.XLSX ? Promise.resolve() : new Promise((ok, no) => { const sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; sc.onload = ok; sc.onerror = no; document.head.appendChild(sc); });
+  return lib.then(() => f.arrayBuffer()).then(buf => {
+    const wb = XLSX.read(buf), ws = wb.Sheets[wb.SheetNames[0]];
+    done(impAnalyze(XLSX.utils.sheet_to_json(ws, { header:1, defval:'', raw:false }).filter(r => r.some(x => String(x).trim() !== '')), f.name));
+  }).catch(() => done({ file:f.name, fatal:'無法讀取這個檔案，請確認網路連線與檔案格式，或改用 CSV' }));
+}
+const impNameErr = r => { const n = (r.name || '').trim(); return !n ? '請輸入菜單名稱' : S.menus.some(m => m.name === n) ? '已有同名的菜單，請換一個名稱' : ''; };
+function impApply() {
+  const r = ui.impDlg; if (impNameErr(r)) return;
+  const m = newDraft('menu'); m.name = r.name.trim(); S.menus.push(m);
+  const cid = {};
+  r.cats.forEach((name, k) => { const c = { id:nid('c'), menuId:m.id, name, adminName:name, kitchen:name, sort:k + 1, sale:menuSaleDefault(m), enName:'', desc:'', tags:[], img:'' }; S.cats.push(c); cid[name] = c.id; });
+  const cnt = {};
+  r.ops.forEach(o => {
+    const c = cid[o.cat]; cnt[c] = (cnt[c] || 0) + 1;
+    const it = mk(nid('i'), c, o.name, o.sku, o.price, cnt[c], { desc:o.desc, enabled:o.enabled, attrs:o.attrs });
+    if (o.adminName) it.adminName = o.adminName;
+    S.items.push(it);
+  });
+  syncAgg(m); ui.open.add('m:' + m.id); r.cats.forEach(n => ui.open.add('c:' + cid[n])); ui.menus = [m.id];
+  S_log(`匯入並建立菜單：${m.name}（${r.cats.length} 個類別、${r.ops.length} 個品項）`);
+  ui.impDlg = null; touch(); toast(`已建立菜單「${m.name}」：${r.cats.length} 個類別、${r.ops.length} 個品項。請記得儲存`); render();
+}
+
 /* ================= Events ================= */
 function moveIn(list, id, d) {
   const i = list.findIndex(x => x.id === id), j = i + d; if (j < 0 || j >= list.length) return;
@@ -2464,6 +2698,7 @@ function commitInline(val) {
 document.addEventListener('click', e => {
   if (e.target.matches('a[data-act]')) e.preventDefault();
   const el = e.target.closest('[data-act]');
+  if (ui.splitMenu && !(el && el.dataset.act === 'splitMenu')) { ui.splitMenu = ''; if (!el) { render(); return; } }
   if ((ui.attrPop || ui.pricePop || ui.optPop || ui.picker) && !e.target.closest('.attr-pop') && !(el && /^(attrPop|pricePop|optPop|pkOpen)$/.test(el.dataset.act))) { ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; if (!el) { render(); return; } }
   if (ui.storeDd && ui.panel && !e.target.closest('#sec-stores')) { ui.storeDd = false; ui.storeQ = ''; redrawDrawer(); }
   if (ui.panel && (ui.subPop != null || ui.dispPop) && !e.target.closest('.msel')) { ui.subPop = null; ui.dispPop = false; redrawDrawer(); }
@@ -2528,6 +2763,12 @@ document.addEventListener('click', e => {
     case 'optEn': { const o = attrById(D.a).options.find(x => x.id === D.o); o.enabled = o.enabled === false; touch(); renderOverlay(); return; }
     case 'attrToggle': { const it = byId(S.items, D.id); it.attrs = it.attrs.includes(D.a) ? it.attrs.filter(x => x !== D.a) : [...it.attrs, D.a]; touch(); render(); return; }
     case 'popClose': ui.attrPop = ui.pricePop = ui.optPop = null; render(); return;
+    case 'expMenu': exportMenu(); return;
+    case 'impOpen': ui.impDlg = { file:'' }; break;
+    case 'impClose': ui.impDlg = null; break;
+    case 'impReset': ui.impDlg = { file:'' }; break;
+    case 'impTpl': impTemplate(); return;
+    case 'impGo': if (ui.impDlg && ui.impDlg.ops && !ui.impDlg.errors.length) { impApply(); return; } break;
     case 'newAttrFor': { const id = D.id; ui.attrPop = null; openPanel('attr'); ui.panel.draft.itemIds = [id]; ui.panelSnap = JSON.stringify(ui.panel.draft); redrawDrawer(); return; }
     case 'delItem': ui.delDlg = { id:D.id }; renderOverlay(); return;
     case 'delDlgClose': ui.delDlg = null; renderOverlay(); return;
@@ -2552,6 +2793,7 @@ document.addEventListener('click', e => {
     case 'save': { if (issues().length) { ui.checks = 'save'; break; } toast('已儲存'); S_log('儲存'); ui.dirty = false; break; }
     case 'saveAnyway': { const n = issues().length; ui.checks = false; toast(`已儲存（仍有 ${n} 項待處理，相關品項不會同步）`); S_log('儲存'); ui.dirty = false; break; }
     case 'publish': { if (ui.dirty) { toast('請先儲存', 'error'); break; } const vm = visMenus(); if (!vm.length) { toast('請先選擇菜單', 'error'); break; } const tg = vm.map(m => m.name).join('、'); S_log(`更新至商店：${tg}`); toast(`已更新「${tg}」至商店（Kiosk／POS 需執行「更新菜單」後生效）`); break; }
+    case 'splitMenu': ui.splitMenu = ui.splitMenu === D.m ? '' : D.m; break;
     case 'sync': { if (ui.dirty) { toast('請先儲存', 'error'); break; } const vm = visMenus(); ui.syncDlg = { sel:{ uber:storesOf(vm, 'uber'), fp:storesOf(vm, 'fp') } }; break; }
     case 'syncAll': ui.syncDlg.sel[D.ch] = D.v === '1' ? STORES.map(x => x.id) : []; renderOverlay(); return;
     case 'syncClose': ui.syncDlg = null; break;
@@ -2578,7 +2820,8 @@ document.addEventListener('click', e => {
     case 'lang': { ui.langOpen = ui.langOpen || {}; ui.langOpen[D.key] = !ui.langOpen[D.key]; redrawDrawer(); return; }
     case 'adv': { ui.advOpen = !ui.advOpen; redrawDrawer(); if (ui.advOpen) { const b = document.getElementById('drbody'); if (b) b.scrollTop = b.scrollHeight; } return; }
     case 'delMenuClose': ui.delMenuDlg = null; renderOverlay(); return;
-    case 'delMenuOk': ui.delMenuDlg = null; deleteCurrent(); return;
+    case 'delMenuAsk': ui.delMenuDlg = { id:D.id }; renderOverlay(); return;
+    case 'delMenuOk': { const m = byId(S.menus, ui.delMenuDlg.id); ui.delMenuDlg = null; if (!ui.panel && m) ui.panel = { t:'menu', draft:m }; deleteCurrent(); return; }
     case 'delAsk': if (ui.panel.t === 'menu') { ui.delMenuDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } if (ui.panel.t === 'cat') { ui.delCatDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } if (ui.panel.t === 'item') { ui.delDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } if (ui.panel.t === 'tag') { ui.delTagDlg = { id:ui.panel.draft.id }; renderOverlay(); return; } ui.delAttrDlg = { id:ui.panel.draft.id }; renderOverlay(); return;
     case 'slotAdd': (D.sid ? ui.panel.draft.storeSettings[D.sid] : ui.panel.draft).slots.push({ s:'17:00', e:'21:00' }); redrawDrawer(); return;
     case 'slotDel': (D.sid ? ui.panel.draft.storeSettings[D.sid] : ui.panel.draft).slots.splice(+D.i, 1); redrawDrawer(); return;
@@ -2660,6 +2903,7 @@ function applySearch(t) {
 document.addEventListener('compositionend', e => {
   if (e.target.id === 'storeSearch') { ui.storeQ = e.target.value; redrawDrawer(); const n = document.getElementById('storeSearch'); if (n) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); } return; } if (e.target.id === 'treeSearch' || e.target.id === 'search' || e.target.id === 'catSearch' || e.target.id === 'attrSearch' || e.target.id === 'tagsSearch') applySearch(e.target); });
 document.addEventListener('input', e => {
+  if (e.target.id === 'impName' && ui.impDlg) { ui.impDlg.name = e.target.value; const er = impNameErr(ui.impDlg); document.getElementById('impNameErr').textContent = er; document.getElementById('impGo').disabled = !!er; return; }
   if (e.target.id === 'tcSearch' && !e.isComposing) { ui.tcQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('tcSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'opSearch' && !e.isComposing) { ui.opQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('opSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'aiSearch' && !e.isComposing) { ui.aiQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('aiSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
@@ -2698,9 +2942,10 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('dragover', e => { const u = e.target.closest?.('.upl'); if (u) { e.preventDefault(); u.classList.add('drag'); } });
 document.addEventListener('dragleave', e => e.target.closest?.('.upl')?.classList.remove('drag'));
-document.addEventListener('drop', e => { const u = e.target.closest?.('.upl'); if (!u) return; e.preventDefault(); const f = e.dataTransfer.files[0]; if (f && /^image\/(png|jpeg)$/.test(f.type) && ui.panel) { const r = new FileReader(); r.onload = () => { ui.panel.draft.img = r.result; redrawDrawer(); }; r.readAsDataURL(f); } else u.classList.remove('drag'); });
+document.addEventListener('drop', e => { const u = e.target.closest?.('.upl'); if (!u) return; e.preventDefault(); const cf = u.querySelector('#impFile'); if (cf) { const f = e.dataTransfer.files[0]; if (f) impLoad(f); else u.classList.remove('drag'); return; } const f = e.dataTransfer.files[0]; if (f && /^image\/(png|jpeg)$/.test(f.type) && ui.panel) { const r = new FileReader(); r.onload = () => { ui.panel.draft.img = r.result; redrawDrawer(); }; r.readAsDataURL(f); } else u.classList.remove('drag'); });
 document.addEventListener('change', e => {
   const t = e.target;
+  if (t.id === 'impFile') { const f = t.files[0]; if (!f) return; impLoad(f); return; }
   if (t.dataset.pp) { const [k, a1, a2, f] = t.dataset.pp.split(':'); const v = t.value === '' ? '' : +t.value;
     if (k === 'item') { const it = byId(S.items, a1); if (a2 === 'price' && v === '') { t.value = it.price; return; } it[a2] = v; }
     else { const o = attrById(a1).options.find(x => x.id === a2); o[f] = f === 'price' ? (v === '' ? 0 : v) : v; }
