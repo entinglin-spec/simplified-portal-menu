@@ -688,7 +688,7 @@ table.tb td.sale-td { white-space: normal; }
 
 /* 快速編輯價格／屬性（依 Figma 77:3147、77:4099） */
 .attr-pop.qp { width: 320px; border: 1px solid #D4D4D4; box-sizing: border-box; border-radius: 8px; box-shadow: 0 24px 48px -12px rgba(0,0,0,.25); }
-.qp-head { box-sizing: border-box; min-height: 60px; display: flex; align-items: center; padding: 0 12px; font-size: 16px; font-weight: 600; line-height: 1.5; color: #53545C; }
+.qp-head { justify-content: space-between; box-sizing: border-box; min-height: 60px; display: flex; align-items: center; padding: 0 12px; font-size: 16px; font-weight: 600; line-height: 1.5; color: #53545C; }
 .qp-body { padding: 12px; border-top: 1px solid #D4D4D4; border-bottom: 1px solid #D4D4D4; display: flex; flex-direction: column; gap: 12px; }
 .qp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .qp-fld { position: relative; display: block; margin: 0; min-width: 0; }
@@ -1737,7 +1737,7 @@ function updateSpy() {
 document.addEventListener('scroll', e => { const cl = e.target.classList; if (cl && cl.contains('content')) updateSpy(); }, true);
 function attrPopHtml() {
   const P = ui.attrPop, it = byId(S.items, P.id); if (!it) return '';
-  return `<div class="attr-pop qp" style="${popPos(P, 320, 330)}"><div class="qp-head">「${h(it.name)}」的屬性</div>
+  return `<div class="attr-pop qp" style="${popPos(P, 320, 330)}"><div class="qp-head">「${h(it.name)}」的屬性<button class="dlg-x" data-act="popClose" aria-label="關閉">${fi('close', 20)}</button></div>
     <div class="qp-body qp-list">${S.attrs.map(a => { const on = it.attrs.includes(a.id); return `<div class="qp-attr ${on ? 'on' : ''}" data-act="attrToggle" data-id="${it.id}" data-a="${a.id}"><span class="qp-ckw"><span class="qp-ck">${on ? '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5l2.8 2.8L11 4.5"/></svg>' : ''}</span></span><span class="qp-tx"><span class="qp-t1">${h(a.name)}${a.required ? ' *' : ''}</span><span class="qp-t2">${a.required ? '必選' : '選填'} · ${a.options.length} 個選項</span></span><button class="qp-ed" data-act="edit" data-t="attr" data-id="${a.id}" aria-label="編輯屬性" title="編輯屬性">${fi('edit24', 20)}</button></div>`; }).join('')}</div>
     <div class="qp-foot"><button class="qp-btn" data-act="newAttrFor" data-id="${it.id}">${fi('plusP', 20)}新增屬性</button></div></div>`;
 }
@@ -1786,7 +1786,7 @@ function pricePopHtml() {
   const P = ui.pricePop, it = byId(S.items, P.id); if (!it) return '';
   const rows = [['dinePrice','內用價'],['takePrice','外帶價'],['webDelPrice','外送價'],['uberPrice','Uber 價'],['fpPrice','FP 價']];
   const fld = (ref, v, ph, label) => `<label class="qp-fld"><span class="qp-fl">${label}</span><span class="qp-in"><em>$</em><input type="number" step="any" data-pp="${ref}" value="${h(v)}" placeholder="${h(ph)}" /></span></label>`;
-  return `<div class="attr-pop qp" style="${popPos(P, 320, 330)}"><div class="qp-head">「${h(it.name)}」的價格</div>
+  return `<div class="attr-pop qp" style="${popPos(P, 320, 330)}"><div class="qp-head">「${h(it.name)}」的價格<button class="dlg-x" data-act="popClose" aria-label="關閉">${fi('close', 20)}</button></div>
     <div class="qp-body qp-grid">${fld(`item:${it.id}:price`, it.price, '', '基本價<b>*</b>')}${rows.map(([k, n]) => fld(`item:${it.id}:${k}`, it[k], it.price, n)).join('')}</div>
     <div class="qp-foot"><button class="qp-btn" data-act="edit" data-t="item" data-id="${it.id}" data-focus="prices">${fi('edit24', 20)}編輯品項</button></div></div>`;
 }
@@ -1794,7 +1794,7 @@ function optPopHtml() {
   const P = ui.optPop, it = byId(S.items, P.id), a = attrById(P.a); if (!it || !a) return '';
   const cols = [['price','基本加價'],['dinePrice','內用加價'],['takePrice','外帶加價'],['webDel','外送加價'],['uberPrice','Uber 加價'],['fpPrice','FP 加價']];
   const fld = (o, k, label) => `<label class="qp-fld"><span class="qp-fl">${label}</span><span class="qp-in"><em>$</em><input type="number" step="any" data-pp="opt:${a.id}:${o.id}:${k}" value="${h(o[k])}" placeholder="${h(k === 'price' ? 0 : (o.price || 0))}" /></span></label>`;
-  return `<div class="attr-pop qp qp-opt" style="${popPos(P, 680, 330)}"><div class="qp-head">「${h(a.name)}」的屬性選項</div>
+  return `<div class="attr-pop qp qp-opt" style="${popPos(P, 680, 330)}"><div class="qp-head">「${h(a.name)}」的屬性選項<button class="dlg-x" data-act="popClose" aria-label="關閉">${fi('close', 20)}</button></div>
     <div class="qp-body qp-opts">${a.options.map(o => `<div class="qp-orow"><div class="qp-oname"><span class="qp-ot" title="${h(o.name)}">${h(o.name)}</span>${o.sub ? `<span class="qp-chip">${h(attrById(o.sub)?.name || '')}</span>` : ''}</div><span class="msw ${o.enabled !== false ? 'on' : ''}" data-act="optEn" data-a="${a.id}" data-o="${o.id}"><i></i></span>${cols.map(([k, n]) => fld(o, k, n)).join('')}</div>`).join('')}</div>
     <div class="qp-foot"><button class="qp-btn" data-act="edit" data-t="attr" data-id="${a.id}">${fi('edit24', 20)}編輯屬性</button></div></div>`;
 }
@@ -2360,7 +2360,7 @@ function renderOverlay() {
   }
   if (ui.panel && ui.discardDlg) html += `<div class="scrim mscrim" style="z-index:70" data-act="discardKeep"></div><div class="dlg" style="z-index:71" role="alertdialog" aria-label="放棄修改">
       <div class="dlg-h"><h2>放棄未儲存的修改？</h2><button class="dlg-x" data-act="discardKeep" aria-label="關閉">${fi('close', 20)}</button></div>
-      <div class="dlg-b">你在這份${{ menu:'菜單', cat:'類別', item:'品項', attr:'屬性' }[ui.panel.t]}有尚未套用的修改，離開後這些修改不會保留。</div>
+      <div class="dlg-b">你在這份${({ menu:'菜單', cat:'類別', item:'品項', attr:'屬性', tag:'標籤' }[ui.panel.t] || '內容')}有尚未套用的修改，離開後這些修改不會保留。</div>
       <div class="dlg-f"><button class="dlg-btn danger" data-act="discardOk">放棄修改</button><button class="dlg-btn" data-act="discardKeep" style="background:var(--pri);color:#fff">繼續編輯</button></div></div>`;
   if (ui.delMenuDlg) {
     const m = byId(S.menus, ui.delMenuDlg.id), cs = m ? S.cats.filter(c => c.menuId === m.id) : [], n = S.items.filter(i => i.catIds.length && i.catIds.every(x => cs.some(c => c.id === x))).length;
@@ -2527,6 +2527,7 @@ document.addEventListener('click', e => {
     case 'pkAp': ui.picker.pm = D.v === 'pm'; pkApply(); return;
     case 'optEn': { const o = attrById(D.a).options.find(x => x.id === D.o); o.enabled = o.enabled === false; touch(); renderOverlay(); return; }
     case 'attrToggle': { const it = byId(S.items, D.id); it.attrs = it.attrs.includes(D.a) ? it.attrs.filter(x => x !== D.a) : [...it.attrs, D.a]; touch(); render(); return; }
+    case 'popClose': ui.attrPop = ui.pricePop = ui.optPop = null; render(); return;
     case 'newAttrFor': { const id = D.id; ui.attrPop = null; openPanel('attr'); ui.panel.draft.itemIds = [id]; ui.panelSnap = JSON.stringify(ui.panel.draft); redrawDrawer(); return; }
     case 'delItem': ui.delDlg = { id:D.id }; renderOverlay(); return;
     case 'delDlgClose': ui.delDlg = null; renderOverlay(); return;
