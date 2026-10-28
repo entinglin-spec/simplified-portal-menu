@@ -1290,6 +1290,52 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .fld input.bad, .fld select.bad, .fld textarea.bad, .qp-in.bad, .msel-box.bad, .sc-box.bad { border-color: #FF8A80 !important; }
 .fld input.bad:focus, .fld select.bad:focus, .fld textarea.bad:focus, .qp-in.bad:focus-within, .msel-box.bad:focus-within, .sc-box.bad:focus-within { box-shadow: inset 0 0 0 1px #FF8A80 !important; }
 .fld:has(> .bad) > label, .qp-fld.bad .qp-fl, .fld:has(> .bad):focus-within > label { color: #FF8A80 !important; }
+
+/* ================= 手機版（≤ 820px）================= */
+.m-hamb, .m-scrim { display: none; }
+@media (max-width: 820px) {
+  .sidebar, .app.side-off .sidebar { position: fixed; z-index: 80; left: 0; top: 0; bottom: 0; width: 280px; padding: 24px 28px; transform: translateX(-100%); transition: transform .2s ease; }
+  .app.m-side-open .sidebar { transform: none; box-shadow: 8px 0 32px rgba(0,0,0,.18); }
+  .app.m-side-open .m-scrim { display: block; position: fixed; inset: 0; z-index: 79; background: rgba(0,0,0,.35); }
+  .m-hamb { display: flex; }
+  .topnav { height: 56px; gap: 14px; padding: 0 16px; }
+  .topnav .acct { font-size: 0; margin-left: 0; }
+  .ptabs { height: 56px; padding: 0 16px; }
+  .ptabs { gap: 0; }
+  .ptabs .spacer { display: none; }
+  .ptab { flex: 1 1 0; min-width: 0; padding: 0 8px 14px; font-size: 16px; }
+  .content { padding: 16px 16px 40px; }
+  .sbar-head { padding: 12px 16px; }
+  .sbar-row { flex-wrap: wrap; padding: 16px; }
+  .sbar-row .msel { flex: 1 1 100%; }
+  .sbar-row .sbs, .sbar-row .save-wrap { flex: 1 1 auto; }
+  .sbar-row .save-wrap .btn-b { width: 100%; }
+  .sbar-row .sbs > .btn-b:first-child { flex: 1; }
+  .sbar-row .btn-b { height: 40px; padding: 0 16px; font-size: 14px; }
+  .sbar-row .btn-b .ic { width: 20px; height: 20px; }
+  .sbar-row .sbs-arrow { width: 40px; padding: 0 !important; }
+  .sbar-row .sbs-menu { top: 44px; }
+  .stab { flex: 1 1 0; min-width: 0; padding: 12px 4px; font-size: 16px; text-align: center; white-space: nowrap; }
+  .spanel { padding: 16px; border-radius: 12px; }
+  .u-layout { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .u-nav { position: static; height: auto; min-height: 0; max-height: 280px; }
+  .u-sticky .toolbar { flex-direction: column; align-items: stretch; gap: 12px; }
+  .u-sticky .toolbar > div[style] { gap: 8px !important; }
+  .u-sticky .toolbar > div[style] > .tbtn, .u-sticky .toolbar > div[style] > .add-wrap { flex: 1 1 0; min-width: 0; padding-left: 8px; padding-right: 8px; }
+  .u-sticky .add-wrap .tbtn-pri { width: 100%; justify-content: center; padding-left: 8px; padding-right: 8px; }
+  .u-sticky .sbox, .u-sticky .sbox .search { width: 100%; }
+  .tbtn, .tbtn-pri { white-space: nowrap; }
+  .u-grid { grid-template-columns: minmax(0, 1fr); padding: 12px; }
+  .drawer { width: 100vw; }
+  .spanel.scroll { overflow-x: visible; }
+  .tb-scroll { overflow-x: auto; max-width: 100%; }
+  .spanel .toolbar { flex-wrap: wrap; gap: 12px; }
+  .spanel .toolbar > .spacer { display: none; }
+  .spanel .tb-left { flex: 1 1 100%; flex-wrap: wrap; gap: 12px; }
+  .spanel .tb-left .msel.one.fcat { flex: 1 1 100%; width: 100%; min-width: 0; }
+  .spanel .toolbar .sbox, .spanel .toolbar .sbox .search { width: 100%; flex: 1 1 100%; }
+  .spanel .toolbar > .tbtn-pri { margin-left: auto; }
+}
 </style>
 </head>
 <body>
@@ -1687,6 +1733,8 @@ function swHtml(on, act, attrs = '', dis = false, extra = '') {
 
 /* ================= Render: shell ================= */
 const NAV = [['grid','營運總覽'],['kiosk','裝置列表'],['chart','統計報表','down'],'-',['book','菜單管理','up',['菜單設定','系統菜單','平台菜單']],['receipt','發票管理','down'],['ticket','優惠促銷','down'],['building','商店管理','down'],'-',['package','庫存管理','down'],['cart','叫貨管理','down'],'-',['member','會員管理','down'],['lock','權限管理','down'],['server','裝置管理','down'],['file','合約管理','down']];
+const MQ = window.matchMedia('(max-width: 820px)');
+MQ.addEventListener('change', () => { ui.mSide = false; render(); });
 function renderSide() {
   document.getElementById('side').innerHTML = `<button class="sb-menu hamb" data-act="side" aria-label="收合側欄">${fi('menu')}</button>` + NAV.map(n => n === '-' ? '<div class="nv-div"></div>' : `<div class="nv ${n[3] ? 'has-sub' : ''} ${n[0] === 'kiosk' || n[0] === 'chart' ? 'h50' : ''}" title="${n[1]}">${fi(n[0])}<span class="tx">${n[1]}</span>${n[2] ? fi(n[2]) : ''}</div>${(n[3] || []).map(c => `<div class="nv-sub ${c === '菜單設定' ? 'active' : ''}">${c}</div>`).join('')}`).join('');
 }
@@ -1711,12 +1759,14 @@ window.addEventListener('resize', fitStores);
 function render() {
   optSync(); S.menus.forEach(ensureSS);
   const sc = document.querySelector('.content')?.scrollTop || 0;
-  document.querySelector('.app').classList.toggle('side-off', !!ui.sideOff);
+  document.querySelector('.app').classList.toggle('side-off', !!ui.sideOff && !MQ.matches);
+  document.querySelector('.app').classList.toggle('m-side-open', !!ui.mSide && MQ.matches);
   const iss = issues();
   const tabs = [['tree','階層總覽'],['cats','類別'],['items','品項'],['attrs','屬性']];
   const firstCat = (catsOf(visMenus()[0]?.id || '')[0] || {}).id || '';
   document.getElementById('main').innerHTML = `
-    <div class="topnav">${fi('logo')}<div class="spacer"></div>${fi('help')}${fi('globe')}${fi('bell')}<span class="acct">demo@cashier.tw ${fi('acct')}</span></div>
+    <div class="m-scrim" data-act="mside"></div>
+    <div class="topnav"><button class="m-hamb hamb" data-act="mside" aria-label="開啟選單">${fi('menu')}</button>${fi('logo')}<div class="spacer"></div>${fi('help')}${fi('globe')}${fi('bell')}<span class="acct">demo@cashier.tw ${fi('acct')}</span></div>
     <div class="ptabs"><button class="ptab ${ui.page === 'menu' ? '' : 'off'}" data-act="page" data-p="menu">菜單設定</button><button class="ptab ${ui.page === 'tags' ? '' : 'off'}" data-act="page" data-p="tags">標籤設定</button><div class="spacer"></div></div>
     ${ui.page === 'tags' ? `<div class="body"><div class="content"><div class="sbar tg-co">公司名稱：鴻智互動股份有限公司</div><div class="sect"><div class="spanel scroll">${renderTags()}</div></div><div class="pfoot">隱私權政策　|　© 電小二智慧點餐系統</div></div></div>` : `<div class="body">
       <div class="content">
@@ -1737,6 +1787,7 @@ function render() {
     </div>`}`;
   const c = document.querySelector('.content'); if (c) c.scrollTop = sc;
   const inp = document.querySelector('.inl-input'); if (inp) { inp.focus(); inp.select(); }
+  document.querySelectorAll('.spanel table.tb').forEach(t => { if (t.parentElement.classList.contains('tb-scroll')) return; const w = document.createElement('div'); w.className = 'tb-scroll'; t.replaceWith(w); w.appendChild(t); });
   renderOverlay(); fitAttrs(); fitTags(); fitStores(); updateSpy();
 }
 
@@ -2716,7 +2767,8 @@ document.addEventListener('click', e => {
   const a = el.dataset.act, D = el.dataset;
   if (el.classList.contains('dis')) return;
   switch (a) {
-    case 'side': ui.sideOff = !ui.sideOff; setTimeout(() => { fitStores(); fitAttrs(); }, 260); break;
+    case 'mside': ui.mSide = !ui.mSide; break;
+    case 'side': if (MQ.matches) { ui.mSide = false; break; } ui.sideOff = !ui.sideOff; setTimeout(() => { fitStores(); fitAttrs(); }, 260); break;
     case 'tab': ui.tab = D.t; ui.addMenu = false; break;
     case 'attrItemPop': ui.attrItemPop = !ui.attrItemPop; break;
     case 'attrItemSet': ui.attrItem = D.id; ui.attrItemPop = false; break;
