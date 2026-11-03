@@ -2156,7 +2156,7 @@ function renderAttrs() {
     <td><div class="acell"><button data-act="dupAttr" data-id="${a.id}" aria-label="複製" title="複製屬性">${fi('copy', 24)}</button><button data-act="edit" data-t="attr" data-id="${a.id}" aria-label="編輯">${fi('edit24', 24)}</button><button data-act="delAttr" data-id="${a.id}" aria-label="刪除">${fi('trash', 24)}</button></div></td></tr>`; }).join('');
   const btns = pending ? `<div class="ord-btns"><button class="tbtn-gray" data-act="attrOrderReset">還原排序</button><button class="tbtn-blue" data-act="attrOrderSave">完成</button></div>` : addBtn('attr', '新增屬性');
   return tabHead('建立品項的附加屬性，如：份量選擇、醬料選擇、甜度選擇等。', `<div class="tb-left">${sel}${searchBox('attrSearch', ui.attrSearch || '', '搜尋屬性名稱')}</div>`, btns)
-  + `<table class="tb drag-tb attr-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>後台名稱</th><th>規則</th><th style="width:400px">包含選項</th><th>適用的品項</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q || curI ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無屬性', '請點擊右上新增'))}</tbody></table>`;
+  + `<table class="tb drag-tb attr-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>後台名稱</th><th>規則</th><th style="width:400px">包含選項</th><th>包含此屬性的品項</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q || curI ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無屬性', '請點擊右上新增'))}</tbody></table>`;
 }
 function renderTags() {
   const q = (ui.tagSearch || '').trim().toLowerCase(), ord = ui.tagOrder, pending = !!ord;
@@ -2392,7 +2392,7 @@ function aiFiltered() {
   return S.items.filter(x => (!inM || inM.has(x.id)) && (!q || x.name.toLowerCase().includes(q) || (x.adminName || '').toLowerCase().includes(q) || (x.sku || '').toLowerCase().includes(q)));
 }
 const menuFilterHtml = (cur, act) => S.menus.length > 1 ? `<div class="sc-mf"><span class="sc-mfl">菜單</span>${[{ id:'', name:'全部菜單' }, ...S.menus].map(m => `<button type="button" class="sc-mfb ${cur === m.id ? 'on' : ''}" data-act="${act}" data-id="${m.id}">${h(m.name)}</button>`).join('')}</div>` : '';
-function aiBoxHtml(d, label = '適用的品項', ph = '選擇要使用此屬性的品項') {
+function aiBoxHtml(d, label = '包含此屬性的品項', ph = '選擇要使用此屬性的品項') {
   const sel = d.itemIds || [], selOrd = byOrder(sel, itemOrder()), allIts = S.items;
   const aiFl = aiFiltered();
   const aiX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
@@ -2567,7 +2567,7 @@ function drawerBody() {
     ${swl('自動預選最少數量', '', d.autoSel, 'autoSel')}
     ${swl('相同選項可複選', '', d.repeat, 'repeat')}
     <hr class="mn-hr" />
-    <div class="mn-t sec">適用的品項${helpIc('選擇要使用此屬性的品項')}</div>
+    <div class="mn-t sec">包含此屬性的品項</div>
     ${aiBox}
     ${adv(`${dispSel}`)}</div>`;
 }
