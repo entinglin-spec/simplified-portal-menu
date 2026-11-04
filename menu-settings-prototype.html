@@ -1009,6 +1009,8 @@ table.tb td.sale-td { white-space: normal; }
 .sc-grp.on .ckb-b::before, .sc-grp.part .ckb-b::before { background: #58B6A8; border-color: #58B6A8; }
 .sc-grp.on .ckb-b::after { content: ""; position: absolute; left: 12px; top: 11px; width: 18px; height: 18px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4.5 9.5l3 3 6-6.5'/></svg>") center / 18px 18px no-repeat; }
 .sc-grp.part .ckb-b::after { content: ""; position: absolute; left: 16px; top: 19px; width: 10px; height: 2px; background: #fff; border-radius: 1px; }
+.sc-grp .sc-gtg { margin-left: auto; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 0; background: none; cursor: pointer; border-radius: 4px; }
+.sc-grp .sc-gtg:hover { background: rgba(0,0,0,.05); }
 .sc-grp small { margin-left: 8px; font-size: 12px; font-weight: 400; color: #8E8F98; }
 .pt-c { padding: 8px 16px; font-size: 14px; line-height: 1.5; color: #53545C; display: flex; align-items: center; }
 .ct-head .pt-c { font-weight: 600; }
@@ -2395,13 +2397,14 @@ const menuFilterHtml = (cur, act) => S.menus.length > 1 ? `<div class="sc-mf"><s
 function aiBoxHtml(d, label = '包含此屬性的品項', ph = '選擇要使用此屬性的品項') {
   const sel = d.itemIds || [], selOrd = byOrder(sel, itemOrder()), allIts = S.items;
   const aiFl = aiFiltered();
+  const foldK = k => !(ui.aiQ || '').trim() && !(ui.aiOpenG || []).includes(k);
   const aiX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
   const aiChip = id => { const it = byId(S.items, id); return it ? `<span class="sc-chip">${h(it.name)}<button data-act="aiRm" data-id="${id}" aria-label="移除${h(it.name)}">${aiX}</button></span>` : ''; };
   const aiLim = 1;
   const aiTags = ui.aiDd ? selOrd.map(aiChip).join('') : selOrd.slice(0, aiLim).map(aiChip).join('') + (sel.length > aiLim ? `<button type="button" class="sc-more" data-act="aiSelOpen" title="檢視已選項目">+${sel.length - aiLim}</button>` : '');
   const aiBox = `<div class="sc ${ui.aiDd ? 'open' : ''}" id="sec-ai"><div class="sc-box" ${ui.aiDd ? '' : 'data-act="aiOpen"'}><span class="sc-l">${label}</span>
     <div class="sc-v">${aiTags}${!sel.length && !ui.aiDd ? `<span class="sc-ph">${ph}</span>` : ''}${ui.aiDd ? `<input type="text" id="aiSearch" class="sc-in" placeholder="${sel.length ? '' : h(ph)}" value="${h(ui.aiQ || '')}" autocomplete="off" />` : ''}</div>
-    <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="aiClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="aiDd" aria-label="${ui.aiDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.aiDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.aiDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${sel.length}</b> / ${allIts.length}</span><span><a href="#" data-act="aiAll" data-v="1">全選</a>｜<a href="#" data-act="aiAll" data-v="0">全部清除</a></span></div>${aiFl.length ? [...S.menus.flatMap(m => catsOf(m.id).map(c => ({ c, g:c.name, l:aiFl.filter(x => x.catIds.includes(c.id)) }))), ...([{ g:'未分類', l:aiFl.filter(x => !x.catIds.length) }])].map(({ g, l }) => l.length ? (() => { const n = l.filter(x => sel.includes(x.id)).length, st = n === l.length ? 'on' : n ? 'part' : ''; return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="aiGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(g)}<small>${n} / ${l.length}</small></div>`; })() + l.map(x => `<label class="sc-opt ${sel.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="apply.${x.id}" ${sel.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('') : '').join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
+    <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="aiClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="aiDd" aria-label="${ui.aiDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.aiDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.aiDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${sel.length}</b> / ${allIts.length}</span><span><a href="#" data-act="aiAll" data-v="1">全選</a>｜<a href="#" data-act="aiAll" data-v="0">全部清除</a></span></div>${aiFl.length ? [...S.menus.flatMap(m => catsOf(m.id).map(c => ({ k:c.id, g:c.name, l:aiFl.filter(x => x.catIds.includes(c.id)) }))), ...([{ k:'_unc', g:'未分類', l:aiFl.filter(x => !x.catIds.length) }])].map(({ k, g, l }) => l.length ? (() => { const n = l.filter(x => sel.includes(x.id)).length, fold = foldK(k), st = n === l.length ? 'on' : n ? 'part' : ''; return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="aiGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(g)}<small>${n} / ${l.length}</small><button type="button" class="sc-gtg" data-act="aiGrpTog" data-k="${k}" aria-expanded="${!fold}" aria-label="${fold ? '展開' : '收合'}類別${h(g)}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${fold ? 'M7 10l5 5 5-5z' : 'M7 14l5-5 5 5z'}"/></svg></button></div>`; })() + (foldK(k) ? '' : l.map(x => `<label class="sc-opt ${sel.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="apply.${x.id}" ${sel.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('')) : '').join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
   return aiBox;
 }
 function drawerBody() {
@@ -3042,13 +3045,14 @@ document.addEventListener('click', e => {
     case 'subSet': { ui.panel.draft.options[+D.i].sub = D.id; ui.subPop = null; redrawDrawer(); return; }
     case 'dispPop': ui.subPop = null; ui.dispPop = !ui.dispPop; redrawDrawer(); return;
     case 'dispSet': { const d = ui.panel.draft; d.display = D.id; ui.dispPop = false; redrawDrawer(); return; }
-    case 'aiOpen': ui.aiDd = true; redrawDrawer(); document.getElementById('aiSearch')?.focus(); return;
-    case 'aiDd': ui.aiDd = !ui.aiDd; if (!ui.aiDd) ui.aiQ = ''; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
+    case 'aiOpen': ui.aiDd = true; ui.aiOpenG = []; redrawDrawer(); document.getElementById('aiSearch')?.focus(); return;
+    case 'aiDd': ui.aiDd = !ui.aiDd; if (ui.aiDd) ui.aiOpenG = []; if (!ui.aiDd) ui.aiQ = ''; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
         case 'aiSelOpen': ui.aiSelDlg = true; ui.aiDd = false; renderOverlay(); return;
     case 'aiSelClose': ui.aiSelDlg = false; renderOverlay(); return;
     case 'tcMenu': ui.tcMenu = D.id; redrawDrawer(); document.getElementById('tcSearch')?.focus(); return;
     case 'aiRm': ui.panel.draft.itemIds = ui.panel.draft.itemIds.filter(x => x !== D.id); redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
     case 'aiClear': ui.panel.draft.itemIds = []; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
+    case 'aiGrpTog': { const f = ui.aiOpenG || (ui.aiOpenG = []); const i = f.indexOf(D.k); if (i >= 0) f.splice(i, 1); else f.push(D.k); redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return; }
     case 'aiGrp': { const ids = (D.ids || '').split(',').filter(Boolean), cur = ui.panel.draft.itemIds || [], all = ids.every(id => cur.includes(id)); ui.panel.draft.itemIds = all ? cur.filter(id => !ids.includes(id)) : [...new Set([...cur, ...ids])]; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return; }
     case 'aiAll': { const ids = aiFiltered().map(x => x.id), cur = ui.panel.draft.itemIds; ui.panel.draft.itemIds = D.v === '1' ? [...new Set([...cur, ...ids])] : cur.filter(id => !ids.includes(id)); redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return; }
     case 'catOpen': ui.catPop = true; redrawDrawer(); document.getElementById('catSearch')?.focus(); return;
@@ -3086,7 +3090,7 @@ function trapTab(e) {
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 }
 function keepDrawerScroll() {}
-function redrawDrawer() { const b = document.getElementById('drbody'); const sc = b?.scrollTop || 0; renderOverlay(); const nb = document.getElementById('drbody'); if (nb) nb.scrollTop = sc; }
+function redrawDrawer() { const b = document.getElementById('drbody'); const sc = b?.scrollTop || 0; const dds = [...document.querySelectorAll('#drbody .sc-dd')].map(d => d.scrollTop); renderOverlay(); const nb = document.getElementById('drbody'); if (nb) nb.scrollTop = sc; document.querySelectorAll('#drbody .sc-dd').forEach((d, i) => { if (dds[i]) d.scrollTop = dds[i]; }); }
 function deleteCurrent() {
   const { t, draft } = ui.panel;
   S_log('刪除' + { menu:'菜單', cat:'類別', item:'品項', attr:'屬性' }[t] + '：' + draft.name);
