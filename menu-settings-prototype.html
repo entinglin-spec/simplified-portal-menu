@@ -646,6 +646,8 @@ table.tb td.sale-td { white-space: normal; }
 .item-tb .u-sold { display: inline-flex; align-items: center; border: 0; background: none; padding: 0; height: auto; font-size: 14px; gap: 0; cursor: pointer; }
 /* 開關圖示 thumb 左右各外凸 5px，margin 補償後與文字視覺間距為 8px */
 .item-tb .u-sold .msw { margin: 0 13px 0 5px !important; }
+.u-sold.dis { cursor: not-allowed; }
+.u-sold.dis .msw { opacity: .35; }
 .item-tb tr.dim td { color: #8E8F98; }
 .item-tb tr.dim td:nth-last-child(-n+2) { opacity: 1; }
 .drag-tb .drag-h { display: inline-flex; vertical-align: middle; margin-right: 0; cursor: grab; padding: 0; border-radius: 4px; }
@@ -753,6 +755,7 @@ table.tb td.sale-td { white-space: normal; }
 .qp-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.5; }
 .qp-t1 { font-size: 14px; color: #53545C; }
 .qp-t2 { font-size: 12px; color: #8E8F98; }
+.qp-lv { display: inline-block; margin-left: 8px; padding: 2px 8px; border: 0; border-radius: 999px; background: #E1F2F0; color: #58B6A8; font-size: 12px; line-height: 1.5; vertical-align: 1px; }
 .qp-ed { border: 0; background: none; padding: 0; display: flex; flex-shrink: 0; cursor: pointer; }
 .attr-pop.qp { display: flex; flex-direction: column; }
 .qp-body { min-height: 0; overflow-y: auto; }
@@ -780,6 +783,28 @@ table.tb td.sale-td { white-space: normal; }
 /* 編輯屬性選項（依 Figma 88:3456） */
 .attr-pop.qp.qp-opt { width: 680px; max-width: calc(100vw - 16px); }
 .qp-opt .qp-head { min-height: 60px; }
+.qp-opt .qp-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.u-sold { white-space: nowrap; }
+@media (max-width: 720px) {
+  .u-card .uc-top { gap: 10px; }
+  .u-card .u-img { width: 112px; height: 84px; }
+  .u-card .u-price { height: auto; flex-wrap: wrap; row-gap: 4px; white-space: normal; }
+  .u-card .u-price .pc { white-space: nowrap; }
+  .u-card .u-foot { flex-wrap: wrap; height: auto; min-height: 46px; padding: 0 12px 12px; gap: 0 8px; }
+  .u-card .u-foot .acts3 { margin-left: auto; }
+  .u-card .u-foot > span:first-child { flex: 1 1 auto; }
+  .u-card .u-sold .msw { flex-shrink: 0; }
+  .u-card .u-foot .acts3 { gap: 8px; padding-right: 0; }
+  .attr-pop.qp.qp-opt { left: 8px !important; right: 8px; width: auto !important; max-width: none; }
+  .attr-pop.qp.qp-opt { top: 8px !important; bottom: auto !important; max-height: calc(100dvh - 16px) !important; }
+  .qp-opt .qp-oname { justify-content: flex-start; }
+  .qp-opt .qp-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .qp-opt .qp-orow { flex-wrap: wrap; gap: 12px 8px; }
+  .qp-opt .qp-oname { width: auto; flex: 1 1 calc(100% - 64px); min-width: 0; flex-direction: row; align-items: center; gap: 8px; }
+  .qp-opt .qp-oname .qp-ot { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .qp-opt .qp-orow .msw { margin: 0; }
+  .qp-opt .qp-orow .qp-fld { flex: 0 0 calc(50% - 4px); }
+}
 .qp-opts { gap: 12px; }
 .qp-orow { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid #D4D4D4; }
 .qp-orow:last-child { padding-bottom: 0; border-bottom: 0; }
@@ -1144,7 +1169,8 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .sc-opt.on .ckb-b::before { background: #58B6A8; border-color: #58B6A8; }
 .sc-opt.on .ckb-b::after { content: ""; position: absolute; left: 12px; top: 12px; width: 18px; height: 18px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4.5 9.5l3 3 6-6.5'/></svg>") center / 18px 18px no-repeat; }
 .sc-on { font-size: 16px; line-height: 1.5; color: #53545C; }
-.sc-on small, .fattr .msel-opt small { margin-left: 8px; font-size: 12px; color: #8E8F98; }
+.sc-on small { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: #E1F2F0; color: #58B6A8; font-size: 12px; line-height: 1.5; }
+.fattr .msel-opt small { margin-left: 6px; font-size: 12px; line-height: 1.5; color: #8E8F98; }
 
 .mn-to { flex-shrink: 0; font-size: 16px; line-height: 1.5; color: #53545C; white-space: nowrap; }
 .mn .mn-slot .fld input.pk-time { background-image: none; padding-right: 12px; }
@@ -1400,6 +1426,11 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
   .spanel .toolbar .sbox, .spanel .toolbar .sbox .search { width: 100%; flex: 1 1 100%; }
   .spanel .toolbar > .tbtn-pri { margin-left: auto; }
 }
+.chip-attr[data-chip] { overflow: hidden; }
+.chip-attr[data-chip]:has(.ca-2) { padding-right: 2px; gap: 8px; }
+.chip-attr .ca-1 { overflow: hidden; text-overflow: ellipsis; }
+.chip-attr .ca-2 { flex-shrink: 0; display: inline-flex; align-items: center; margin-left: 0; padding: 0 10px; height: 18px; border: 0; border-radius: 999px; background: #E1F2F0; color: #58B6A8; font-size: 12px; line-height: 1.5; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 </style>
 </head>
 <body>
@@ -1464,18 +1495,18 @@ const S = {
     mk('i12','c5','厚片吐司','BF001',60,1),
     mk('i13','c5','蛋餅','BF002',45,2),
     mk('i14','c5','奶茶','BF003',35,3),
-    mk("k1",'',"味噌湯套餐A","MYO01",45,1,{attrs:["a7"]}),
-    mk("k2",'',"味噌湯套餐B","MYO02",50,2,{attrs:["a7"]}),
-    mk("k3",'',"味噌湯套餐C","MYO03",55,3,{attrs:["a7"]}),
-    mk("k4",'',"味噌湯套餐D","MYO04",55,4,{attrs:["a7"]}),
-    mk("k5",'',"飲料套餐I","MYO05",55,5,{attrs:["a8"]}),
-    mk("k6",'',"飲料套餐J","MYO06",60,6,{attrs:["a8"]}),
-    mk("k7",'',"飲料套餐K","MYO07",65,7,{attrs:["a8"]}),
-    mk("k8",'',"飲料套餐L","MYO08",65,8,{attrs:["a8"]}),
-    mk("k9",'',"飯增量套餐E","MYO09",40,9),
-    mk("k10",'',"飯增量套餐F","MYO10",45,10),
-    mk("k11",'',"飯增量套餐G","MYO11",50,11),
-    mk("k12",'',"飯增量套餐H","MYO12",50,12),
+    mk("k1",'',"味噌湯＋咖哩可樂餅","MYO01",45,1),
+    mk("k2",'',"味噌湯＋酥炸鱈魚排","MYO02",50,2),
+    mk("k3",'',"味噌湯＋胡麻秋葵","MYO03",55,3),
+    mk("k4",'',"味噌湯＋半熟蛋","MYO04",55,4),
+    mk("k5",'',"飲料＋咖哩可樂餅","MYO05",55,5,{attrs:["a8"]}),
+    mk("k6",'',"飲料＋酥炸鱈魚排","MYO06",60,6,{attrs:["a8"]}),
+    mk("k7",'',"飲料＋胡麻秋葵","MYO07",65,7,{attrs:["a8"]}),
+    mk("k8",'',"飲料＋半熟蛋","MYO08",65,8,{attrs:["a8"]}),
+    mk("k9",'',"飯量加大（中）","MYO09",40,9),
+    mk("k10",'',"飯量加大（大）","MYO10",45,10),
+    mk("k11",'',"飯量加大＋半熟蛋","MYO11",50,11),
+    mk("k12",'',"飯量加大＋味噌湯","MYO12",50,12),
     mk("k13",'',"不要洋蔥","MYO13",0,13),
     mk("k14",'',"不要煮肉醬汁","MYO14",0,14),
     mk("k15",'',"煮肉醬汁多","MYO15",0,15),
@@ -1947,10 +1978,17 @@ function priceChip(it) {
   const L = priceList(it);
   return `<button class="pc" data-act="pricePop" data-id="${it.id}" title="${h('基本價 $' + it.price + (L.length ? '\n' + L.join('\n') : ''))}">其他價格 ${fi('chev', 16)}</button>`;
 }
+const optSubs = a => a.options.filter(o => o.sub && attrById(o.sub)).map(o => o.name + '：需再選「' + attrById(o.sub).name + '」');
+const subOf = a => [...new Set(a.options.map(o => o.sub).filter(Boolean))].map(id => attrById(id)).filter(Boolean);
+function subAttrs(it) {
+  const m = new Map();
+  it.attrs.map(id => attrById(id)).filter(Boolean).forEach(a => a.options.forEach(o => { const sa = o.sub && attrById(o.sub); if (sa) { if (!m.has(sa.id)) m.set(sa.id, { a:sa, from:[] }); const f = m.get(sa.id).from; if (!f.includes(a.name)) f.push(a.name); } }));
+  return [...m.values()];
+}
 function attrChip(it) {
   const as = it.attrs.map(id => attrById(id)).filter(Boolean);
   const addChip = `<button class="chip-attr add" data-act="attrPop" data-id="${it.id}">＋新增屬性</button>`;
-  const chips = as.map(a => `<button class="chip-attr" data-chip data-act="optPop" data-id="${it.id}" data-a="${a.id}" title="設定選項加價：${h(a.name)}（${a.options.map(o => h(o.name)).join('、')}）">${h(a.name)}</button>`).join('');
+  const chips = as.map(a => `<button class="chip-attr" data-chip data-act="optPop" data-id="${it.id}" data-a="${a.id}" title="${h('設定選項加價：' + a.name + '（' + a.options.map(o => o.name).join('、') + '）')}"><span class="ca-1">${h(a.name)}</span>${subOf(a).length ? `<span class="ca-2">雙層</span>` : ''}</button>`).join('');
   const rest = 0;
   if (!as.length) return addChip;
   return chips + (as.length ? `<button class="chip-attr more" data-act="attrPop" data-id="${it.id}">${rest > 0 ? '(+' + rest + ') 管理' : '管理'} ▾</button>` : '');
@@ -2001,7 +2039,7 @@ document.addEventListener('scroll', e => { const cl = e.target.classList; if (cl
 function attrPopHtml() {
   const P = ui.attrPop, it = byId(S.items, P.id); if (!it) return '';
   return `<div class="attr-pop qp" style="${popPos(P, 320, 330)}"><div class="qp-head">「${h(it.name)}」的屬性<button class="dlg-x" data-act="popClose" aria-label="關閉">${fi('close', 20)}</button></div>
-    <div class="qp-body qp-list">${S.attrs.map(a => { const on = it.attrs.includes(a.id); return `<div class="qp-attr ${on ? 'on' : ''}" data-act="attrToggle" data-id="${it.id}" data-a="${a.id}"><span class="qp-ckw"><span class="qp-ck">${on ? '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5l2.8 2.8L11 4.5"/></svg>' : ''}</span></span><span class="qp-tx"><span class="qp-t1">${h(a.name)}${a.required ? ' *' : ''}</span><span class="qp-t2">${a.required ? '必選' : '選填'} · ${a.options.length} 個選項</span></span><button class="qp-ed" data-act="edit" data-t="attr" data-id="${a.id}" aria-label="編輯屬性" title="編輯屬性">${fi('edit24', 20)}</button></div>`; }).join('')}</div>
+    <div class="qp-body qp-list">${S.attrs.map(a => { const on = it.attrs.includes(a.id); return `<div class="qp-attr ${on ? 'on' : ''}" data-act="attrToggle" data-id="${it.id}" data-a="${a.id}"><span class="qp-ckw"><span class="qp-ck">${on ? '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5l2.8 2.8L11 4.5"/></svg>' : ''}</span></span><span class="qp-tx"><span class="qp-t1">${h(a.name)}${a.required ? ' *' : ''}${subOf(a).length ? '<span class="qp-lv two">雙層</span>' : ''}</span><span class="qp-t2">${a.required ? '必選' : '選填'} · ${a.options.length} 個選項${subOf(a).length ? ' · ' + a.options.filter(o => o.sub).length + ' 個選項需再選屬性' : ''}</span></span><button class="qp-ed" data-act="edit" data-t="attr" data-id="${a.id}" aria-label="編輯屬性" title="編輯屬性">${fi('edit24', 20)}</button></div>`; }).join('')}</div>
     <div class="qp-foot"><button class="qp-btn" data-act="newAttrFor" data-id="${it.id}">${fi('plusP', 20)}新增屬性</button></div></div>`;
 }
 
@@ -2077,7 +2115,7 @@ function uCard(it, i, n, cid) {
     <div class="u-img" data-act="edit" data-t="item" data-id="${it.id}" title="編輯品項" style="background-image:url(${it.img || PH_IMG})">${dis ? '<span class="u-badge off">未啟用</span>' : ''}${(it.tags || []).length ? `<span class="u-tags" title="${h((it.tags.length > 1 ? '標籤：' + it.tags.join('、') + '\n' : '') + '標籤的樣式與位置僅供預覽，實際顯示以顧客端畫面為準。')}">${it.tags.map(t => `<span class="u-tag" data-tg style="${tagStyle(t)}">${h(t)}</span>`).join('')}<span class="u-tag more" data-more hidden></span></span>` : ''}</div></div>
     <div class="u-attrsec"><div class="u-seclabel">屬性：</div><div class="u-attrs">${attrChip(it)}</div></div>
     <div class="u-foot">
-      <button class="u-sold" data-act="qen" data-id="${it.id}"><span class="msw ${it.enabled ? 'on' : ''}"><i></i></span>${it.enabled ? '啟用中' : '未啟用'}</button>
+      <span style="display:inline-flex;align-items:center;gap:8px;min-width:0"><button class="u-sold" data-act="qen" data-id="${it.id}"><span class="msw ${it.enabled ? 'on' : ''}"><i></i></span>${it.enabled ? '啟用中' : '未啟用'}</button>${it.enabled ? `<button class="u-sold" data-act="qhide" data-id="${it.id}" title="隱藏於顧客菜單：顧客無法在菜單看到品項，僅有員工可以從 POS 或員工頁中查看"><span class="msw ${it.hidden ? 'on' : ''}"><i></i></span>${it.hidden ? '已隱藏' : '未隱藏'}</button>` : `<button class="u-sold dis" disabled title="品項未啟用，無法設定隱藏"><span class="msw ${it.hidden ? 'on' : ''}"><i></i></span>${it.hidden ? '已隱藏' : '未隱藏'}</button>`}</span>
       <div class="acts3">${mv('itemMove', -1, i > 0, '往前移', 'leftA', 'leftD')}${mv('itemMove', 1, i < n - 1, '往後移', 'rightA', 'rightD')}<button data-act="dupItem" data-id="${it.id}" aria-label="複製品項" title="複製品項">${fi('copy', 20)}</button><button data-act="edit" data-t="item" data-id="${it.id}" aria-label="編輯品項" title="編輯品項">${fi('edit', 20)}</button></div>
     </div></div>`;
 }
@@ -2133,20 +2171,21 @@ function renderItems() {
   const list = S.items.filter(it => (it.catIds.length ? it.catIds.some(id => visCatIds.has(id)) : true) && (!inCat || inCat.has(it.id)) && (!q || it.name.toLowerCase().includes(q) || (it.adminName || '').toLowerCase().includes(q) || it.sku.toLowerCase().includes(q))).sort((a, b) => pos(a.id) - pos(b.id));
   const catText = it => { const cs = it.catIds.map(id => byId(S.cats, id)).filter(c => c && visCatIds.has(c.id)); return cs.length ? cs.map(c => (multi && c.menuId ? h(byId(S.menus, c.menuId).name) + ' › ' : '') + h(c.name)).join('、') : '未分類'; };
   const rows = list.map(it => { const n = priceList(it).length;
-    return `<tr class="${it.enabled ? '' : 'dim'}" data-kind="item" data-row="${it.id}" data-grp="all"><td class="sortc"><span class="drag-h" data-drag="${it.id}" title="拖曳調整順序">${MENU01}</span></td>
+    return `<tr data-kind="item" data-row="${it.id}" data-grp="all"><td class="sortc"><span class="drag-h" data-drag="${it.id}" title="拖曳調整順序">${MENU01}</span></td>
     <td><div class="it-name"><span class="it-img" data-act="edit" data-t="item" data-id="${it.id}" title="編輯品項" style="background-image:url(${it.img || PH_IMG})"></span><div class="it-txt"><span>${h(it.adminName || it.name)}</span>${it.sku ? `<span class="it-sku">${h(it.sku)}</span>` : ''}</div></div></td>
     <td>$${it.price}${n ? `<button class="pc-tag" data-act="pricePop" data-id="${it.id}" title="${h(priceList(it).join('\n'))}">${n} 項變價</button>` : ''}</td>
     <td>${catText(it)}</td>
     <td><button class="u-sold" data-act="qen" data-id="${it.id}"><span class="msw ${it.enabled ? 'on' : ''}"><i></i></span>${it.enabled ? '啟用中' : '未啟用'}</button></td>
+    <td>${it.enabled ? `<button class="u-sold" data-act="qhide" data-id="${it.id}"><span class="msw ${it.hidden ? 'on' : ''}"><i></i></span>${it.hidden ? '已隱藏' : '未隱藏'}</button>` : `<button class="u-sold dis" disabled title="品項未啟用，無法設定"><span class="msw ${it.hidden ? 'on' : ''}"><i></i></span>${it.hidden ? '已隱藏' : '未隱藏'}</button>`}</td>
     <td><div class="acell"><button data-act="dupItem" data-id="${it.id}" aria-label="複製" title="複製品項">${fi('copy', 24)}</button><button data-act="edit" data-t="item" data-id="${it.id}" aria-label="編輯">${fi('edit24', 24)}</button><button data-act="delItem" data-id="${it.id}" aria-label="刪除">${fi('trash', 24)}</button></div></td></tr>`; }).join('');
   return tabHead('建立餐點品項，如：咖哩飯、海鮮麵、貢丸湯等。', `<div class="tb-left">${sel}${searchBox('search', ui.search)}</div>`, (pending ? `<div class="ord-btns"><button class="tbtn-gray" data-act="itemOrderReset">還原排序</button><button class="tbtn-blue" data-act="itemOrderSave">完成</button></div>` : addBtn('item', '新增品項')))
-  + `<table class="tb drag-tb item-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>後台名稱 / SKU</th><th>基本價</th><th>類別</th><th>狀態</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(6, '查無結果', '', 'noresult') : emptyRow(6, '尚無品項', '請點擊右上新增'))}</tbody></table>`;
+  + `<table class="tb drag-tb item-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>後台名稱 / SKU</th><th>基本價</th><th>類別</th><th>狀態</th><th title="顧客無法在菜單看到品項，僅有員工可以從 POS 或員工頁中查看">隱藏於顧客菜單</th><th class="ac" style="width:160px"><div class="acell"><span>複製</span><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(7, '查無結果', '', 'noresult') : emptyRow(7, '尚無品項', '請點擊右上新增'))}</tbody></table>`;
 }
 function renderAttrs() {
   const q = (ui.attrSearch || '').trim().toLowerCase(), ord = ui.attrOrder, pending = !!ord;
   const items = S.items.filter(itemVisible), curI = items.find(i => i.id === ui.attrItem);
   if (ui.attrItem && !curI) ui.attrItem = '';
-  const sel = `<div class="msel one fcat fattr ${ui.attrItemPop ? 'open' : ''}"><div class="msel-box" data-act="attrItemPop"><span class="msel-lbl">品項</span><span class="msel-chips"><span class="msel-val">${curI ? h(curI.name) : '所有品項'}</span></span><span class="msel-act msel-act1"><button aria-label="展開">${fi('ddown')}</button></span></div>${ui.attrItemPop ? `<div class="msel-pop one"><div class="msel-opt ${curI ? '' : 'on'}" data-act="attrItemSet" data-id="">所有品項</div>${items.map(i => `<div class="msel-opt ${i.id === ui.attrItem ? 'on' : ''}" data-act="attrItemSet" data-id="${i.id}">${h(i.name)}${i.sku ? `<small>${h(i.sku)}</small>` : ''}</div>`).join('')}</div>` : ''}</div>`;
+  const sel = `<div class="msel one fcat fattr ${ui.attrItemPop ? 'open' : ''}"><div class="msel-box" data-act="attrItemPop"><span class="msel-lbl">品項</span><span class="msel-chips"><span class="msel-val">${curI ? h(curI.name) : '所有品項'}</span></span><span class="msel-act msel-act1"><button aria-label="展開">${fi('ddown')}</button></span></div>${ui.attrItemPop ? `<div class="msel-pop one"><div class="msel-opt ${curI ? '' : 'on'}" data-act="attrItemSet" data-id="">所有品項</div>${items.map(i => `<div class="msel-opt ${i.id === ui.attrItem ? 'on' : ''}" data-act="attrItemSet" data-id="${i.id}">${h(i.name)}${i.sku ? `<small>(${h(i.sku)})</small>` : ''}</div>`).join('')}</div>` : ''}</div>`;
   const base = S.attrs.map(a => a.id), ids = ord || base;
   const list = ids.map(id => byId(S.attrs, id)).filter(Boolean).filter(a => (!curI || curI.attrs.includes(a.id)) && (!q || a.name.toLowerCase().includes(q) || (a.adminName || '').toLowerCase().includes(q)));
   const rule = a => `${a.required ? '必選' : '選填'}，選 ${a.min === a.max ? a.min : a.min + '–' + (a.max || '不限')}${a.max !== 1 || a.repeat ? '，可複選' : ''}`;
@@ -2520,6 +2559,7 @@ function drawerBody() {
     <hr class="mn-hr" />
     <div class="mn-t sec">販售設定${helpIc('「啟用」為各平台共用；未啟用時，下方販售開關全部停用')}</div>
     ${swl('啟用', '', d.enabled, 'enabled')}
+    <div class="sw-line"><span class="sw-l">隱藏於顧客菜單${helpIc('顧客無法在菜單看到品項，僅有員工可以從POS或員工頁中查看')}</span>${d.enabled ? swHtml(!!d.hidden, 'dsw', 'data-p="hidden"') : `<span class="sw dis ${d.hidden ? 'on' : ''}" title="品項未啟用，無法設定"></span>`}</div>
     <div class="mn-t">各平台販售開關${helpIc('調整任一開關後，會變成品項個別設定，不再跟隨類別')}</div>
     ${saleTbl}
     ${adv(`<label class="qp-fld"><span class="qp-fl">稅率</span><span class="qp-in"><input type="number" step="any" data-b="tax" value="${h(d.tax)}" placeholder="${h(menu ? menu.tax : '')}" /><em>%</em></span></label>
@@ -2974,6 +3014,7 @@ document.addEventListener('click', e => {
       S.items.forEach(i => { ui.open.add('i:' + i.id); i.attrs.forEach(aid => { const k = 'a:' + i.id + ':' + aid; ui.open.add(k); attrById(aid)?.options.forEach(o => { if (o.sub) { ui.open.add(k + ':' + o.id); ui.open.add(k + ':' + o.id + ':' + o.sub); } }); }); }); break;
     case 'collapseAll': ui.open.clear(); break;
     case 'qt': case 'qt2': { const it = byId(S.items, D.id); toggleCh(it, D.ch); touch(); if (a === 'qt2') { render(); return; } break; }
+    case 'qhide': { const it = byId(S.items, D.id); if (!it.enabled) break; it.hidden = !it.hidden; touch(); break; }
     case 'qen': { const it = byId(S.items, D.id); it.enabled = !it.enabled; touch(); break; }
     case 'itemMove': { moveIn(itemsOf(D.g), D.id, +D.d); break; }
     case 'catOrderSave': { toast('已完成'); Object.values(ui.catOrder || {}).forEach(ids => ids.forEach((id, k) => { byId(S.cats, id).sort = k + 1; })); ui.catOrder = null; touch(); break; }
@@ -3132,7 +3173,14 @@ function liveErr() { /* re-render drawer on blur to refresh error text */ }
 document.addEventListener('focusout', e => {
   if (e.target.dataset?.inl !== undefined) { commitInline(e.target.value); return; }
   const b = e.target.dataset?.b;
-  if (b && ui.panel && /^(sku|adminName|min|max|name|sort|start|end|slots\.|price|menuId)/.test(b)) redrawDrawer();
+  if (b && ui.panel && /^(sku|adminName|min|max|name|sort|start|end|slots\.|price|menuId)/.test(b)) {
+    // Tab 切換時重繪會銷毀下一個輸入框 → 記下目標的順位，重繪後把焦點還回去
+    const FSEL = 'input:not([type=hidden]):not(:disabled), select:not(:disabled), textarea, button:not(:disabled), a[href]';
+    const dr = document.querySelector('.drawer'), rt = e.relatedTarget;
+    const idx = dr && rt && dr.contains(rt) ? [...dr.querySelectorAll(FSEL)].filter(x => x.offsetParent !== null).indexOf(rt) : -1;
+    redrawDrawer();
+    if (idx >= 0) { const nf = [...document.querySelectorAll('.drawer ' + FSEL.split(', ').join(', .drawer '))].filter(x => x.offsetParent !== null)[idx]; if (nf) { nf.focus(); if (nf.select && /^(text|number|)$/.test(nf.type || '')) try { nf.select(); } catch (_) {} } }
+  }
 });
 document.addEventListener('keydown', e => {
   if (e.target.id === 'opSearch' && ui.panel) { const op = ui.panel.draft.options || []; if (e.key === 'Backspace' && !e.target.value && op.length) { ui.panel.draft.options = op.slice(0, -1); redrawDrawer(); document.getElementById('opSearch')?.focus(); return; } if (e.key === 'Escape') { e.stopPropagation(); ui.opDd = false; ui.opQ = ''; redrawDrawer(); return; } }
