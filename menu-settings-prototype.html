@@ -810,6 +810,8 @@ table.tb td.sale-td { white-space: normal; }
 .qp-orow:last-child { padding-bottom: 0; border-bottom: 0; }
 .qp-oname { width: 70px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; align-items: flex-start; justify-content: center; }
 .qp-ot { width: 70px; font-size: 14px; line-height: 1.5; color: #53545C; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qp-chip-btn { font-family: inherit; cursor: pointer; }
+.qp-chip.qp-chip-btn:hover { background: #F5FAF9; border-color: #58B6A8; }
 .qp-chip { max-width: 100%; height: 24px; box-sizing: border-box; padding: 0 10px; border: 1px solid #D4D4D4; border-radius: 100px; background: #fff; font-size: 14px; line-height: 22px; color: #53545C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .qp-orow .msw { margin: 0 12px 0 14px; cursor: pointer; }
 .qp-orow .qp-fld { flex: 1 1 0; min-width: 0; }
@@ -2082,11 +2084,11 @@ function pickerHtml() {
     <div class="pk-col">${MS.map(n => cell('pkM', n, pad2(n), n === near)).join('')}</div></div></div>`;
 }
 function popPos(P, w, hEst) { const left = Math.max(8, Math.min(P.x, innerWidth - w - 8)), gap = 8, m = 8, below = innerHeight - (P.y + gap) - m, above = (P.y - P.h) - gap - m, flip = hEst > below && above > below; return (flip ? `bottom:${innerHeight - (P.y - P.h) + gap}px` : `top:${P.y + gap}px`) + `;left:${left}px;width:${w}px;max-height:${Math.max(160, flip ? above : below)}px`; }
-const numIn = (ref, v, ph, w) => `<input type="number" step="any" max="99999" data-pp="${ref}" value="${h(v)}" placeholder="${h(ph)}" style="width:${w || '100%'};padding:6px 8px;border:1px solid #cfd5de;border-radius:6px;font-size:13px" />`;
+const numIn = (ref, v, ph, w) => `<input type="number" step="any" min="-99999" max="99999" data-pp="${ref}" value="${h(v)}" placeholder="${h(ph)}" style="width:${w || '100%'};padding:6px 8px;border:1px solid #cfd5de;border-radius:6px;font-size:13px" />`;
 function pricePopHtml() {
   const P = ui.pricePop, it = byId(S.items, P.id); if (!it) return '';
   const rows = [['dinePrice','內用價'],['takePrice','外帶價'],['webDelPrice','外送價'],['uberPrice','Uber 價'],['fpPrice','FP 價']];
-  const fld = (ref, v, ph, label) => `<label class="qp-fld"><span class="qp-fl">${label}</span><span class="qp-in"><em>$</em><input type="number" step="any" max="99999" data-pp="${ref}" value="${h(v)}" placeholder="${h(ph)}" /></span></label>`;
+  const fld = (ref, v, ph, label) => `<label class="qp-fld"><span class="qp-fl">${label}</span><span class="qp-in"><em>$</em><input type="number" step="any" min="-99999" max="99999" data-pp="${ref}" value="${h(v)}" placeholder="${h(ph)}" /></span></label>`;
   return `<div class="attr-pop qp" style="${popPos(P, 320, 330)}"><div class="qp-head">「${h(it.name)}」的價格<button class="dlg-x" data-act="popClose" aria-label="關閉">${fi('close', 20)}</button></div>
     <div class="qp-body qp-grid">${fld(`item:${it.id}:price`, it.price, '', '基本價<b>*</b>')}${rows.map(([k, n]) => fld(`item:${it.id}:${k}`, it[k], it.price, n)).join('')}</div>
     <div class="qp-foot"><button class="qp-btn" data-act="edit" data-t="item" data-id="${it.id}" data-focus="prices">${fi('edit24', 20)}編輯品項</button></div></div>`;
@@ -2094,16 +2096,16 @@ function pricePopHtml() {
 function optPopHtml() {
   const P = ui.optPop, it = byId(S.items, P.id), a = attrById(P.a); if (!it || !a) return '';
   const cols = [['price','基本加價'],['dinePrice','內用加價'],['takePrice','外帶加價'],['webDel','外送加價'],['uberPrice','Uber 加價'],['fpPrice','FP 加價']];
-  const fld = (o, k, label) => `<label class="qp-fld"><span class="qp-fl">${label}</span><span class="qp-in"><em>$</em><input type="number" step="any" max="99999" data-pp="opt:${a.id}:${o.id}:${k}" value="${h(o[k])}" placeholder="${h(k === 'price' ? 0 : (o.price || 0))}" /></span></label>`;
+  const fld = (o, k, label) => `<label class="qp-fld"><span class="qp-fl">${label}</span><span class="qp-in"><em>$</em><input type="number" step="any" min="-99999" max="99999" data-pp="opt:${a.id}:${o.id}:${k}" value="${h(o[k])}" placeholder="${h(k === 'price' ? 0 : (o.price || 0))}" /></span></label>`;
   return `<div class="attr-pop qp qp-opt" style="${popPos(P, 680, 330)}"><div class="qp-head">「${h(a.name)}」的屬性選項<button class="dlg-x" data-act="popClose" aria-label="關閉">${fi('close', 20)}</button></div>
-    <div class="qp-body qp-opts">${a.options.map(o => `<div class="qp-orow"><div class="qp-oname"><span class="qp-ot" title="${h(o.name)}">${h(o.name)}</span>${o.sub ? `<span class="qp-chip">${h(attrById(o.sub)?.name || '')}</span>` : ''}</div><span class="msw ${o.enabled !== false ? 'on' : ''}" data-act="optEn" data-a="${a.id}" data-o="${o.id}"><i></i></span>${cols.map(([k, n]) => fld(o, k, n)).join('')}</div>`).join('')}</div>
+    <div class="qp-body qp-opts">${a.options.map(o => `<div class="qp-orow"><div class="qp-oname"><span class="qp-ot" title="${h(o.name)}">${h(o.name)}</span>${o.sub ? `<button type="button" class="qp-chip qp-chip-btn" data-act="subEdit" data-id="${o.sub}" title="編輯「${h(attrById(o.sub)?.name || '')}」屬性">${h(attrById(o.sub)?.name || '')}</button>` : ''}</div><span class="msw ${o.enabled !== false ? 'on' : ''}" data-act="optEn" data-a="${a.id}" data-o="${o.id}"><i></i></span>${cols.map(([k, n]) => fld(o, k, n)).join('')}</div>`).join('')}</div>
     <div class="qp-foot"><button class="qp-btn" data-act="edit" data-t="attr" data-id="${a.id}">${fi('edit24', 20)}編輯屬性</button></div></div>`;
 }
 const PH_ICON = '<span class="u-ph"><svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="#B5B5B5" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15h30v24a3 3 0 0 1-3 3H12a3 3 0 0 1-3-3V15z"/><path d="M9 15l4-7h22l4 7"/><path d="M17 24c1.5 5 12.5 5 14 0"/></svg></span>';
 function uCard(it, i, n, cid) {
   const dis = !it.enabled;
   const priceCell = ui.editing && ui.editing.k === 'item' && ui.editing.id === it.id && ui.editing.f === 'price'
-    ? `<input class="inl-input" data-inl type="number" max="99999" value="${it.price}" style="width:100px" />` : `<span class="name" data-act="inl" data-k="item" data-id="${it.id}" data-f="price" title="點選即可編輯">$${it.price}</span>`;
+    ? `<input class="inl-input" data-inl type="number" min="-99999" max="99999" value="${it.price}" style="width:100px" />` : `<span class="name" data-act="inl" data-k="item" data-id="${it.id}" data-f="price" title="點選即可編輯">$${it.price}</span>`;
   const mv = (act, d, on, nm, a, dsb) => `<button data-act="${act}" data-id="${it.id}" data-g="${cid}" data-d="${d}" ${on ? '' : 'disabled'} aria-label="${nm}" title="${nm}">${fi(on ? a : dsb, 20)}</button>`;
   return `<div class="u-card ${dis ? 'dim' : ''}">
     <div class="uc-top"><div class="u-body">
@@ -2546,7 +2548,7 @@ function drawerBody() {
     ${F('後台名稱', 'adminName', { req:true, help:'後台網站顯示的名稱，每個後台名稱不可重複', err:v => v && S.items.some(x => x.id !== d.id && x.adminName === v) ? '後台名稱不可重複' : '' })}
     ${F('廚房名稱', 'kitchen', { help:'廚房出單、KDS 顯示' })}
     ${catSel}
-    ${F('SKU', 'sku', { opt:false, req:skuNeeded && d.enabled, err:() => skuErr, help:'有勾外送時必填；不可含 / ;，全店不可重複' })}
+    ${F('SKU', 'sku', { opt:false, req:skuNeeded && d.enabled, err:() => skuErr, help:'有勾外送時必填；不可含 / ;，同菜單不可重複' })}
     <hr class="mn-hr" />
     <div class="mn-t sec" id="sec-prices">價格設定${helpIc('各情境價格未填時，一律使用基本價')}</div>
     ${priceFld('基本價', 'price', '', true, d)}
@@ -2617,7 +2619,7 @@ function drawerBody() {
 function pRow(label, path, ph, chPath, note, d, req) {
   const chs = chPath ? `<span class="na">適用平台</span>${DP().map(c => pick(CH_NAME[c], chPath + '.' + c, (getp(d, chPath) || []).includes(c))).join('')}` : note ? `<span class="na">${note}</span>` : '';
   const empty = req && ui.reqChk && String(getp(d, path) ?? '').trim() === '', over = ui.reqChk && priceOver(getp(d, path)), miss = empty || over;
-  return `<div class="prow"><label class="qp-fld ${miss ? 'bad' : ''}"><span class="qp-fl">${label}${req ? '<b>*</b>' : ''}</span><span class="qp-in ${miss ? 'bad' : ''}"><em>$</em><input type="number" step="any" max="${PRICE_MAX}" data-b="${path}" value="${h(getp(d, path))}" placeholder="${h(ph)}" ${miss ? 'data-miss' : ''} /></span>${miss ? `<span class="err">${over ? PRICE_MAX_MSG : `請輸入${label}`}</span>` : ''}</label><div class="chips">${chs}</div></div>`;
+  return `<div class="prow"><label class="qp-fld ${miss ? 'bad' : ''}"><span class="qp-fl">${label}${req ? '<b>*</b>' : ''}</span><span class="qp-in ${miss ? 'bad' : ''}"><em>$</em><input type="number" step="any" min="-${PRICE_MAX}" max="${PRICE_MAX}" data-b="${path}" value="${h(getp(d, path))}" placeholder="${h(ph)}" ${miss ? 'data-miss' : ''} /></span>${miss ? `<span class="err">${over ? PRICE_MAX_MSG : `請輸入${label}`}</span>` : ''}</label><div class="chips">${chs}</div></div>`;
 }
 function swl(lab, help, on, p, dis2, tip) {
   return `<div class="sw-line"><span class="sw-l ${dis2 ? 'off' : ''}">${lab}${help ? helpIc(help) : ''}</span>${dis2 ? `<span class="sw dis" title="${tip}"></span>` : swHtml(on, 'dsw', `data-p="${p}"`)}</div>`;
@@ -2637,13 +2639,13 @@ function priceRows(d, bp, rows, noPlat) {
 function mselOne(o) {
   return `<div class="msel one ${o.open ? 'open' : ''}" ${o.attrs || ''}><div class="msel-box" data-act="${o.popAct}" ${o.data || ''}><span class="msel-lbl">${o.label}</span><span class="msel-chips"><span class="msel-val">${h(o.value)}</span></span><span class="msel-act msel-act1"><button type="button" aria-label="展開">${fi('ddown')}</button></span></div>${o.open ? `<div class="msel-pop one">${o.opts.map(x => `<div class="msel-opt ${x.id === o.cur ? 'on' : ''}" data-act="${o.setAct}" ${o.data || ''} data-id="${x.id}">${h(x.name)}</div>`).join('')}</div>` : ''}</div>`;
 }
-const PRICE_MAX = 99999, PRICE_MAX_MSG = '售價上限為 NT$ 99,999';
-const priceOver = v => v !== '' && v != null && +v > PRICE_MAX;
+const PRICE_MAX = 99999, PRICE_MAX_MSG = '金額範圍為 NT$ -99,999 ～ 99,999';
+const priceOver = v => v !== '' && v != null && (+v > PRICE_MAX || +v < -PRICE_MAX);
 function priceFld(label, path, ph, req, d) {
   const v = getp(d, path), empty = req && ui.reqChk && String(v ?? '').trim() === '', over = ui.reqChk && priceOver(v), miss = empty || over;
-  return `<label class="qp-fld ${miss ? 'bad' : ''}"><span class="qp-fl">${label}${req ? '<b>*</b>' : ''}</span><span class="qp-in ${miss ? 'bad' : ''}"><em>$</em><input type="number" step="any" max="${PRICE_MAX}" data-b="${path}" value="${h(v)}" placeholder="${h(ph)}" ${miss ? 'data-miss' : ''} /></span>${miss ? `<span class="err">${over ? PRICE_MAX_MSG : `請輸入${label}`}</span>` : ''}</label>`;
+  return `<label class="qp-fld ${miss ? 'bad' : ''}"><span class="qp-fl">${label}${req ? '<b>*</b>' : ''}</span><span class="qp-in ${miss ? 'bad' : ''}"><em>$</em><input type="number" step="any" min="-${PRICE_MAX}" max="${PRICE_MAX}" data-b="${path}" value="${h(v)}" placeholder="${h(ph)}" ${miss ? 'data-miss' : ''} /></span>${miss ? `<span class="err">${over ? PRICE_MAX_MSG : `請輸入${label}`}</span>` : ''}</label>`;
 }
-function priceCell(path, ph, d) { const over = ui.reqChk && priceOver(getp(d, path)); return `<span class="qp-in sm ${over ? 'bad' : ''}"><em>$</em><input type="number" step="any" max="${PRICE_MAX}" data-b="${path}" value="${h(getp(d, path))}" placeholder="${h(ph)}" ${over ? 'data-miss title="' + PRICE_MAX_MSG + '"' : ''} /></span>${over ? `<span class="err">${PRICE_MAX_MSG}</span>` : ''}`; }
+function priceCell(path, ph, d) { const over = ui.reqChk && priceOver(getp(d, path)); return `<span class="qp-in sm ${over ? 'bad' : ''}"><em>$</em><input type="number" step="any" min="-${PRICE_MAX}" max="${PRICE_MAX}" data-b="${path}" value="${h(getp(d, path))}" placeholder="${h(ph)}" ${over ? 'data-miss title="' + PRICE_MAX_MSG + '"' : ''} /></span>${over ? `<span class="err">${PRICE_MAX_MSG}</span>` : ''}`; }
 function saleBoxes(base, s, dis) {
   const p = k => base + '.' + k;
   return `<div class="box ${dis ? 'lock' : ''}"><div class="box-t">Kiosk</div><div class="sw-row">${swRow('內用', p('kiosk_in'), s.kiosk_in, dis)}${swRow('外帶', p('kiosk_out'), s.kiosk_out, dis)}${swRow('外送', p('kiosk_del'), s.kiosk_del, dis)}</div></div>
@@ -2873,8 +2875,8 @@ function impAnalyze(text, fileName) {
     const bad = msg => res.errors.push(`第 ${n} 列：${msg}`);
     if (!cat) return bad('「類別」不可空白');
     if (!name) return bad('「品項名稱」不可空白');
-    if (price === '' || isNaN(+price) || +price < 0) return bad(`「價格」需為 0 以上的數字（目前是「${price}」）`);
-    if (+price > PRICE_MAX) return bad(`「價格」${PRICE_MAX_MSG}（目前是「${price}」）`);
+    if (price === '' || isNaN(+price)) return bad(`「價格」需為數字（目前是「${price}」）`);
+    if (Math.abs(+price) > PRICE_MAX) return bad(`「價格」${PRICE_MAX_MSG}（目前是「${price}」）`);
     if (sale && !['Y', 'N'].includes(sale)) return bad('「販售」只能填 Y 或 N');
     if (sku) { if (seenSku[sku]) return bad(`SKU「${sku}」與第 ${seenSku[sku]} 列重複`); seenSku[sku] = n; }
     const attrs = [];
@@ -2922,7 +2924,7 @@ function moveIn(list, id, d) {
 function commitInline(val) {
   const e = ui.editing; if (!e) return; ui.editing = null;
   const obj = byId({ menu:S.menus, cat:S.cats, item:S.items }[e.k], e.id);
-  if (e.f === 'price') { const n = parseFloat(val); if (n > PRICE_MAX) toast(PRICE_MAX_MSG, 'error'); else if (!isNaN(n) && n >= 0) { obj.price = n; touch(); } } else if (e.f === 'desc') { obj.desc = val.trim(); touch(); } else if (val.trim()) { obj.name = val.trim(); touch(); }
+  if (e.f === 'price') { const n = parseFloat(val); if (n > PRICE_MAX || n < -PRICE_MAX) toast(PRICE_MAX_MSG, 'error'); else if (!isNaN(n)) { obj.price = n; touch(); } } else if (e.f === 'desc') { obj.desc = val.trim(); touch(); } else if (val.trim()) { obj.name = val.trim(); touch(); }
   render();
 }
 document.addEventListener('click', e => {
@@ -2962,6 +2964,7 @@ document.addEventListener('click', e => {
     case 'addMenuToggle': ui.addMenu = !ui.addMenu; break;
     case 'new': openPanel(D.t, null, D.p); return;
     case 'edit': openPanel(D.t, D.id, undefined, D.focus); return;
+    case 'subEdit': ui.attrPop = ui.pricePop = ui.optPop = null; openPanel('attr', D.id); return;
     case 'page': ui.page = D.p; ui.panel = null; ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; break;
     case 'tagOrderSave': { toast('已完成'); const o = ui.tagOrder; if (o) S.tags = o.map(id => byId(S.tags, id)).filter(Boolean); ui.tagOrder = null; break; }
     case 'tagOrderReset': { toast('已還原排序'); ui.tagOrder = null; break; }
@@ -3201,7 +3204,7 @@ document.addEventListener('change', e => {
   const t = e.target;
   if (t.id === 'impFile') { const f = t.files[0]; if (!f) return; impLoad(f); return; }
   if (t.dataset.pp) { const [k, a1, a2, f] = t.dataset.pp.split(':'); let v = t.value === '' ? '' : +t.value;
-    if (v > PRICE_MAX) { v = PRICE_MAX; t.value = v; toast(PRICE_MAX_MSG, 'error'); }
+    if (v > PRICE_MAX || v < -PRICE_MAX) { v = v > 0 ? PRICE_MAX : -PRICE_MAX; t.value = v; toast(PRICE_MAX_MSG, 'error'); }
     if (k === 'item') { const it = byId(S.items, a1); if (a2 === 'price' && v === '') { t.value = it.price; return; } it[a2] = v; }
     else { const o = attrById(a1).options.find(x => x.id === a2); o[f] = f === 'price' ? (v === '' ? 0 : v) : v; }
     touch(); return; }
