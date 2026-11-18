@@ -2315,6 +2315,10 @@ function commitPanel() {
   if (miss) { miss.scrollIntoView({ block:'center', behavior:'smooth' }); miss.focus({ preventScroll:true }); return; }
   const dupAdmin = document.querySelector('#drbody input.bad[data-b="adminName"]');
   if (dupAdmin) { dupAdmin.scrollIntoView({ block:'center', behavior:'smooth' }); dupAdmin.focus({ preventScroll:true }); toast('後台名稱不可重複', 'error'); return; }
+  if (t === 'menu') {
+    const dupName = document.querySelector('#drbody input.bad[data-b="name"]');
+    if (dupName) { dupName.scrollIntoView({ block:'center', behavior:'smooth' }); dupName.focus({ preventScroll:true }); toast('菜單名稱不可重複', 'error'); return; }
+  }
   ui.reqChk = false;
   if (t === 'tag') {
     if (S.tags.some(x => x.id !== draft.id && (x.name === draft.name.trim() || x.adminName === draft.adminName.trim()))) { toast('標籤名稱或後台名稱不可重複', 'error'); return; }
@@ -2498,7 +2502,7 @@ function drawerBody() {
     const picked = byOrder(d.stores, STORES.map(x => x.id)).map(id => byId(STORES, id)).filter(Boolean), LIM = 1;
     const tags = ui.storeDd ? picked.map(chipOf).join('') : picked.slice(0, LIM).map(chipOf).join('') + (picked.length > LIM ? `<span class="sc-more">+${picked.length - LIM}</span>` : '');
     const trash = fi('trash', 20);
-    return `<div class="mn"><div class="mn-t sec">菜單設定</div>${F('菜單名稱', 'name', { req:true })}
+    return `<div class="mn"><div class="mn-t sec">菜單設定</div>${F('菜單名稱', 'name', { req:true, err:v => v && v.trim() && S.menus.some(x => x.id !== d.id && (x.name || '').trim() === v.trim()) ? '菜單名稱不可重複' : '' })}
     <div class="sc ${ui.storeDd ? 'open' : ''}" id="sec-stores"><div class="sc-box" ${ui.storeDd ? '' : 'data-act="storeOpen"'}><span class="sc-l">套用商店</span>
       <div class="sc-v">${tags}${ui.storeDd ? `<input type="text" id="storeSearch" class="sc-in" value="${h(ui.storeQ || '')}" autocomplete="off" />` : ''}</div>
       <div class="sc-ctl">${selN ? `<button class="sc-x" data-act="storeAll" data-v="0" data-clear="1" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="storeDd" aria-label="${ui.storeDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.storeDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${stDd}</div>
