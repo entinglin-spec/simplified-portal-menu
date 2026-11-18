@@ -1090,6 +1090,7 @@ table.tb td.sale-td { white-space: normal; }
 .dlg-per { width: 512px; max-width: calc(100vw - 32px); }
 .per-dlg-b { display: flex; flex-direction: column; gap: 16px; padding: 20px; }
 .per-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.per-2.per-time { grid-template-columns: 1fr auto 1fr; align-items: center; }
 .per-days { display: flex; flex-direction: column; gap: 0; }
 .per-days .ckbs { gap: 0 20px; }
 .pd-f { position: relative; }
@@ -2310,7 +2311,12 @@ function focusSection(name) {
 }
 function commitPanel() {
   const { t, isNew, draft } = ui.panel;
-  ui.reqChk = true; redrawDrawer();
+  ui.reqChk = true;
+  if (t === 'menu') { // 營業星期未勾選：展開該商店以顯示錯誤
+    ensureSS(draft);
+    (draft.stores || []).forEach(sid => { if ((draft.storeSettings[sid].periods || []).some(p => !p.days.length)) ui.ssOpen.add(sid); });
+  }
+  redrawDrawer();
   const miss = document.querySelector('#drbody [data-miss]');
   if (miss) { miss.scrollIntoView({ block:'center', behavior:'smooth' }); miss.focus({ preventScroll:true }); return; }
   const dupAdmin = document.querySelector('#drbody input.bad[data-b="adminName"]');
@@ -2399,8 +2405,8 @@ function perTable(per, sid) {
 function ssForm(v, sid, errs, help, trash, many) {
   const pre = `storeSettings.${sid}.`, per = v.periods || [], multi = per.length > 1;
   const perBody = (p, pi) => { const pp = `${pre}periods.${pi}.`;
-    return `<div class="mn-2">${F('套用日期（起）', pp + 'start', { type:'date', opt:false })}${F('套用日期（訖）', pp + 'end', { type:'date', opt:false })}</div>
-    <div class="mn-g"><div class="mn-t">營業星期</div><div class="ckbs">${[1, 2, 3, 4, 5, 6, 0].map(i => ckb('週' + DAYS[i], pp + 'day.' + i, p.days.includes(i))).join('')}</div></div>
+    return `<div class="fld"><label>日期</label><input type="text" readonly class="pk-in pk-date" data-act="pkOpen" data-kind="date" data-b="${pp}start" data-next="${pp}end" value="${[p.start, p.end].filter(Boolean).map(x => x.replace(/-/g, '/')).join(' - ')}" placeholder="選擇日期區間" /></div>
+    <div class="mn-g"><div class="mn-t">營業星期</div><div class="per-days" ${ui.reqChk && !p.days.length ? 'data-miss tabindex="-1"' : ''}>${ckb('全選', pp + 'dayAll', p.days.length === 7)}<div class="ckbs">${[1, 2, 3, 4, 5, 6, 0].map(i => ckb('週' + DAYS[i], pp + 'day.' + i, p.days.includes(i))).join('')}</div></div>${ui.reqChk && !p.days.length ? '<div class="err" style="margin-top:8px">請至少選擇一天</div>' : ''}</div>
     <div class="mn-g slots"><div class="mn-t">每日時段${help('結束時間早於開始時間視為跨夜，系統會自動拆成兩段')}</div>
       ${p.slots.map((sl, i) => `<div class="mn-slot"><div class="fld"><label>開始時間</label><input type="text" readonly class="pk-in pk-time" data-act="pkOpen" data-kind="time" data-b="${pp}slots.${i}.s" value="${sl.s}" /></div><span class="mn-to">至</span><div class="fld"><label>結束時間</label><input type="text" readonly class="pk-in pk-time" data-act="pkOpen" data-kind="time" data-b="${pp}slots.${i}.e" value="${sl.e}" /></div>${p.slots.length > 1 ? `<button class="mn-del" data-act="slotDel" data-sid="${sid}" data-p="${p.id}" data-i="${i}" aria-label="移除時段" title="移除時段">${trash}</button>` : ''}</div>`).join('')}</div>`; };
   const perTbl = perTable(per, sid);
@@ -2787,8 +2793,8 @@ function renderOverlay() {
       <div class="dlg-h"><h2>時段設定</h2><button class="dlg-x" data-act="perCancel" aria-label="關閉">${fi('close', 20)}</button></div>
       <div class="dlg-b per-dlg-b">
         <div class="pd-f"><label>日期</label><input type="text" readonly class="pd-in" data-act="pkOpen" data-kind="date" data-b="_pe.start" data-next="_pe.end" value="${rg}" placeholder="選擇日期區間" /></div>
-        <div class="per-days">${ckb('全選', '_pe.dayAll', pe.days.length === 7)}<div class="ckbs">${[1, 2, 3, 4, 5, 6, 0].map(i => ckb('週' + DAYS[i], '_pe.day.' + i, pe.days.includes(i))).join('')}</div></div>
-        <div class="per-2"><div class="pd-f"><label>開始時間</label><input type="text" readonly class="pd-in" data-act="pkOpen" data-kind="time" data-b="_pe.slots.0.s" value="${sl.s}" /></div><div class="pd-f"><label>結束時間</label><input type="text" readonly class="pd-in" data-act="pkOpen" data-kind="time" data-b="_pe.slots.0.e" value="${sl.e}" /></div></div>
+        <div class="per-days">${ckb('全選', '_pe.dayAll', pe.days.length === 7)}<div class="ckbs">${[1, 2, 3, 4, 5, 6, 0].map(i => ckb('週' + DAYS[i], '_pe.day.' + i, pe.days.includes(i))).join('')}</div>${ui.perDlg.chk && !pe.days.length ? '<div class="err" style="margin-top:8px;font-size:12px;color:#FF8A80">請至少選擇一天</div>' : ''}</div>
+        <div class="per-2 per-time"><div class="pd-f"><label>開始時間</label><input type="text" readonly class="pd-in" data-act="pkOpen" data-kind="time" data-b="_pe.slots.0.s" value="${sl.s}" /></div><span class="mn-to">至</span><div class="pd-f"><label>結束時間</label><input type="text" readonly class="pd-in" data-act="pkOpen" data-kind="time" data-b="_pe.slots.0.e" value="${sl.e}" /></div></div>
       </div>
       <div class="dlg-f"><button class="dlg-btn" data-act="perCancel">取消</button><button class="dlg-btn blue" data-act="perSave">確認</button></div></div>`;
   }
@@ -3094,7 +3100,7 @@ document.addEventListener('click', e => {
     case 'perCancel': delete ui.panel.draft._pe; ui.perDlg = null; ui.picker = null; renderOverlay(); return;
     case 'perSave': { const d = ui.panel.draft, pe = d._pe, dl = ui.perDlg;
       if (pe.start && pe.end && pe.end < pe.start) { toast('套用日期：訖日不可早於起日', 'error'); return; }
-      if (!pe.days.length) { toast('請至少選擇一天', 'error'); return; }
+      if (!pe.days.length) { dl.chk = true; renderOverlay(); return; }
       const tg = dl.sid ? d.storeSettings[dl.sid] : d, i = dl.id ? tg.periods.findIndex(x => x.id === dl.id) : -1, np = { ...clone(pe), days:[...new Set(pe.days)].sort() };
       if (i >= 0) tg.periods[i] = np; else tg.periods.push(np);
       delete d._pe; ui.perDlg = null; ui.picker = null; redrawDrawer(); return; }
@@ -3250,6 +3256,7 @@ document.addEventListener('change', e => {
     else if (b.startsWith('tcat.')) { const id = b.slice(5); d.catIds = v ? [...new Set([...(d.catIds || []), id])] : (d.catIds || []).filter(x => x !== id); redrawDrawer(); document.getElementById('tcSearch')?.focus(); return; }
     else if (b.startsWith('store.')) { const id = b.slice(6); d.stores = v ? [...new Set([...d.stores, id])] : d.stores.filter(x => x !== id); redrawDrawer(); document.getElementById('storeSearch')?.focus(); return; }
     else if (/^(?:storeSettings\.[^.]+\.)?periods\.\d+\.day\.\d$/.test(b)) { const m = b.match(/^(?:storeSettings\.([^.]+)\.)?periods\.(\d+)\.day\.(\d)$/), pr = (m[1] ? d.storeSettings[m[1]] : d).periods[+m[2]], n = +m[3]; pr.days = v ? [...new Set([...pr.days, n])] : pr.days.filter(x => x !== n); }
+    else if (/^(?:storeSettings\.[^.]+\.)?periods\.\d+\.dayAll$/.test(b)) { const m = b.match(/^(?:storeSettings\.([^.]+)\.)?periods\.(\d+)\.dayAll$/), pr = (m[1] ? d.storeSettings[m[1]] : d).periods[+m[2]]; pr.days = v ? [0, 1, 2, 3, 4, 5, 6] : []; }
     else if (b === '_pe.dayAll') { d._pe.days = v ? [0, 1, 2, 3, 4, 5, 6] : []; }
     else if (/^_pe\.day\.\d$/.test(b)) { const n = +b.slice(-1); d._pe.days = v ? [...new Set([...d._pe.days, n])] : d._pe.days.filter(x => x !== n); }
     else if (b.startsWith('attr.')) { const id = b.slice(5); d.attrs = v ? [...new Set([...d.attrs, id])] : d.attrs.filter(x => x !== id); if (d.attrs.length) d.adjustable = false; }
