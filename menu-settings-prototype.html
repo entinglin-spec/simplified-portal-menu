@@ -1236,6 +1236,9 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .mn .optbox { gap: 0; padding: 0; overflow: hidden; }
 .mn .optbox > .mn-oh { background: #F3F3F4; padding: 8px 12px; border-bottom: 1px solid #D4D4D4; }
 .mn .optbox.closed > .mn-oh { border-bottom: 0; }
+.mn .optbox.tg-box { overflow: visible; }
+.mn .optbox.tg-box > .mn-oh { border-radius: 7px 7px 0 0; }
+.mn .optbox.tg-box.closed > .mn-oh { border-radius: 7px; }
 .mn .optbox .opt-body { display: flex; flex-direction: column; gap: 16px; padding: 12px; }
 .mn .prow { margin: 0; }
 .mn .optbox .prow { grid-template-columns: 168px 1fr; }
@@ -2295,6 +2298,7 @@ function openPanel(t, id, parent, focus, seed) {
   if (t === 'item') { draft.sale = clone(sale(draft.inherit ? { ...draft, inherit:true } : draft)); }
   if (t === 'attr') draft.itemIds = S.items.filter(i => i.attrs.includes(draft.id)).map(i => i.id);
   if (t === 'tag' && !seed) { draft.itemIds = S.items.filter(i => (i.tags || []).includes(draft.name)).map(i => i.id); draft.catIds = S.cats.filter(c => (c.tags || []).includes(draft.name)).map(c => c.id); draft._old = draft.name; ui.tagCatPop = ui.tagColPop = ui.tcDd = false; ui.tcQ = ''; }
+  if (t === 'tag') { const hit = S.menus.filter(m => tgPool(m.id + ':i').ids.some(x => (draft.itemIds || []).includes(x)) || tgPool(m.id + ':c').ids.some(x => (draft.catIds || []).includes(x))).map(m => m.id); ui.tgOpen = new Set(hit.length ? hit : S.menus.slice(0, 1).map(m => m.id)); ui.tgDd = null; ui.tgQ = ''; }
   if (t === 'menu') { ensureSS(draft); ui.ssOpen = new Set(); ui.perOpen = new Set(); }
   ui.panel = { t, isNew, draft }; ui.panelSnap = JSON.stringify(draft); ui.discardDlg = false; ui.panelFresh = true; ui.storeQ = ''; ui.storeDd = false; ui.tagQ = ''; ui.tagDd = false; ui.paQ = ''; ui.paDd = false; ui.catPop = false; ui.catQ = ''; ui.subPop = null; ui.dispPop = false; ui.aiQ = ''; ui.aiDd = false; ui.aiMenu = ''; ui.aiSelDlg = false; ui.tcMenu = ''; ui.opQ = ''; ui.opDd = false; ui.optOpen = new Set(); ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; ui.advOpen = false; ui.langOpen = {}; ui.reqChk = false; ui.addMenu = false;
   render();
@@ -2451,7 +2455,8 @@ function cpApply(st, from) {
   document.addEventListener('pointerdown', e => { const el = e.target.closest && e.target.closest('#cpSat, #cpHue, #cpAlpha'); if (!el || !ui.cp) return; e.preventDefault(); drag = { el, k:el.id === 'cpSat' ? 'sat' : el.id === 'cpHue' ? 'hue' : 'alpha' }; ui.cpDrag = true; upd(e); });
   document.addEventListener('pointermove', upd);
   document.addEventListener('pointerup', () => { if (drag) { drag = null; setTimeout(() => { ui.cpDrag = false; }, 0); } });
-  document.addEventListener('input', e => { const t = e.target; if (t.dataset && t.dataset.lg && ui.panel && ui.panel.draft._lg) { ui.panel.draft._lg[t.dataset.lg] = t.value; return; } if (!t.classList || !t.classList.contains('cp-in') || !ui.cp) return; const k = t.dataset.k, v = t.value.trim(); let st = { ...ui.cp };
+  document.addEventListener('compositionend', e => { if (e.target.id === 'tgSearch') { ui.tgQ = e.target.value; redrawDrawer(); const n = document.getElementById('tgSearch'); if (n) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); } } });
+document.addEventListener('input', e => { const t = e.target; if (t.dataset && t.dataset.lg && ui.panel && ui.panel.draft._lg) { ui.panel.draft._lg[t.dataset.lg] = t.value; return; } if (!t.classList || !t.classList.contains('cp-in') || !ui.cp) return; const k = t.dataset.k, v = t.value.trim(); let st = { ...ui.cp };
     if (k === 'hex') { if (!/^[0-9a-f]{6}$/i.test(v)) return; const c = cpHsv(cpParse('#' + v)); st = { ...st, h:st.s === 0 || c.s === 0 ? st.h : c.h, s:c.s, v:c.v }; }
     else { const n = +v; if (v === '' || isNaN(n)) return; if (k === 'a') st.a = Math.min(100, Math.max(0, n)) / 100; else { const rgb = cpRgb(st); rgb[k] = Math.min(255, Math.max(0, Math.round(n))); const c = cpHsv(rgb); st = { ...st, h:c.s === 0 ? st.h : c.h, s:c.s, v:c.v }; } }
     cpApply(st, t); }, true);
@@ -2475,19 +2480,39 @@ function aiBoxHtml(d, label = '包含此屬性的品項', ph = '選擇要使用�
     <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="aiClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="aiDd" aria-label="${ui.aiDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.aiDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.aiDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${sel.length}</b> / ${allIts.length}</span><span><a href="#" data-act="aiAll" data-v="1">全選</a>｜<a href="#" data-act="aiAll" data-v="0">全部清除</a></span></div>${aiFl.length ? [...S.menus.flatMap(m => catsOf(m.id).map(c => ({ k:c.id, g:c.name, l:aiFl.filter(x => x.catIds.includes(c.id)) }))), ...([{ k:'_unc', g:'未分類', l:aiFl.filter(x => !x.catIds.length) }])].map(({ k, g, l }) => l.length ? (() => { const n = l.filter(x => sel.includes(x.id)).length, fold = foldK(k), st = n === l.length ? 'on' : n ? 'part' : ''; return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="aiGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(g)}<small>${n} / ${l.length}</small><button type="button" class="sc-gtg" data-act="aiGrpTog" data-k="${k}" aria-expanded="${!fold}" aria-label="${fold ? '展開' : '收合'}類別${h(g)}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${fold ? 'M7 10l5 5 5-5z' : 'M7 14l5-5 5 5z'}"/></svg></button></div>`; })() + (foldK(k) ? '' : l.map(x => `<label class="sc-opt ${sel.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="apply.${x.id}" ${sel.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('')) : '').join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
   return aiBox;
 }
+function tgPool(k) { const [mid, kind] = k.split(':'); return kind === 'c' ? { f:'catIds', ids:catsOf(mid).map(c => c.id) } : { f:'itemIds', ids:[...menuItemIds(mid)] }; }
+const cats_ = mid => catsOf(mid);
+function tgFiltered(k) { const q = (ui.tgQ || '').trim().toLowerCase(), isI = k.endsWith(':i'), { ids } = tgPool(k); if (!q) return ids; return ids.filter(id => { const o = byId(isI ? S.items : S.cats, id); return o && (o.name.toLowerCase().includes(q) || (isI && ((o.adminName || '').toLowerCase().includes(q) || (o.sku || '').toLowerCase().includes(q)))); }); }
 function drawerBody() {
   const { t, draft: d, isNew } = ui.panel;
   const adv = (inner) => `<button class="adv-toggle" data-act="adv" aria-expanded="${ui.advOpen}"><span>進階設定</span><svg width="24" height="24" viewBox="0 0 24 24" fill="#53545C"${ui.advOpen ? '' : ' style="transform:rotate(180deg)"'}><path d="M15.825 15.175L12 11.3583L8.175 15.175L7 14L12 9L17 14L15.825 15.175Z"/></svg></button>${ui.advOpen ? inner : ''}`;
   if (t === 'tag') {
     const dupName = d.name && S.tags.some(x => x.id !== d.id && x.name === d.name), dupAdmin = d.adminName && S.tags.some(x => x.id !== d.id && x.adminName === d.adminName);
-    const tcq = (ui.tcQ || '').trim().toLowerCase(), tcAll = S.menus.flatMap(m => catsOf(m.id).map(c => ({ c, m }))), tcFl = tcAll.filter(x => (!ui.tcMenu || x.m.id === ui.tcMenu) && (!tcq || x.c.name.toLowerCase().includes(tcq)));
-    const tcSel = byOrder(d.catIds || [], tcAll.map(x => x.c.id));
-    const tcX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
-    const tcChip = id => { const c = byId(S.cats, id); return c ? `<span class="sc-chip">${h(c.name)}<button data-act="tcRm" data-id="${id}" aria-label="移除${h(c.name)}">${tcX}</button></span>` : ''; };
-    const tcTags = ui.tcDd ? tcSel.map(tcChip).join('') : tcSel.slice(0, 1).map(tcChip).join('') + (tcSel.length > 1 ? `<span class="sc-more">+${tcSel.length - 1}</span>` : '');
-    const tcBox = `<div class="sc ${ui.tcDd ? 'open' : ''}" id="sec-tc"><div class="sc-box" ${ui.tcDd ? '' : 'data-act="tcOpen"'}><span class="sc-l">套用的類別</span>
-      <div class="sc-v">${tcTags}${!tcSel.length && !ui.tcDd ? '<span class="sc-ph">請選擇套用的類別</span>' : ''}${ui.tcDd ? `<input type="text" id="tcSearch" class="sc-in" placeholder="${tcSel.length ? '' : '請選擇套用的類別'}" value="${h(ui.tcQ || '')}" autocomplete="off" />` : ''}</div>
-      <div class="sc-ctl">${tcSel.length ? `<button class="sc-x" data-act="tcClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="tcDd" aria-label="${ui.tcDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.tcDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.tcDd ? `<div class="sc-dd" role="listbox">${menuFilterHtml(ui.tcMenu || '', 'tcMenu')}${tcFl.length ? tcFl.map(({ c, m }) => `<label class="sc-opt ${(d.catIds || []).includes(c.id) ? 'on' : ''}"><input type="checkbox" data-b="tcat.${c.id}" ${(d.catIds || []).includes(c.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(c.name)}${S.menus.length > 1 ? `<small>${h(m.name)}</small>` : ''}</span></label>`).join('') : '<div class="st-empty">找不到符合的類別</div>'}</div>` : ''}</div>`;
+    const tgX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
+    const tgField = (m, kind) => {
+      const isI = kind === 'i', key = m.id + ':' + kind, open = ui.tgDd === key, { f, ids: pool } = tgPool(key), selAll = d[f] || [];
+      const sel = isI ? byOrder(selAll.filter(id => pool.includes(id)), itemOrder()) : pool.filter(id => selAll.includes(id));
+      const nameOf = id => (byId(isI ? S.items : S.cats, id) || {}).name || '';
+      const chip = id => `<span class="sc-chip">${h(nameOf(id))}<button data-act="tgRm" data-k="${key}" data-id="${id}" aria-label="移除${h(nameOf(id))}">${tgX}</button></span>`;
+      const label = isI ? '套用的品項' : '套用的類別', ph = isI ? '請選擇套用的品項' : '請選擇套用的類別';
+      const tags = open ? sel.map(chip).join('') : sel.slice(0, 1).map(chip).join('') + (sel.length > 1 ? `<span class="sc-more">+${sel.length - 1}</span>` : '');
+      let dd = '';
+      if (open) {
+        const fl = tgFiltered(key), flSet = new Set(fl), nSel = fl.filter(id => selAll.includes(id)).length;
+        const head = `<div class="st-head"><span>已選 <b>${pool.filter(id => selAll.includes(id)).length}</b> / ${pool.length}</span><span><a href="#" data-act="tgAll" data-k="${key}" data-v="1">全選</a>｜<a href="#" data-act="tgAll" data-k="${key}" data-v="0">全部清除</a></span></div>`;
+        let body;
+        if (isI) body = cats_(m.id).map(c => ({ c, l:itemsOf(c.id).filter(x => flSet.has(x.id)) })).filter(x => x.l.length).map(({ c, l }) => { const n = l.filter(x => selAll.includes(x.id)).length, st = n === l.length ? 'on' : n ? 'part' : '';
+          return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="tgGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(c.name)}<small>${n} / ${l.length}</small></div>` + l.map(x => `<label class="sc-opt ${selAll.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="tgi.${x.id}" ${selAll.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join(''); }).join('');
+        else body = fl.map(id => `<label class="sc-opt ${selAll.includes(id) ? 'on' : ''}"><input type="checkbox" data-b="tgc.${id}" ${selAll.includes(id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(nameOf(id))}</span></label>`).join('');
+        dd = `<div class="sc-dd" role="listbox">${head}${body || `<div class="st-empty">${pool.length ? '找不到符合的' + (isI ? '品項' : '類別') : '此菜單尚無' + (isI ? '品項' : '類別')}</div>`}</div>`;
+      }
+      return `<div class="sc ${open ? 'open' : ''}" data-tgk="${key}"><div class="sc-box" ${open ? '' : `data-act="tgOpen" data-k="${key}"`}><span class="sc-l">${label}</span>
+        <div class="sc-v">${tags}${!sel.length && !open ? `<span class="sc-ph">${ph}</span>` : ''}${open ? `<input type="text" id="tgSearch" class="sc-in" placeholder="${sel.length ? '' : ph}" value="${h(ui.tgQ || '')}" autocomplete="off" />` : ''}</div>
+        <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="tgClear" data-k="${key}" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="tgDd" data-k="${key}" aria-label="${open ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${open ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${dd}</div>`;
+    };
+    const tgMenuBox = m => { const open = ui.tgOpen.has(m.id), ni = tgPool(m.id + ':i').ids.filter(id => (d.itemIds || []).includes(id)).length, nc = tgPool(m.id + ':c').ids.filter(id => (d.catIds || []).includes(id)).length, sum = ni || nc ? [ni ? `${ni} 個品項` : '', nc ? `${nc} 個類別` : ''].filter(Boolean).join('，') : '未套用';
+      return `<div class="box optbox ss-box tg-box ${open ? '' : 'closed'}"><div class="mn-oh" data-act="tgTog" data-m="${m.id}" role="button" aria-expanded="${open}" tabindex="0"><span class="oh-l"><span class="oh-caret">${fi(open ? 'dup' : 'tdown', 24)}</span><span class="oh-n">${h(m.name)}</span></span><span class="oh-r"><span class="oh-sum">${h(sum)}</span></span></div>
+      ${open ? `<div class="ss-body">${tgField(m, 'i')}${tgField(m, 'c')}</div>` : ''}</div>`; };
     return `<div class="mn"><div class="mn-t sec">基本設定</div>
     <div class="lang-grp">${F('標籤名稱', 'name', { req:true, ph:'建議勿超出標籤範圍，請參照「預覽參考」', help:'顧客點餐時看到的名稱，標籤名稱可重複', err:() => dupName ? '標籤名稱不可重複' : '' })}${langBlock(d, { stores:STORES.map(x => x.id) }, '標籤名稱')}</div>
     ${F('後台名稱', 'adminName', { req:true, help:'後台網站顯示的名稱，每個後台名稱不可重複', err:() => dupAdmin ? '後台名稱不可重複' : '' })}
@@ -2495,8 +2520,9 @@ function drawerBody() {
     <div class="tg-row tg-colwrap"><span class="tg-l">背景顏色</span><button type="button" class="tg-sw" style="background:${d.color}" data-act="tagColPop" aria-label="選擇背景顏色" aria-expanded="${!!ui.tagColPop}"></button>${ui.tagColPop ? cpHtml() : ''}</div>
     <div class="tg-row"><span class="tg-l">預覽參考</span>${d.name.trim() ? `<span class="tg-chip tg-prevchip" style="background:${d.color};color:${tagFg(d.color)}">${h(d.name.trim())}</span>` : `<span class="tg-chip tg-prevchip" style="background:${d.color};color:${tagFg(d.color)}">輸入標籤名稱以預覽</span>`}</div>
     <hr class="mn-hr" />
-    ${aiBoxHtml(d, '套用的品項', '請選擇套用的品項')}
-    ${tcBox}</div>`;
+    <div class="mn-t sec">套用範圍${helpIc('依菜單分別選擇要套用此標籤的品項與類別，展開菜單即可編輯')}</div>
+    ${S.menus.length ? `<div class="opt-bar"><span>共 ${S.menus.length} 份菜單</span><span class="opt-btns"><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="1">全部展開</button><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="0">全部收合</button></span></div>` : '<div class="mn-hint">尚無菜單</div>'}
+    ${S.menus.map(tgMenuBox).join('')}</div>`;
   }
   if (t === 'menu') {
     ensureSS(d); const errs = menuErrors(d), q = (u => u)(ui.storeQ || ''), selN = d.stores.length, first = byId(STORES, d.stores[0]);
@@ -2962,6 +2988,7 @@ document.addEventListener('click', e => {
   if (ui.opDd && ui.panel && !e.target.closest('#sec-op')) { ui.opDd = false; ui.opQ = ''; redrawDrawer(); }
   if (ui.aiDd && ui.panel && !e.target.closest('#sec-ai')) { ui.aiDd = false; ui.aiQ = ''; redrawDrawer(); }
   if (ui.tcDd && ui.panel && !e.target.closest('#sec-tc')) { ui.tcDd = false; ui.tcQ = ''; redrawDrawer(); }
+  if (ui.tgDd && ui.panel && !e.target.closest('[data-tgk="' + ui.tgDd + '"]')) { ui.tgDd = null; ui.tgQ = ''; redrawDrawer(); }
   if (ui.tagColPop && ui.panel && !ui.cpDrag && !e.target.closest('.tg-colwrap')) { ui.tagColPop = false; redrawDrawer(); }
   if (ui.catPop && ui.panel && !e.target.closest('#sec-catsel')) { ui.catPop = false; ui.catQ = ''; redrawDrawer(); }
   if (ui.paDd && ui.panel && !e.target.closest('#sec-pa')) { ui.paDd = false; ui.paQ = ''; redrawDrawer(); }
@@ -3000,6 +3027,14 @@ document.addEventListener('click', e => {
     case 'tagCatSet': ui.panel.draft.cat = D.id; ui.tagCatPop = false; redrawDrawer(); return;
     case 'tagColPop': ui.tagColPop = !ui.tagColPop; ui.tagCatPop = false; if (ui.tagColPop) { const c = cpParse(ui.panel.draft.color), h = cpHsv(c); ui.cp = { h:h.h, s:h.s, v:h.v, a:c.a }; } redrawDrawer(); return;
     case 'cpPreset': { const c = cpHsv(cpParse(D.c)); cpApply({ h:c.s === 0 ? ui.cp.h : c.h, s:c.s, v:c.v, a:1 }); return; }
+    case 'tgTog': ui.tgOpen.has(D.m) ? ui.tgOpen.delete(D.m) : ui.tgOpen.add(D.m); ui.tgDd = null; ui.tgQ = ''; redrawDrawer(); return;
+    case 'tgOpenAll': ui.tgOpen = D.v === '1' ? new Set(S.menus.map(m => m.id)) : new Set(); ui.tgDd = null; ui.tgQ = ''; redrawDrawer(); return;
+    case 'tgOpen': ui.tgDd = D.k; ui.tgQ = ''; redrawDrawer(); document.getElementById('tgSearch')?.focus(); return;
+    case 'tgDd': ui.tgDd = ui.tgDd === D.k ? null : D.k; ui.tgQ = ''; redrawDrawer(); if (ui.tgDd) document.getElementById('tgSearch')?.focus(); return;
+    case 'tgRm': { const { f } = tgPool(D.k); ui.panel.draft[f] = (ui.panel.draft[f] || []).filter(x => x !== D.id); redrawDrawer(); if (ui.tgDd) document.getElementById('tgSearch')?.focus(); return; }
+    case 'tgClear': { const { f, ids } = tgPool(D.k); ui.panel.draft[f] = (ui.panel.draft[f] || []).filter(x => !ids.includes(x)); redrawDrawer(); if (ui.tgDd) document.getElementById('tgSearch')?.focus(); return; }
+    case 'tgGrp': { const ids = (D.ids || '').split(',').filter(Boolean), cur = ui.panel.draft.itemIds || [], all = ids.every(id => cur.includes(id)); ui.panel.draft.itemIds = all ? cur.filter(id => !ids.includes(id)) : [...new Set([...cur, ...ids])]; redrawDrawer(); document.getElementById('tgSearch')?.focus(); return; }
+    case 'tgAll': { const { f } = tgPool(D.k), ids = tgFiltered(D.k), cur = ui.panel.draft[f] || []; ui.panel.draft[f] = D.v === '1' ? [...new Set([...cur, ...ids])] : cur.filter(id => !ids.includes(id)); redrawDrawer(); document.getElementById('tgSearch')?.focus(); return; }
     case 'tcOpen': ui.tcDd = true; redrawDrawer(); document.getElementById('tcSearch')?.focus(); return;
     case 'tcDd': ui.tcDd = !ui.tcDd; if (!ui.tcDd) ui.tcQ = ''; redrawDrawer(); if (ui.tcDd) document.getElementById('tcSearch')?.focus(); return;
     case 'tcRm': ui.panel.draft.catIds = ui.panel.draft.catIds.filter(x => x !== D.id); redrawDrawer(); if (ui.tcDd) document.getElementById('tcSearch')?.focus(); return;
@@ -3183,6 +3218,7 @@ document.addEventListener('compositionend', e => {
   if (e.target.id === 'storeSearch') { ui.storeQ = e.target.value; redrawDrawer(); const n = document.getElementById('storeSearch'); if (n) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); } return; } if (e.target.id === 'treeSearch' || e.target.id === 'search' || e.target.id === 'catTabSearch' || e.target.id === 'attrSearch' || e.target.id === 'tagsSearch') applySearch(e.target); });
 document.addEventListener('input', e => {
   if (e.target.id === 'impName' && ui.impDlg) { ui.impDlg.name = e.target.value; const er = impNameErr(ui.impDlg); document.getElementById('impNameErr').textContent = er; document.getElementById('impGo').disabled = !!er; return; }
+  if (e.target.id === 'tgSearch' && !e.isComposing) { ui.tgQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('tgSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'tcSearch' && !e.isComposing) { ui.tcQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('tcSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'opSearch' && !e.isComposing) { ui.opQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('opSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
   if (e.target.id === 'aiSearch' && !e.isComposing) { ui.aiQ = e.target.value; const pos = e.target.selectionStart; redrawDrawer(); const n = document.getElementById('aiSearch'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } return; }
@@ -3253,6 +3289,7 @@ document.addEventListener('change', e => {
     else if (b.startsWith('cat.')) { const id = b.slice(4); d.catIds = v ? [...new Set([...d.catIds, id])] : d.catIds.filter(x => x !== id); syncCats(d); redrawDrawer(); document.getElementById('catSearch')?.focus(); return; }
     else if (b.startsWith('optItem.')) { const id = b.slice(8), it = byId(S.items, id); if (v) { if (it && !d.options.some(o => o.itemId === id)) d.options.push(optDef({ id:nid('o'), itemId:id, name:it.name, sku:it.sku, price:0, webDel:'', sub:it.attrs.find(x => x !== d.id) || '' })); } else d.options = d.options.filter(o => o.itemId !== id); redrawDrawer(); document.getElementById('opSearch')?.focus(); return; }
     else if (b.startsWith('tag.')) { const n = b.slice(4); d.tags = v ? [...new Set([...(d.tags || []), n])] : (d.tags || []).filter(x => x !== n); redrawDrawer(); document.getElementById('tagSearch')?.focus(); return; }
+    else if (b.startsWith('tgi.') || b.startsWith('tgc.')) { const id = b.slice(4), f = b.startsWith('tgi.') ? 'itemIds' : 'catIds'; d[f] = v ? [...new Set([...(d[f] || []), id])] : (d[f] || []).filter(x => x !== id); redrawDrawer(); document.getElementById('tgSearch')?.focus(); return; }
     else if (b.startsWith('tcat.')) { const id = b.slice(5); d.catIds = v ? [...new Set([...(d.catIds || []), id])] : (d.catIds || []).filter(x => x !== id); redrawDrawer(); document.getElementById('tcSearch')?.focus(); return; }
     else if (b.startsWith('store.')) { const id = b.slice(6); d.stores = v ? [...new Set([...d.stores, id])] : d.stores.filter(x => x !== id); redrawDrawer(); document.getElementById('storeSearch')?.focus(); return; }
     else if (/^(?:storeSettings\.[^.]+\.)?periods\.\d+\.day\.\d$/.test(b)) { const m = b.match(/^(?:storeSettings\.([^.]+)\.)?periods\.(\d+)\.day\.(\d)$/), pr = (m[1] ? d.storeSettings[m[1]] : d).periods[+m[2]], n = +m[3]; pr.days = v ? [...new Set([...pr.days, n])] : pr.days.filter(x => x !== n); }
