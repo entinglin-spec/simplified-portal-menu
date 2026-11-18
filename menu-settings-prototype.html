@@ -2317,7 +2317,7 @@ function commitPanel() {
   if (dupAdmin) { dupAdmin.scrollIntoView({ block:'center', behavior:'smooth' }); dupAdmin.focus({ preventScroll:true }); toast('後台名稱不可重複', 'error'); return; }
   if (t === 'menu') {
     const dupName = document.querySelector('#drbody input.bad[data-b="name"]');
-    if (dupName) { dupName.scrollIntoView({ block:'center', behavior:'smooth' }); dupName.focus({ preventScroll:true }); toast('菜單名稱不可重複', 'error'); return; }
+    if (dupName) { dupName.scrollIntoView({ block:'center', behavior:'smooth' }); dupName.focus({ preventScroll:true }); return; }
   }
   ui.reqChk = false;
   if (t === 'tag') {
