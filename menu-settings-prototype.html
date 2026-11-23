@@ -2378,7 +2378,7 @@ function commitPanel() {
 const langPath = (l, key) => key === 'desc' ? (l.code === 'en' ? 'descEn' : 'desc_' + l.code) : l.path;
 function langBlock(d, menu, nm, key = 'name') {
   const langs = menuLangs(menu), filled = langs.filter(l => String(getp(d, langPath(l, key)) || '').trim()).length;
-  if (!langs.length) return `<div class="lang-blk"><div class="lang-sum"><span class="lang-l">其他語系</span><span class="lang-c">套用的商店尚未設定其他語系</span></div></div>`;
+  if (!langs.length) return "";
   const list = h(JSON.stringify(langs.map(l => [`${nm} (${l.label})`, langPath(l, key)])));
   return `<div class="lang-blk"><div class="lang-sum"><span class="lang-l">其他語系</span><span class="lang-c">已填 ${filled} / ${langs.length}</span><button type="button" class="lang-tg" data-act="langEdit" data-nm="${h(nm)}" data-list="${list}">編輯</button></div></div>`;
 }
