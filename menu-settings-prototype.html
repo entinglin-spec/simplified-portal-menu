@@ -1177,6 +1177,8 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .sc-opt.on .ckb-b::before { background: #58B6A8; border-color: #58B6A8; }
 .sc-opt.on .ckb-b::after { content: ""; position: absolute; left: 12px; top: 12px; width: 18px; height: 18px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4.5 9.5l3 3 6-6.5'/></svg>") center / 18px 18px no-repeat; }
 .sc-on { font-size: 16px; line-height: 1.5; color: #53545C; }
+.sc-grpn { margin-left: 4px; color: var(--sub); font-size: inherit; }
+.oh-n .sc-grpn { margin-left: 4px; font-weight: 400; font-size: 14px; }
 .sc-on small { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: #E1F2F0; color: #58B6A8; font-size: 12px; line-height: 1.5; }
 .fattr .msel-opt small { margin-left: 6px; font-size: 12px; line-height: 1.5; color: #8E8F98; }
 
@@ -1483,7 +1485,17 @@ const nid = p => p + (++uid);
 const STORES = [
   { id:'s1', name:'台北信義店', area:'台北市', langs:['en'] }, { id:'s2', name:'台北南港店', area:'台北市', langs:['en'] }, { id:'s3', name:'新北汐止店', area:'新北市', langs:['en','ja'] },
   { id:'s4', name:'新竹巨城店', area:'新竹市', langs:['en','ja'] }, { id:'s5', name:'台中公益店', area:'台中市', langs:['en'] }, { id:'s6', name:'高雄左營店', area:'高雄市', langs:['en','ko'] },
+  { id:'s7', name:'台中逢甲店', area:'台中市', langs:['en'] }, { id:'s8', name:'彰化員林店', area:'彰化縣', langs:['en'] }, { id:'s9', name:'台南中西店', area:'台南市', langs:['en'] }, { id:'s10', name:'高雄巨蛋店', area:'高雄市', langs:['en'] },
+  { id:'s11', name:'金門金城店', area:'金門縣', langs:['en'] }, { id:'s12', name:'澎湖馬公店', area:'澎湖縣', langs:['en'] }, { id:'s13', name:'花蓮中正店', area:'花蓮縣', langs:['en'] }, { id:'s14', name:'宜蘭羅東店', area:'宜蘭縣', langs:['en'] },
+  { id:'s15', name:'台北內湖店', area:'台北市', langs:['en'] }, { id:'s16', name:'新北板橋店', area:'新北市', langs:['en'] }, { id:'s17', name:'桃園中壢店', area:'桃園市', langs:['en'] }, { id:'s18', name:'苗栗頭份店', area:'苗栗縣', langs:['en'] },
 ];
+// 商店群組（portal 其他處設定；此處僅作為套用商店的快速選項，勾選＝選取群組內全部商店）
+const STORE_GROUPS = [{ id:'g1', name:'北部門市', stores:['s1','s2','s3','s15','s16','s17'] }, { id:'g2', name:'中部門市', stores:['s5','s7','s8','s18'] }, { id:'g3', name:'南部門市', stores:['s6','s9'] }];
+const actGroups = d => (d.groups || []).filter(id => { const g = STORE_GROUPS.find(x => x.id === id); return g && g.stores.every(sid => d.stores.includes(sid)); });
+// 套用單位：未歸群組的單店（依商店順序）＋已選群組；群組以第一間店的設定為準，並同步給群組內其他店
+const unitsOf = d => { const ag = actGroups(d), cov = new Set(ag.flatMap(id => STORE_GROUPS.find(g => g.id === id).stores));
+  return [...STORES.map(x => x.id).filter(id => (d.stores || []).includes(id) && !cov.has(id)).map(id => ({ sid:id, name:(byId(STORES, id) || {}).name || '', members:[id] })),
+    ...ag.map(id => { const g = STORE_GROUPS.find(x => x.id === id); return { sid:g.stores[0], gid:g.id, name:g.name, members:g.stores, n:g.stores.length }; })]; };
 // 其他語系：欄位路徑（英文沿用 enName，其餘為 name_<code>）
 const LANGS = [{ code:'en', label:'英文', path:'enName' }, { code:'ja', label:'日文', path:'name_ja' }, { code:'ko', label:'韓文', path:'name_ko' }];
 const menuLangs = m => LANGS.filter(l => (m ? m.stores : []).some(id => (byId(STORES, id)?.langs || []).includes(l.code)));
@@ -1764,18 +1776,19 @@ const newPeriod = (o = {}) => ({ id:nid('p'), start:'2026-01-01', end:'2026-12-3
 const periodSum = p => [fmtPeriod(p), fmtDays(p.days || []), fmtSlots(p) || '未設定時段'].join('・');
 const fmtDays = d => !d.length ? '未設定' : d.length === 7 ? '每天' : d.length === 5 && !d.includes(0) && !d.includes(6) ? '週一至週五' : '週' + d.slice().sort().map(x => DAYS[x]).join('');
 const delivery = m => m.channels.uber || m.channels.fp;
-const SS_KEYS = ['channels','periods','tax'];
+const SS_KEYS = ['channels','periods'];
 function ensureSS(m) {
   m.storeSettings = m.storeSettings || {};
   const base = (m.stores || []).map(x => m.storeSettings[x]).find(Boolean) || m;
   (m.stores || []).forEach(sid => { if (!m.storeSettings[sid]) m.storeSettings[sid] = clone(Object.fromEntries(SS_KEYS.map(k => [k, base[k]]))); });
   Object.keys(m.storeSettings).forEach(sid => { if (!(m.stores || []).includes(sid)) delete m.storeSettings[sid]; });
+  unitsOf(m).forEach(u => { if (u.gid) u.members.slice(1).forEach(x => { m.storeSettings[x] = clone(m.storeSettings[u.sid]); }); });
 }
 function syncAgg(m) {
   ensureSS(m);
   const list = (m.stores || []).map(sid => m.storeSettings[sid]); if (!list.length) return;
   m.channels = Object.fromEntries(CH.map(c => [c, list.some(x => x.channels[c])]));
-  ['periods','tax'].forEach(k => { m[k] = clone(list[0][k]); });
+  m.periods = clone(list[0].periods);
 }
 const storeView = (m, sid) => ({ ...m, ...((m.storeSettings || {})[sid] || {}) });
 const TOAST_IC = {success: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#66BB6A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>`, error: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF8A80" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v6M12 16.5h.01"/></svg>`};
@@ -1812,8 +1825,8 @@ function storeErrs(m, sid, v) {
   return e;
 }
 function menuErrors(m) {
-  const sids = m.stores || [];
-  return sids.flatMap(sid => storeErrs(m, sid, storeView(m, sid)).map(msg => sids.length > 1 ? `${storeName(sid)}：${msg}` : msg));
+  const us = unitsOf(m);
+  return us.flatMap(u => storeErrs(m, u.sid, storeView(m, u.sid)).map(msg => us.length > 1 ? `${u.name}：${msg}` : msg));
 }
 // 同一菜單內 SKU 不可重複；不同菜單（含同時段）暫不阻擋，改在更新商店時提示
 const itemMenuIds = it => new Set((it.catIds || []).map(id => byId(S.cats, id)?.menuId).filter(Boolean));
@@ -2347,7 +2360,7 @@ function commitPanel() {
     S.items.forEach(i => { i.attrs = i.attrs.filter(a => a !== d.id); if (d.itemIds.includes(i.id)) i.attrs.push(d.id); });
     delete d.itemIds;
   }
-  if (t === 'menu') { d.tax = +d.tax || 0; ensureSS(d); Object.values(d.storeSettings).forEach(x => { x.tax = +x.tax || 0; }); }
+  if (t === 'menu') { d.tax = +d.tax || 0; ensureSS(d); Object.values(d.storeSettings).forEach(x => { delete x.tax; }); }
   if (t === 'cat') { d.sort = +d.sort; delete d.saleInh; }
   if (t === 'item') d.sort = +d.sort || 99;
   const after = d._after; delete d._after;
@@ -2419,8 +2432,6 @@ function ssForm(v, sid, errs, help, trash, many) {
     : `<div class="mn-t sec">時段設定${help('每組時段包含套用日期、營業星期與每日時段；可新增多組')}</div>${per[0] ? perBody(per[0], 0) : ''}<button class="btn pri mn-add" data-act="perAdd" data-sid="${sid}">${fi('plus', 20)}新增時段</button>`;
   return `${perSec}
     ${errs.length ? `<div class="notice">${errs.map(h).join('<br>')}</div>` : ''}
-    <hr class="mn-hr" />
-    <label class="qp-fld"><span class="qp-fl">稅率</span><span class="qp-in"><input type="number" step="any" data-b="${pre}tax" value="${h(v.tax)}" /><em>%</em></span></label>
     ${many ? `<button type="button" class="opt-btn ss-copy" data-act="ssCopy" data-s="${sid}">將此設定套用到其他商店</button>` : ''}`;
 }
 function cpHtml() {
@@ -2527,24 +2538,28 @@ function drawerBody() {
   if (t === 'menu') {
     ensureSS(d); const errs = menuErrors(d), q = (u => u)(ui.storeQ || ''), selN = d.stores.length, first = byId(STORES, d.stores[0]);
     const help = helpIc;
-    const qq = (ui.storeQ || '').trim().toLowerCase(), fl = STORES.filter(x => !qq || (x.name + x.area).toLowerCase().includes(qq));
-    const stDd = ui.storeDd ? `<div class="sc-dd" role="listbox">${fl.length ? fl.map(x => `<label class="sc-opt ${d.stores.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="store.${x.id}" ${d.stores.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('') : '<div class="st-empty">找不到符合的商店</div>'}</div>` : '';
+    const qq = (ui.storeQ || '').trim().toLowerCase(), grouped = new Set(STORE_GROUPS.flatMap(g => g.stores)), fl = STORES.filter(x => !grouped.has(x.id) && (!qq || (x.name + x.area).toLowerCase().includes(qq)));
+    const grpFl = STORE_GROUPS.filter(g => !qq || (g.name + g.stores.map(id => storeName(id)).join('')).toLowerCase().includes(qq));
+    const grpOpts = grpFl.map(g => { const all = actGroups(d).includes(g.id); return `<label class="sc-opt ${all ? 'on' : ''}"><input type="checkbox" data-b="sgrp.${g.id}" ${all ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(g.name)}<span class="sc-grpn">（${g.stores.length} 間商店）</span></span></label>`; }).join('');
+    const stDd = ui.storeDd ? `<div class="sc-dd" role="listbox">${fl.length ? fl.map(x => `<label class="sc-opt ${d.stores.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="store.${x.id}" ${d.stores.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('') : (grpFl.length ? '' : '<div class="st-empty">找不到符合的商店</div>')}${grpOpts}</div>` : '';
     const chipX = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
-    const chipOf = st => `<span class="sc-chip">${h(st.name)}<button data-act="storeRm" data-id="${st.id}" aria-label="移除${h(st.name)}">${chipX}</button></span>`;
-    const picked = byOrder(d.stores, STORES.map(x => x.id)).map(id => byId(STORES, id)).filter(Boolean), LIM = 1;
+    const chipOf = st => st.grp ? `<span class="sc-chip">${h(st.name)}<button data-act="grpRm" data-id="${st.id}" aria-label="移除${h(st.name)}">${chipX}</button></span>` : `<span class="sc-chip">${h(st.name)}<button data-act="storeRm" data-id="${st.id}" aria-label="移除${h(st.name)}">${chipX}</button></span>`;
+    const ag = actGroups(d), covered = new Set(ag.flatMap(id => STORE_GROUPS.find(g => g.id === id).stores));
+    const picked = [...byOrder(d.stores.filter(x => !covered.has(x)), STORES.map(x => x.id)).map(id => byId(STORES, id)).filter(Boolean), ...ag.map(id => ({ ...STORE_GROUPS.find(g => g.id === id), grp:true }))], LIM = 1;
     const tags = ui.storeDd ? picked.map(chipOf).join('') : picked.slice(0, LIM).map(chipOf).join('') + (picked.length > LIM ? `<span class="sc-more">+${picked.length - LIM}</span>` : '');
     const trash = fi('trash', 20);
     return `<div class="mn"><div class="mn-t sec">菜單設定</div>${F('菜單名稱', 'name', { req:true, err:v => v && v.trim() && S.menus.some(x => x.id !== d.id && (x.name || '').trim() === v.trim()) ? '菜單名稱不可重複' : '' })}
     <div class="sc ${ui.storeDd ? 'open' : ''}" id="sec-stores"><div class="sc-box" ${ui.storeDd ? '' : 'data-act="storeOpen"'}><span class="sc-l">套用商店</span>
       <div class="sc-v">${tags}${ui.storeDd ? `<input type="text" id="storeSearch" class="sc-in" value="${h(ui.storeQ || '')}" autocomplete="off" />` : ''}</div>
       <div class="sc-ctl">${selN ? `<button class="sc-x" data-act="storeAll" data-v="0" data-clear="1" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="storeDd" aria-label="${ui.storeDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.storeDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${stDd}</div>
+    <label class="qp-fld"><span class="qp-fl">稅率</span><span class="qp-in"><input type="number" step="any" data-b="tax" value="${h(d.tax)}" /><em>%</em></span></label>
     <hr class="mn-hr" />
-    <div class="mn-t sec" id="sec-ss">商店設定${help('每間商店可獨立設定時段與稅率；新加入的商店會先複製目前設定')}</div>
-    ${d.stores.length ? `<div class="opt-bar"><span>共 ${d.stores.length} 間商店</span><span class="opt-btns"><button type="button" class="opt-btn" data-act="ssOpenAll" data-v="1">全部展開</button><button type="button" class="opt-btn" data-act="ssOpenAll" data-v="0">全部收合</button></span></div>` : '<div class="mn-hint">請先選擇套用商店</div>'}
-    ${byOrder(d.stores, STORES.map(x => x.id)).map(sid => { const v = storeView(d, sid), open = ui.ssOpen.has(sid), se = storeErrs(d, sid, v);
+    <div class="mn-t sec" id="sec-ss">商店設定${help('每間商店可獨立設定時段；新加入的商店會先複製目前設定')}</div>
+    ${d.stores.length ? `<div class="opt-bar"><span>共 ${unitsOf(d).length} 個選項</span><span class="opt-btns"><button type="button" class="opt-btn" data-act="ssOpenAll" data-v="1">全部展開</button><button type="button" class="opt-btn" data-act="ssOpenAll" data-v="0">全部收合</button></span></div>` : '<div class="mn-hint">請先選擇套用商店</div>'}
+    ${unitsOf(d).map(u => { const sid = u.sid, v = storeView(d, sid), open = ui.ssOpen.has(sid), se = storeErrs(d, sid, v);
       const p0 = (v.periods || [])[0] || {}, sum = (v.periods || []).length > 1 ? `${v.periods.length} 組時段設定` : [fmtDays(p0.days || []), fmtSlots(p0) || '未設定時段'].join('・');
-      return `<div class="box optbox ss-box ${open ? '' : 'closed'}"><div class="mn-oh" data-act="ssTog" data-s="${sid}" role="button" aria-expanded="${open}" tabindex="0"><span class="oh-l"><span class="oh-caret">${fi(open ? 'dup' : 'tdown', 24)}</span><span class="oh-n">${h(storeName(sid))}</span>${se.length ? '<span class="chip w">待處理</span>' : ''}</span><span class="oh-r"><span class="oh-sum">${h(sum)}</span><button class="mn-del" data-act="storeRm" data-id="${sid}" aria-label="移除${h(storeName(sid))}" title="移除此商店">${fi('close', 20)}</button></span></div>
-      ${open ? `<div class="ss-body">${ssForm(v, sid, se, help, trash, d.stores.length > 1)}</div>` : ''}</div>`; }).join('')}</div>`;
+      return `<div class="box optbox ss-box ${open ? '' : 'closed'}"><div class="mn-oh" data-act="ssTog" data-s="${sid}" role="button" aria-expanded="${open}" tabindex="0"><span class="oh-l"><span class="oh-caret">${fi(open ? 'dup' : 'tdown', 24)}</span><span class="oh-n">${h(u.name)}${u.gid ? `<span class="sc-grpn">（${u.n} 間商店）</span>` : ''}</span>${se.length ? '<span class="chip w">待處理</span>' : ''}</span><span class="oh-r"><span class="oh-sum">${h(sum)}</span><button class="mn-del" data-act="${u.gid ? 'grpRm' : 'storeRm'}" data-id="${u.gid || sid}" aria-label="移除${h(u.name)}" title="移除">${fi('close', 20)}</button></span></div>
+      ${open ? `<div class="ss-body">${ssForm(v, sid, se, help, trash, unitsOf(d).length > 1)}</div>` : ''}</div>`; }).join('')}</div>`;
   }
   if (t === 'cat') {
     const tagBox = tagBoxHtml(d);
@@ -3140,8 +3155,8 @@ document.addEventListener('click', e => {
       if (i >= 0) tg.periods[i] = np; else tg.periods.push(np);
       delete d._pe; ui.perDlg = null; ui.picker = null; redrawDrawer(); return; }
     case 'ssTog': ui.ssOpen.has(D.s) ? ui.ssOpen.delete(D.s) : ui.ssOpen.add(D.s); redrawDrawer(); return;
-    case 'ssOpenAll': ui.ssOpen = D.v === '1' ? new Set(ui.panel.draft.stores) : new Set(); redrawDrawer(); return;
-    case 'ssCopy': { const d = ui.panel.draft, src = d.storeSettings[D.s], others = d.stores.filter(x => x !== D.s); others.forEach(x => { d.storeSettings[x] = clone(src); }); redrawDrawer(); toast(`已套用到其他 ${others.length} 間商店`); return; }
+    case 'ssOpenAll': ui.ssOpen = D.v === '1' ? new Set(unitsOf(ui.panel.draft).map(u => u.sid)) : new Set(); redrawDrawer(); return;
+    case 'ssCopy': { const d = ui.panel.draft, src = d.storeSettings[D.s], us = unitsOf(d).filter(u => u.sid !== D.s); us.forEach(u => u.members.forEach(x => { d.storeSettings[x] = clone(src); })); redrawDrawer(); toast(`已套用到其他 ${us.length} 個選項`); return; }
     case 'optTog': { const k = D.id; ui.optOpen.has(k) ? ui.optOpen.delete(k) : ui.optOpen.add(k); redrawDrawer(); return; }
     case 'optAll': ui.optOpen = D.v === '1' ? new Set(ui.panel.draft.options.map(o => o.id)) : new Set(); redrawDrawer(); return;
     case 'opOpen': ui.opDd = true; redrawDrawer(); document.getElementById('opSearch')?.focus(); return;
@@ -3177,8 +3192,9 @@ document.addEventListener('click', e => {
     case 'tagClear': ui.panel.draft.tags = []; redrawDrawer(); if (ui.tagDd) document.getElementById('tagSearch')?.focus(); return;
     case 'storeOpen': ui.storeDd = true; redrawDrawer(); document.getElementById('storeSearch')?.focus(); return;
     case 'storeDd': ui.storeDd = !ui.storeDd; if (!ui.storeDd) ui.storeQ = ''; redrawDrawer(); if (ui.storeDd) document.getElementById('storeSearch')?.focus(); return;
+    case 'grpRm': { const dr = ui.panel.draft, g = STORE_GROUPS.find(x => x.id === D.id); dr.groups = (dr.groups || []).filter(x => x !== D.id); if (g) dr.stores = dr.stores.filter(x => !g.stores.includes(x)); redrawDrawer(); if (ui.storeDd) document.getElementById('storeSearch')?.focus(); return; }
     case 'storeRm': ui.panel.draft.stores = ui.panel.draft.stores.filter(x => x !== D.id); redrawDrawer(); if (ui.storeDd) document.getElementById('storeSearch')?.focus(); return;
-    case 'storeAll': { if (D.clear) { ui.panel.draft.stores = []; redrawDrawer(); return; } const q = (ui.storeQ || '').trim().toLowerCase(), ids = STORES.filter(x => !q || (x.name + x.area).toLowerCase().includes(q)).map(x => x.id), cur = ui.panel.draft.stores; ui.panel.draft.stores = D.v === '1' ? [...new Set([...cur, ...ids])] : cur.filter(id => !ids.includes(id)); redrawDrawer(); return; }
+    case 'storeAll': { if (D.clear) { ui.panel.draft.stores = []; ui.panel.draft.groups = []; redrawDrawer(); return; } const q = (ui.storeQ || '').trim().toLowerCase(), ids = STORES.filter(x => !q || (x.name + x.area).toLowerCase().includes(q)).map(x => x.id), cur = ui.panel.draft.stores; ui.panel.draft.stores = D.v === '1' ? [...new Set([...cur, ...ids])] : cur.filter(id => !ids.includes(id)); redrawDrawer(); return; }
     case 'inheritCat': { const d = ui.panel.draft; d.inherit = true; d.sale = clone(catOf(d)?.sale || d.sale); redrawDrawer(); return; }
     case 'catAll': { const v = D.v === '1'; itemsOf(D.id).forEach(i => { if (i.enabled && chOn(sale(i), D.ch) !== v) toggleCh(i, D.ch); }); touch(); redrawDrawer(); return; }
     case 'attrCat': { const d = ui.panel.draft; itemsOf(D.id).forEach(i => { d.itemIds = d.itemIds.filter(x => x !== i.id); if (D.v === '1') d.itemIds.push(i.id); }); redrawDrawer(); return; }
@@ -3291,7 +3307,8 @@ document.addEventListener('change', e => {
     else if (b.startsWith('tag.')) { const n = b.slice(4); d.tags = v ? [...new Set([...(d.tags || []), n])] : (d.tags || []).filter(x => x !== n); redrawDrawer(); document.getElementById('tagSearch')?.focus(); return; }
     else if (b.startsWith('tgi.') || b.startsWith('tgc.')) { const id = b.slice(4), f = b.startsWith('tgi.') ? 'itemIds' : 'catIds'; d[f] = v ? [...new Set([...(d[f] || []), id])] : (d[f] || []).filter(x => x !== id); redrawDrawer(); document.getElementById('tgSearch')?.focus(); return; }
     else if (b.startsWith('tcat.')) { const id = b.slice(5); d.catIds = v ? [...new Set([...(d.catIds || []), id])] : (d.catIds || []).filter(x => x !== id); redrawDrawer(); document.getElementById('tcSearch')?.focus(); return; }
-    else if (b.startsWith('store.')) { const id = b.slice(6); d.stores = v ? [...new Set([...d.stores, id])] : d.stores.filter(x => x !== id); redrawDrawer(); document.getElementById('storeSearch')?.focus(); return; }
+    else if (b.startsWith('sgrp.')) { const g = STORE_GROUPS.find(x => x.id === b.slice(5)); if (g) { d.groups = (d.groups || []).filter(x => x !== g.id); if (v) d.groups.push(g.id); d.stores = v ? [...new Set([...d.stores, ...g.stores])] : d.stores.filter(x => !g.stores.includes(x)); } redrawDrawer(); document.getElementById('storeSearch')?.focus(); return; }
+    else if (b.startsWith('store.')) { const id = b.slice(6); if (!v) d.groups = (d.groups || []).filter(gid => !STORE_GROUPS.find(g => g.id === gid)?.stores.includes(id)); d.stores = v ? [...new Set([...d.stores, id])] : d.stores.filter(x => x !== id); redrawDrawer(); document.getElementById('storeSearch')?.focus(); return; }
     else if (/^(?:storeSettings\.[^.]+\.)?periods\.\d+\.day\.\d$/.test(b)) { const m = b.match(/^(?:storeSettings\.([^.]+)\.)?periods\.(\d+)\.day\.(\d)$/), pr = (m[1] ? d.storeSettings[m[1]] : d).periods[+m[2]], n = +m[3]; pr.days = v ? [...new Set([...pr.days, n])] : pr.days.filter(x => x !== n); }
     else if (/^(?:storeSettings\.[^.]+\.)?periods\.\d+\.dayAll$/.test(b)) { const m = b.match(/^(?:storeSettings\.([^.]+)\.)?periods\.(\d+)\.dayAll$/), pr = (m[1] ? d.storeSettings[m[1]] : d).periods[+m[2]]; pr.days = v ? [0, 1, 2, 3, 4, 5, 6] : []; }
     else if (b === '_pe.dayAll') { d._pe.days = v ? [0, 1, 2, 3, 4, 5, 6] : []; }
