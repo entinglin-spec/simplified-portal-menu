@@ -2433,7 +2433,7 @@ function commitPanel() {
     S.items.forEach(i => { i.tags = (i.tags || []).map(x => x === old ? nm : x).filter(x => x !== nm); if (ii.includes(i.id)) i.tags.push(nm); });
     S.cats.forEach(c => { c.tags = (c.tags || []).map(x => x === old ? nm : x).filter(x => x !== nm); if (cc.includes(c.id)) c.tags.push(nm); });
     const k = S.tags.findIndex(x => x.id === d.id); if (k >= 0) S.tags[k] = d; else S.tags.push(d);
-    ui.panel = null; ui.tagOrder = null; toast('已儲存'); render(); return;
+    ui.panel = null; ui.tagOrder = null; toast('儲存成功'); render(); return;
   }
   const d = clone(draft);
   if (t === 'item') { if (!d.dineCh.length) d.dineCh = []; d.price = +d.price; ['uberPrice','fpPrice','webDelPrice','dinePrice','takePrice'].forEach(k => { if (d[k] !== '') d[k] = +d[k]; }); if (d.inherit) d.sale = clone(sale({ ...d })); }
@@ -2455,7 +2455,7 @@ function commitPanel() {
   if (t === 'cat') ui.open.add('m:' + d.menuId);
   if (isNew && t === 'menu') { ui.open.add('m:' + d.id); ui.menus = [d.id]; }
   if (t === 'menu') { const mm_ = byId(S.menus, d.id); syncAgg(mm_); }
-  S_log('儲存'); ui.dirty = false; ui.panel = null; toast('已儲存');
+  S_log('儲存'); ui.dirty = false; ui.panel = null; toast('儲存成功');
   render();
 }
 const langPath = (l, key) => key === 'desc' ? (l.code === 'en' ? 'descEn' : 'desc_' + l.code) : l.path;
@@ -2708,7 +2708,7 @@ function drawerBody() {
     <hr class="mn-hr" />
     <div class="mn-t sec">套用範圍${helpIc('依菜單分別選擇要套用此標籤的品項與類別，展開菜單即可編輯')}</div>
     ${tgMenuSel}
-    ${selMenus.length ? `<div class="opt-bar"><span>共 ${selMenus.length} 份菜單</span><span class="opt-btns"><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="1">全部展開</button><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="0">全部收合</button></span></div>` : `<div class="mn-hint">${S.menus.length ? '請先選擇套用菜單' : '尚無菜單'}</div>`}
+    ${selMenus.length ? `<div class="opt-bar"><span>共 ${selMenus.length} 份菜單</span><span class="opt-btns"><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="1">全部展開</button><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="0">全部收合</button></span></div>` : ''}
     ${selMenus.map(tgMenuBox).join('')}</div>`;
   }
   if (t === 'menu') {
@@ -3195,7 +3195,7 @@ document.addEventListener('click', e => {
     case 'tab': ui.tab = D.t; ui.addMenu = false; break;
     case 'attrItemPop': ui.attrItemPop = !ui.attrItemPop; break;
     case 'attrItemSet': ui.attrItem = D.id; ui.attrItemPop = false; break;
-    case 'attrOrderSave': { toast('已儲存'); const o = ui.attrOrder; if (o) S.attrs = o.map(id => byId(S.attrs, id)).filter(Boolean); ui.attrOrder = null; S_log('儲存'); ui.dirty = false; break; }
+    case 'attrOrderSave': { toast('儲存成功'); const o = ui.attrOrder; if (o) S.attrs = o.map(id => byId(S.attrs, id)).filter(Boolean); ui.attrOrder = null; S_log('儲存'); ui.dirty = false; break; }
     case 'attrOrderReset': { toast('已還原排序'); ui.attrOrder = null; break; }
     case 'dupAttr': { const o = byId(S.attrs, D.id), n = clone(o); n.id = nid('a'); n.name += '（複本）'; n.adminName = n.name; n.options.forEach(x => { x.id = nid('o'); }); n._after = o.id; openPanel('attr', null, null, null, n); return; }
     case 'itemCatPop': ui.itemCatPop = !ui.itemCatPop; break;
@@ -3208,7 +3208,7 @@ document.addEventListener('click', e => {
     case 'edit': openPanel(D.t, D.id, undefined, D.focus); return;
     case 'subEdit': ui.attrPop = ui.pricePop = ui.optPop = null; openPanel('attr', D.id); return;
     case 'page': ui.page = D.p; ui.panel = null; ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; break;
-    case 'tagOrderSave': { toast('已儲存'); const o = ui.tagOrder; if (o) S.tags = o.map(id => byId(S.tags, id)).filter(Boolean); ui.tagOrder = null; ui.dirty = false; break; }
+    case 'tagOrderSave': { toast('儲存成功'); const o = ui.tagOrder; if (o) S.tags = o.map(id => byId(S.tags, id)).filter(Boolean); ui.tagOrder = null; ui.dirty = false; break; }
     case 'tagOrderReset': { toast('已還原排序'); ui.tagOrder = null; break; }
     case 'delTag': ui.delTagDlg = { id:D.id }; renderOverlay(); return;
     case 'delTagClose': ui.delTagDlg = null; renderOverlay(); return;
@@ -3274,14 +3274,14 @@ document.addEventListener('click', e => {
     case 'qhide': { const it = byId(S.items, D.id); if (!it.enabled) break; it.hidden = !it.hidden; touch(); break; }
     case 'qen': { const it = byId(S.items, D.id); it.enabled = !it.enabled; touch(); break; }
     case 'itemMove': { moveIn(itemsOf(D.g), D.id, +D.d); break; }
-    case 'catOrderSave': { toast('已儲存'); Object.values(ui.catOrder || {}).forEach(ids => ids.forEach((id, k) => { byId(S.cats, id).sort = k + 1; })); ui.catOrder = null; S_log('儲存'); ui.dirty = false; break; }
+    case 'catOrderSave': { toast('儲存成功'); Object.values(ui.catOrder || {}).forEach(ids => ids.forEach((id, k) => { byId(S.cats, id).sort = k + 1; })); ui.catOrder = null; S_log('儲存'); ui.dirty = false; break; }
     case 'dupItem': { const o = byId(S.items, D.id), ni = clone(o); ni.id = nid('i'); ni.name += '（複本）'; ni.sku = ''; { let an = (o.adminName || o.name) + '（複本）', k = 2; while (S.items.some(x => x.adminName === an)) an = (o.adminName || o.name) + '（複本' + k++ + '）'; ni.adminName = an; } ni.sort = o.sort + 0.5; ni._after = o.id; openPanel('item', null, null, null, ni); return; }
-    case 'itemOrderSave': { toast('已儲存'); ((ui.itemOrder || {}).all || []).forEach((id, k) => { const it = byId(S.items, id); if (it) it.sort = k + 1; }); ui.itemOrder = null; S_log('儲存'); ui.dirty = false; break; }
+    case 'itemOrderSave': { toast('儲存成功'); ((ui.itemOrder || {}).all || []).forEach((id, k) => { const it = byId(S.items, id); if (it) it.sort = k + 1; }); ui.itemOrder = null; S_log('儲存'); ui.dirty = false; break; }
     case 'itemOrderReset': { toast('已還原排序'); ui.itemOrder = null; break; }
     case 'catOrderReset': { toast('已還原排序'); ui.catOrder = null; break; }
     case 'catMove': { const c = byId(S.cats, D.id); moveIn(catsOf(c.menuId), D.id, +D.d); break; }
     case 'inl': ui.editing = { k:D.k, id:D.id, f:D.f }; break;
-    case 'save': toast('已儲存'); S_log('儲存'); ui.dirty = false; break;
+    case 'save': toast('儲存成功'); S_log('儲存'); ui.dirty = false; break;
     case 'publish': { if (!visMenus().length) { toast('請先選擇菜單', 'error'); break; } ui.chkFloat = issues().length > 0; doPublish(); break; }
     case 'chkFloatClose': ui.chkFloat = false; break;
     case 'chkBarTog': ui.chkBarOpen = !ui.chkBarOpen; break;
