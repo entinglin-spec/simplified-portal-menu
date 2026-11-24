@@ -2012,7 +2012,7 @@ function render() {
     <div class="m-scrim" data-act="mside"></div>
     <div class="topnav"><button class="m-hamb hamb" data-act="mside" aria-label="開啟選單">${fi('menu')}</button>${fi('logo')}<div class="spacer"></div>${fi('help')}${fi('globe')}${fi('bell')}<span class="acct">demo@cashier.tw ${fi('acct')}</span></div>
     <div class="ptabs"><button class="ptab ${ui.page === 'menu' ? '' : 'off'}" data-act="page" data-p="menu">菜單設定</button><button class="ptab ${ui.page === 'tags' ? '' : 'off'}" data-act="page" data-p="tags">標籤設定</button><div class="spacer"></div></div>${ui.page === 'menu' ? '<div id="chkbar"></div>' : ''}
-    ${ui.page === 'tags' ? `<div class="body"><div class="content"><div class="sbar tg-co">公司名稱：鴻智互動股份有限公司</div><div class="sect"><div class="spanel scroll">${renderTags()}</div></div><div class="pfoot">隱私權政策　|　© 電小二智慧點餐系統</div></div></div>` : `<div class="body">
+    ${ui.page === 'tags' ? `<div class="body"><div class="content"><div class="sect"><div class="spanel scroll">${renderTags()}</div></div><div class="pfoot">隱私權政策　|　© 電小二智慧點餐系統</div></div></div>` : `<div class="body">
       <div class="content">
         <div class="sbar sbar-v">
           <div class="sbar-head"><h2>菜單</h2><div class="sbar-hbtns"><button class="btn-b btn-g btn-sm" data-act="new" data-t="menu">${fi('plus', 20)}新增</button><button class="btn-b btn-sm" data-act="impOpen">匯入</button><button class="btn-b btn-sm" data-act="expMenu">匯出</button></div></div>
@@ -2328,7 +2328,7 @@ function renderTags() {
     <td>${h(t.adminName || t.name)}</td><td>${tagChipHtml(t.name, t.color)}</td><td>${h(t.cat)}</td>
     <td>${actCell('edit', t.id, 'delTag', 'tag')}</td></tr>`).join('');
   const btns = pending ? `<div class="ord-btns"><button class="tbtn-gray" data-act="tagOrderReset">還原排序</button><button class="tbtn-blue" data-act="tagOrderSave">儲存排序</button></div>` : addBtn('tag', '新增標籤');
-  return tabHead('標籤可以套用到類別和品項上，同公司下所有商店皆能共用。', searchBox('tagsSearch', ui.tagSearch || '', '搜尋標籤名稱'), btns)
+  return tabHead('標籤可以套用到類別和品項，同公司下所有商店皆能共用。', searchBox('tagsSearch', ui.tagSearch || '', '搜尋標籤名稱'), btns)
   + `<table class="tb drag-tb"><thead><tr><th style="width:80px"><span class="th-q" title="拖曳可變更排序，變更後請記得儲存排序">${QMARK}排序</span></th><th>後台名稱</th><th><span class="th-q" title="預覽參考僅供參考，實際顯示以顧客端畫面為準">${QMARK}預覽參考</span></th><th>標籤類別</th><th class="ac" style="width:120px"><div class="acell"><span>編輯</span><span>刪除</span></div></th></tr></thead><tbody>${rows || (q ? emptyRow(5, '查無結果', '', 'noresult') : emptyRow(5, '尚無標籤', '請點擊右上新增'))}</tbody></table>`;
 }
 function previewItems(plat) {
@@ -2394,7 +2394,7 @@ function openPanel(t, id, parent, focus, seed) {
   if (t === 'item') { draft.sale = clone(sale(draft.inherit ? { ...draft, inherit:true } : draft)); }
   if (t === 'attr') draft.itemIds = S.items.filter(i => i.attrs.includes(draft.id)).map(i => i.id);
   if (t === 'tag' && !seed) { draft.itemIds = S.items.filter(i => (i.tags || []).includes(draft.name)).map(i => i.id); draft.catIds = S.cats.filter(c => (c.tags || []).includes(draft.name)).map(c => c.id); draft._old = draft.name; ui.tagCatPop = ui.tagColPop = ui.tcDd = false; ui.tcQ = ''; }
-  if (t === 'tag') { const hit = S.menus.filter(m => tgPool(m.id + ':i').ids.some(x => (draft.itemIds || []).includes(x)) || tgPool(m.id + ':c').ids.some(x => (draft.catIds || []).includes(x))).map(m => m.id); ui.tgOpen = new Set(hit.length ? hit : S.menus.slice(0, 1).map(m => m.id)); ui.tgDd = null; ui.tgQ = ''; }
+  if (t === 'tag') { const hit = S.menus.filter(m => tgPool(m.id + ':i').ids.some(x => (draft.itemIds || []).includes(x)) || tgPool(m.id + ':c').ids.some(x => (draft.catIds || []).includes(x))).map(m => m.id); ui.tgMenus = new Set(hit); ui.tgMenuDd = false; ui.tgOpen = new Set(hit.length ? hit : S.menus.slice(0, 1).map(m => m.id)); ui.tgDd = null; ui.tgQ = ''; }
   if (t === 'menu') { ensureSS(draft); ui.ssOpen = new Set(); ui.perOpen = new Set(); }
   ui.panel = { t, isNew, draft }; ui.panelSnap = JSON.stringify(draft); ui.discardDlg = false; ui.panelFresh = true; ui.storeQ = ''; ui.storeDd = false; ui.tagQ = ''; ui.tagDd = false; ui.paQ = ''; ui.paDd = false; ui.catPop = false; ui.catQ = ''; ui.subPop = null; ui.dispPop = false; ui.aiQ = ''; ui.aiDd = false; ui.aiMenu = ''; ui.aiSelDlg = false; ui.tcMenu = ''; ui.opQ = ''; ui.opDd = false; ui.optOpen = new Set(); ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; ui.advOpen = false; ui.langOpen = {}; ui.reqChk = false; ui.addMenu = false;
   render();
@@ -2651,6 +2651,13 @@ function pkCommit() {
 }
 document.addEventListener('input', e => { if (e.target.id === 'pkSearch' && ui.pk && !e.isComposing) { ui.pk.q = e.target.value; renderPk(); } });
 document.addEventListener('compositionend', e => { if (e.target.id === 'pkSearch' && ui.pk) { ui.pk.q = e.target.value; renderPk(); } });
+function tgmSet(mid, on) {
+  const d = ui.panel.draft;
+  if (on) { ui.tgMenus.add(mid); ui.tgOpen.add(mid); return; }
+  ui.tgMenus.delete(mid); ui.tgOpen.delete(mid);
+  const items = new Set(tgPool(mid + ':i').ids), cats = new Set(tgPool(mid + ':c').ids);
+  d.itemIds = (d.itemIds || []).filter(x => !items.has(x)); d.catIds = (d.catIds || []).filter(x => !cats.has(x));
+}
 function tgPool(k) { const [mid, kind] = k.split(':'); return kind === 'c' ? { f:'catIds', ids:catsOf(mid).map(c => c.id) } : { f:'itemIds', ids:[...menuItemIds(mid)] }; }
 const cats_ = mid => catsOf(mid);
 function tgFiltered(k) { const q = (ui.tgQ || '').trim().toLowerCase(), isI = k.endsWith(':i'), { ids } = tgPool(k); if (!q) return ids; return ids.filter(id => { const o = byId(isI ? S.items : S.cats, id); return o && (o.name.toLowerCase().includes(q) || (isI && ((o.adminName || '').toLowerCase().includes(q) || (o.sku || '').toLowerCase().includes(q)))); }); }
@@ -2683,8 +2690,15 @@ function drawerBody() {
         <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="tgClear" data-k="${key}" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="tgDd" data-k="${key}" aria-label="${open ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${open ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${dd}</div>`;
     };
     const tgMenuBox = m => { const open = ui.tgOpen.has(m.id), ni = tgPool(m.id + ':i').ids.filter(id => (d.itemIds || []).includes(id)).length, nc = tgPool(m.id + ':c').ids.filter(id => (d.catIds || []).includes(id)).length, sum = ni || nc ? [ni ? `${ni} 個品項` : '', nc ? `${nc} 個類別` : ''].filter(Boolean).join('，') : '未套用';
-      return `<div class="box optbox ss-box tg-box ${open ? '' : 'closed'}"><div class="mn-oh" data-act="tgTog" data-m="${m.id}" role="button" aria-expanded="${open}" tabindex="0"><span class="oh-l"><span class="oh-caret">${fi(open ? 'dup' : 'tdown', 24)}</span><span class="oh-n">${h(m.name)}</span></span><span class="oh-r"><span class="oh-sum">${h(sum)}</span></span></div>
+      return `<div class="box optbox ss-box tg-box ${open ? '' : 'closed'}"><div class="mn-oh" data-act="tgTog" data-m="${m.id}" role="button" aria-expanded="${open}" tabindex="0"><span class="oh-l"><span class="oh-caret">${fi(open ? 'dup' : 'tdown', 24)}</span><span class="oh-n">${h(m.name)}</span></span><span class="oh-r"><span class="oh-sum">${h(sum)}</span><button class="mn-del" data-act="tgmRm" data-id="${m.id}" aria-label="移除${h(m.name)}" title="移除">${fi('close', 20)}</button></span></div>
       ${open ? `<div class="ss-body">${tgField(m, 'i')}${tgField(m, 'c')}</div>` : ''}</div>`; };
+    const selMenus = S.menus.filter(m => ui.tgMenus.has(m.id)), tgDdOpen = !!ui.tgMenuDd;
+    const tgmChip = m => `<span class="sc-chip">${h(m.name)}<button data-act="tgmRm" data-id="${m.id}" aria-label="移除${h(m.name)}">${tgX}</button></span>`;
+    const tgmTags = tgDdOpen ? selMenus.map(tgmChip).join('') : selMenus.slice(0, 1).map(tgmChip).join('') + (selMenus.length > 1 ? `<span class="sc-more">+${selMenus.length - 1}</span>` : '');
+    const tgmDd = tgDdOpen ? `<div class="sc-dd" role="listbox">${S.menus.length ? S.menus.map(m => `<label class="sc-opt ${ui.tgMenus.has(m.id) ? 'on' : ''}"><input type="checkbox" data-b="tgm.${m.id}" ${ui.tgMenus.has(m.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(m.name)}</span></label>`).join('') : '<div class="st-empty">尚無菜單</div>'}</div>` : '';
+    const tgMenuSel = `<div class="sc ${tgDdOpen ? 'open' : ''}" id="sec-tgm"><div class="sc-box" ${tgDdOpen ? '' : 'data-act="tgmOpen"'}><span class="sc-l">套用菜單</span>
+      <div class="sc-v">${tgmTags}${!selMenus.length ? '<span class="sc-ph">請選擇套用菜單</span>' : ''}</div>
+      <div class="sc-ctl">${selMenus.length ? `<button class="sc-x" data-act="tgmClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="tgmDd" aria-label="${tgDdOpen ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${tgDdOpen ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${tgmDd}</div>`;
     return `<div class="mn"><div class="mn-t sec">基本設定</div>
     <div class="lang-grp">${F('標籤名稱', 'name', { req:true, ph:'建議勿超出標籤範圍，請參照「預覽參考」', help:'顧客點餐時看到的名稱，標籤名稱可重複', err:() => dupName ? '標籤名稱不可重複' : '' })}${langBlock(d, { stores:STORES.map(x => x.id) }, '標籤名稱')}</div>
     ${F('後台名稱', 'adminName', { req:true, help:'後台網站顯示的名稱，每個後台名稱不可重複', err:() => dupAdmin ? '後台名稱不可重複' : '' })}
@@ -2693,8 +2707,9 @@ function drawerBody() {
     <div class="tg-row"><span class="tg-l">預覽參考</span>${d.name.trim() ? `<span class="tg-chip tg-prevchip" style="background:${d.color};color:${tagFg(d.color)}">${h(d.name.trim())}</span>` : `<span class="tg-chip tg-prevchip" style="background:${d.color};color:${tagFg(d.color)}">輸入標籤名稱以預覽</span>`}</div>
     <hr class="mn-hr" />
     <div class="mn-t sec">套用範圍${helpIc('依菜單分別選擇要套用此標籤的品項與類別，展開菜單即可編輯')}</div>
-    ${S.menus.length ? `<div class="opt-bar"><span>共 ${S.menus.length} 份菜單</span><span class="opt-btns"><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="1">全部展開</button><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="0">全部收合</button></span></div>` : '<div class="mn-hint">尚無菜單</div>'}
-    ${S.menus.map(tgMenuBox).join('')}</div>`;
+    ${tgMenuSel}
+    ${selMenus.length ? `<div class="opt-bar"><span>共 ${selMenus.length} 份菜單</span><span class="opt-btns"><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="1">全部展開</button><button type="button" class="opt-btn" data-act="tgOpenAll" data-v="0">全部收合</button></span></div>` : `<div class="mn-hint">${S.menus.length ? '請先選擇套用菜單' : '尚無菜單'}</div>`}
+    ${selMenus.map(tgMenuBox).join('')}</div>`;
   }
   if (t === 'menu') {
     ensureSS(d); const errs = menuErrors(d), q = (u => u)(ui.storeQ || ''), selN = d.stores.length, first = byId(STORES, d.stores[0]);
@@ -3157,6 +3172,7 @@ document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (ui.splitMenu && !(el && el.dataset.act === 'splitMenu')) { ui.splitMenu = ''; if (!el) { render(); return; } }
   if ((ui.attrPop || ui.pricePop || ui.optPop || ui.picker) && !e.target.closest('.attr-pop') && !(el && /^(attrPop|pricePop|optPop|pkOpen)$/.test(el.dataset.act))) { ui.attrPop = ui.pricePop = ui.optPop = ui.picker = null; if (!el) { render(); return; } }
+  if (ui.tgMenuDd && ui.panel && !e.target.closest('#sec-tgm')) { ui.tgMenuDd = false; redrawDrawer(); }
   if (ui.storeDd && ui.panel && !e.target.closest('#sec-stores')) { ui.storeDd = false; ui.storeQ = ''; redrawDrawer(); }
   if (ui.panel && (ui.subPop != null || ui.dispPop) && !e.target.closest('.msel')) { ui.subPop = null; ui.dispPop = false; redrawDrawer(); }
   if (ui.opDd && ui.panel && !e.target.closest('#sec-op')) { ui.opDd = false; ui.opQ = ''; redrawDrawer(); }
@@ -3201,6 +3217,10 @@ document.addEventListener('click', e => {
     case 'tagCatSet': ui.panel.draft.cat = D.id; ui.tagCatPop = false; redrawDrawer(); return;
     case 'tagColPop': ui.tagColPop = !ui.tagColPop; ui.tagCatPop = false; if (ui.tagColPop) { const c = cpParse(ui.panel.draft.color), h = cpHsv(c); ui.cp = { h:h.h, s:h.s, v:h.v, a:c.a }; } redrawDrawer(); return;
     case 'cpPreset': { const c = cpHsv(cpParse(D.c)); cpApply({ h:c.s === 0 ? ui.cp.h : c.h, s:c.s, v:c.v, a:1 }); return; }
+    case 'tgmOpen': ui.tgMenuDd = true; redrawDrawer(); return;
+    case 'tgmDd': ui.tgMenuDd = !ui.tgMenuDd; redrawDrawer(); return;
+    case 'tgmRm': tgmSet(D.id, false); redrawDrawer(); return;
+    case 'tgmClear': [...ui.tgMenus].forEach(id => tgmSet(id, false)); redrawDrawer(); return;
     case 'tgTog': ui.tgOpen.has(D.m) ? ui.tgOpen.delete(D.m) : ui.tgOpen.add(D.m); ui.tgDd = null; ui.tgQ = ''; redrawDrawer(); return;
     case 'tgOpenAll': ui.tgOpen = D.v === '1' ? new Set(S.menus.map(m => m.id)) : new Set(); ui.tgDd = null; ui.tgQ = ''; redrawDrawer(); return;
     case 'tgOpen': if (D.k.endsWith(':i')) { pkOpen('tg', D.k); return; } ui.tgDd = D.k; ui.tgQ = ''; redrawDrawer(); document.getElementById('tgSearch')?.focus(); return;
@@ -3470,6 +3490,7 @@ document.addEventListener('change', e => {
     else if (b.startsWith('cat.')) { const id = b.slice(4); d.catIds = v ? [...new Set([...d.catIds, id])] : d.catIds.filter(x => x !== id); syncCats(d); redrawDrawer(); document.getElementById('catSearch')?.focus(); return; }
     else if (b.startsWith('optItem.')) { const id = b.slice(8), it = byId(S.items, id); if (v) { if (it && !d.options.some(o => o.itemId === id)) d.options.push(optDef({ id:nid('o'), itemId:id, name:it.name, sku:it.sku, price:0, webDel:'', sub:it.attrs.find(x => x !== d.id) || '' })); } else d.options = d.options.filter(o => o.itemId !== id); redrawDrawer(); document.getElementById('opSearch')?.focus(); return; }
     else if (b.startsWith('tag.')) { const n = b.slice(4); d.tags = v ? [...new Set([...(d.tags || []), n])] : (d.tags || []).filter(x => x !== n); redrawDrawer(); document.getElementById('tagSearch')?.focus(); return; }
+    else if (b.startsWith('tgm.')) { tgmSet(b.slice(4), v); redrawDrawer(); return; }
     else if (b.startsWith('tgi.') || b.startsWith('tgc.')) { const id = b.slice(4), f = b.startsWith('tgi.') ? 'itemIds' : 'catIds'; d[f] = v ? [...new Set([...(d[f] || []), id])] : (d[f] || []).filter(x => x !== id); redrawDrawer(); document.getElementById('tgSearch')?.focus(); return; }
     else if (b.startsWith('tcat.')) { const id = b.slice(5); d.catIds = v ? [...new Set([...(d.catIds || []), id])] : (d.catIds || []).filter(x => x !== id); redrawDrawer(); document.getElementById('tcSearch')?.focus(); return; }
     else if (b.startsWith('sgrp.')) { const g = STORE_GROUPS.find(x => x.id === b.slice(5)); if (g) { d.groups = (d.groups || []).filter(x => x !== g.id); if (v) d.groups.push(g.id); d.stores = v ? [...new Set([...d.stores, ...g.stores])] : d.stores.filter(x => !g.stores.includes(x)); } redrawDrawer(); document.getElementById('storeSearch')?.focus(); return; }
