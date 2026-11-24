@@ -1448,6 +1448,70 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .chip-attr .ca-1 { overflow: hidden; text-overflow: ellipsis; }
 .chip-attr .ca-2 { flex-shrink: 0; display: inline-flex; align-items: center; margin-left: 0; padding: 0 10px; height: 18px; border: 0; border-radius: 999px; background: #E1F2F0; color: #58B6A8; font-size: 12px; line-height: 1.5; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
+/* 開彈窗型欄位（摘要區） */
+.pks { margin-bottom: 4px; }
+.pks-box { position: relative; display: flex; align-items: flex-start; gap: 8px; min-height: 56px; box-sizing: border-box; padding: 8px 12px; border: 1px solid #D4D4D4; border-radius: 4px; background: #fff; cursor: pointer; }
+.pks-box:hover { border-color: #232323; }
+.pks-v { flex: 1; min-width: 0; min-height: 38px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.pks-chip { display: inline-flex; align-items: center; max-width: 100%; background: rgba(141,140,140,.2); border-radius: 100px; padding: 4px 4px 4px 10px; font-size: 14px; line-height: 1.5; color: #53545C; white-space: nowrap; }
+.pks-cn { overflow: hidden; text-overflow: ellipsis; }
+.pks-chip button { border: 0; background: none; padding: 0; display: flex; margin-left: 4px; cursor: pointer; flex-shrink: 0; }
+.pks-ph { font-size: 16px; line-height: 1.5; color: #8E8F98; }
+.pks-more { font-size: 14px; color: #53545C; }
+.pks-btn { margin-left: auto; flex-shrink: 0; border: 0; background: none; color: #58B6A8; font-family: inherit; font-size: 14px; font-weight: 600; line-height: 1.1; letter-spacing: .5px; padding: 0 12px; height: 38px; white-space: nowrap; cursor: pointer; }
+/* 品項選擇彈窗 */
+.dlg.pk-dlg { width: 964px; max-width: 94vw; height: min(686px, 92vh); display: flex; flex-direction: column; overflow: hidden; }
+.pk-dlg .dlg-h { flex-shrink: 0; align-items: center; }
+.pk-dlg .dlg-h small { font-size: 14px; font-weight: 400; color: #8E8F98; margin-left: 8px; }
+.pk-dlg .dlg-f { flex-shrink: 0; }
+.pk-main { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 16px; padding: 20px; }
+.pk-cnt { flex-shrink: 0; font-size: 16px; line-height: 1.5; color: #8E8F98; }
+.pk-chips { position: relative; flex-shrink: 0; display: flex; align-items: center; gap: 8px; min-height: 56px; box-sizing: border-box; padding: 8px 12px; border: 1px solid #D4D4D4; border-radius: 4px; }
+.pk-cl { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; overflow: hidden; }
+.pk-chips:hover:not(:focus-within), .pks-box:hover:not(:focus-within) { border-color: #232323; }
+.pk-chips:focus-within, .pks-box:focus-within { outline: none; border-color: #86CBC1; box-shadow: inset 0 0 0 1px #86CBC1; }
+.pk-chips:focus-within > .sc-l, .pks-box:focus-within > .sc-l { color: #58B6A8; }
+.pk-chips.exp .pk-cl { flex-wrap: wrap; max-height: 168px; overflow-y: auto; scrollbar-width: thin; }
+.pk-chip { display: inline-flex; align-items: center; flex-shrink: 0; max-width: 100%; background: rgba(141,140,140,.2); border-radius: 100px; padding: 4px 4px 4px 10px; font-size: 14px; line-height: 1.5; color: #53545C; white-space: nowrap; }
+.pk-cn { overflow: hidden; text-overflow: ellipsis; }
+.pk-chip button { border: 0; background: none; padding: 0; display: flex; margin-left: 4px; cursor: pointer; flex-shrink: 0; }
+.pk-more { flex-shrink: 0; font-size: 16px; color: #53545C; }
+.pk-ph { font-size: 14px; color: #8E8F98; }
+.pk-lk { flex-shrink: 0; border: 0; background: none; color: #58B6A8; font-size: 14px; font-weight: 600; line-height: 1.1; font-family: inherit; letter-spacing: .5px; padding: 8px 12px; cursor: pointer; }
+.pk-clr { flex-shrink: 0; border: 0; background: none; padding: 0; display: flex; cursor: pointer; }
+.pk-main > .sbox { display: flex; flex-shrink: 0; }
+.pk-main > .sbox .search { width: 100%; height: 40px; padding: 8px 12px 8px 44px; }
+.pk-body { flex: 1; min-height: 0; display: flex; border: 1px solid #D4D4D4; border-radius: 8px; overflow: hidden; }
+.pk-side { width: 224px; flex-shrink: 0; box-sizing: border-box; padding: 20px 12px; border-right: 1px solid #D4D4D4; overflow-y: auto; }
+.pk-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; height: 48px; box-sizing: border-box; padding: 8px 12px; border: 0; border-radius: 10px; background: transparent; font-size: 16px; line-height: 1.1; font-family: inherit; color: #53545C; text-align: left; cursor: pointer; }
+.pk-nav:hover { background: #F3F3F4; }
+.pk-nav.on, .pk-nav.on:hover { background: #E1F2F0; }
+.pk-nav.un { color: #8E8F98; }
+.pk-nn { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pk-nc { flex-shrink: 0; color: #8E8F98; }
+.pk-div { height: 1px; background: #D4D4D4; margin: 8px 0; }
+.pk-pane { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.pk-gh { flex-shrink: 0; display: flex; align-items: center; gap: 4px; padding: 4px 8px; background: #F3F3F4; border-bottom: 1px solid #D4D4D4; cursor: pointer; font-size: 16px; line-height: 1.5; color: #53545C; }
+.pk-gh b { font-weight: 600; }
+.pk-gh small { margin-left: 4px; font-size: 16px; color: #8E8F98; }
+.pk-list { flex: 1; min-height: 0; overflow-y: auto; }
+.pk-row { display: flex; align-items: center; gap: 4px; min-height: 43px; box-sizing: border-box; padding: 4px 8px; border-bottom: 1px solid #D4D4D4; cursor: pointer; }
+.pk-row:hover { background: #F3F3F4; }
+.pk-nm { font-size: 16px; line-height: 1.5; color: #53545C; }
+.pk-sku { margin-left: 8px; font-size: 14px; color: #8E8F98; }
+.pk-cb { position: relative; box-sizing: content-box; width: 24px; height: 24px; padding: 9px; flex-shrink: 0; }
+.pk-cb::before { content: ""; position: absolute; left: 12px; top: 12px; width: 18px; height: 18px; box-sizing: border-box; border: 2px solid #8E8F98; border-radius: 2px; }
+.on > .pk-cb::before, .part > .pk-cb::before { background: #58B6A8; border-color: #58B6A8; }
+.on > .pk-cb::after { content: ""; position: absolute; left: 12px; top: 12px; width: 18px; height: 18px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 9.4l3.2 3.2L14 5.8'/></svg>") center/18px no-repeat; }
+.part > .pk-cb::after { content: ""; position: absolute; left: 16px; top: 20px; width: 10px; height: 2px; background: #fff; border-radius: 1px; }
+.pk-pane .empty-blk { flex: 1; min-height: 0; margin: 0; border-radius: 0; overflow: auto; }
+.pk-pane .empty-st { height: 100%; min-height: 200px; }
+@media (max-width: 700px) {
+  .pk-body { flex-direction: column; }
+  .pk-side { width: auto; display: flex; gap: 4px; padding: 8px; border-right: 0; border-bottom: 1px solid #D4D4D4; overflow-x: auto; overflow-y: hidden; flex-shrink: 0; }
+  .pk-nav { width: auto; flex-shrink: 0; white-space: nowrap; }
+  .pk-div { width: 1px; height: auto; margin: 4px 8px; }
+}
 </style>
 </head>
 <body>
@@ -2479,6 +2543,13 @@ function aiFiltered() {
   return S.items.filter(x => (!inM || inM.has(x.id)) && (!q || x.name.toLowerCase().includes(q) || (x.adminName || '').toLowerCase().includes(q) || (x.sku || '').toLowerCase().includes(q)));
 }
 const menuFilterHtml = (cur, act) => S.menus.length > 1 ? `<div class="sc-mf"><span class="sc-mfl">菜單</span>${[{ id:'', name:'全部菜單' }, ...S.menus].map(m => `<button type="button" class="sc-mfb ${cur === m.id ? 'on' : ''}" data-act="${act}" data-id="${m.id}">${h(m.name)}</button>`).join('')}</div>` : '';
+/* 「點擊開彈窗」型欄位：摘要區（與直接展開的下拉選單 .sc 區隔） */
+function pkField(o) {
+  const it = o.items, n = it.length, LIM = 3;
+  const X = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  const chips = it.slice(0, LIM).map(c => `<span class="pks-chip"><span class="pks-cn">${h(c.name)}</span><button type="button" ${c.rm} aria-label="移除${h(c.name)}">${X}</button></span>`).join('') + (n > LIM ? `<span class="pks-more">+${n - LIM}</span>` : '');
+  return `<div class="pks" ${o.attrs || ''}><div class="pks-box ${n ? '' : 'empty'}" ${o.open}>${o.label ? `<span class="sc-l">${o.label}</span>` : ''}<div class="pks-v">${n ? chips : '<span class="pks-ph">請選擇品項</span>'}</div><button type="button" class="pks-btn" ${o.open}>編輯</button></div></div>`;
+}
 function aiBoxHtml(d, label = '包含此屬性的品項', ph = '選擇要使用此屬性的品項') {
   const sel = d.itemIds || [], selOrd = byOrder(sel, itemOrder()), allIts = S.items;
   const aiFl = aiFiltered();
@@ -2487,11 +2558,81 @@ function aiBoxHtml(d, label = '包含此屬性的品項', ph = '選擇要使用�
   const aiChip = id => { const it = byId(S.items, id); return it ? `<span class="sc-chip">${h(it.name)}<button data-act="aiRm" data-id="${id}" aria-label="移除${h(it.name)}">${aiX}</button></span>` : ''; };
   const aiLim = 1;
   const aiTags = ui.aiDd ? selOrd.map(aiChip).join('') : selOrd.slice(0, aiLim).map(aiChip).join('') + (sel.length > aiLim ? `<button type="button" class="sc-more" data-act="aiSelOpen" title="檢視已選項目">+${sel.length - aiLim}</button>` : '');
-  const aiBox = `<div class="sc ${ui.aiDd ? 'open' : ''}" id="sec-ai"><div class="sc-box" ${ui.aiDd ? '' : 'data-act="aiOpen"'}><span class="sc-l">${label}</span>
-    <div class="sc-v">${aiTags}${!sel.length && !ui.aiDd ? `<span class="sc-ph">${ph}</span>` : ''}${ui.aiDd ? `<input type="text" id="aiSearch" class="sc-in" placeholder="${sel.length ? '' : h(ph)}" value="${h(ui.aiQ || '')}" autocomplete="off" />` : ''}</div>
-    <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="aiClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="aiDd" aria-label="${ui.aiDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.aiDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.aiDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${sel.length}</b> / ${allIts.length}</span><span><a href="#" data-act="aiAll" data-v="1">全選</a>｜<a href="#" data-act="aiAll" data-v="0">全部清除</a></span></div>${aiFl.length ? [...S.menus.flatMap(m => catsOf(m.id).map(c => ({ k:c.id, g:c.name, l:aiFl.filter(x => x.catIds.includes(c.id)) }))), ...([{ k:'_unc', g:'未分類', l:aiFl.filter(x => !x.catIds.length) }])].map(({ k, g, l }) => l.length ? (() => { const n = l.filter(x => sel.includes(x.id)).length, fold = foldK(k), st = n === l.length ? 'on' : n ? 'part' : ''; return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="aiGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(g)}<small>${n} / ${l.length}</small><button type="button" class="sc-gtg" data-act="aiGrpTog" data-k="${k}" aria-expanded="${!fold}" aria-label="${fold ? '展開' : '收合'}類別${h(g)}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${fold ? 'M7 10l5 5 5-5z' : 'M7 14l5-5 5 5z'}"/></svg></button></div>`; })() + (foldK(k) ? '' : l.map(x => `<label class="sc-opt ${sel.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="apply.${x.id}" ${sel.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join('')) : '').join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
+  const aiBox = pkField({ attrs:'id="sec-ai"', label:'品項', items:selOrd.map(id => byId(S.items, id)).filter(Boolean).map(it => ({ name:it.name, rm:`data-act="aiRm" data-id="${it.id}"` })), open:'data-act="aiOpen"', edit:'編輯品項' });
   return aiBox;
 }
+/* ===== 品項選擇彈窗（階層：左側類別 → 右側品項），供「屬性內選項」「包含此屬性的品項」「套用的品項」共用 ===== */
+const PK_FLD = { ai:'品項', op:'選項', tg:'品項' };
+const PK_TITLE = { ai:'包含此屬性的品項', op:'屬性內選項', tg:'套用的品項' };
+function pkPool() {
+  const pk = ui.pk, d = ui.panel && ui.panel.draft; if (!pk || !d) return [];
+  if (pk.kind === 'tg') return tgPool(pk.key).ids.map(id => byId(S.items, id)).filter(Boolean);
+  if (pk.kind === 'op') return S.items.filter(x => !x.catIds.length || !d.menuId || x.catIds.some(c => byId(S.cats, c)?.menuId === d.menuId));
+  const inM = d.menuId ? menuItemIds(d.menuId) : null;
+  return S.items.filter(x => !inM || inM.has(x.id));
+}
+function pkGroups() {
+  const pk = ui.pk, pool = pkPool(), ids = new Set(pool.map(x => x.id)), q = (pk.q || '').trim().toLowerCase();
+  const match = x => !q || x.name.toLowerCase().includes(q) || (x.adminName || '').toLowerCase().includes(q) || (x.sku || '').toLowerCase().includes(q);
+  const gs = [];
+  S.menus.forEach(m => catsOf(m.id).forEach(c => { const all = itemsOf(c.id).filter(x => ids.has(x.id)); if (all.length) gs.push({ k:c.id, mn:m.name, mid:m.id, name:c.name, l:all.filter(match) }); }));
+  if (new Set(gs.map(g => g.mid)).size > 1) gs.forEach(g => { g.name = g.mn + ' › ' + g.name; });
+  const un = pool.filter(x => !x.catIds.length); if (un.length) gs.push({ k:UNCAT, name:'未分類', un:true, l:un.filter(match) });
+  return q ? gs.filter(g => g.l.length) : gs;
+}
+function pkHtml() {
+  const pk = ui.pk, gs = pkGroups(), sel = new Set(pk.sel);
+  if (!gs.some(g => g.k === pk.cat)) pk.cat = gs.length ? gs[0].k : null;
+  const cur = gs.find(g => g.k === pk.cat), LIM = 6;
+  const X = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#8D8C8C"/><path d="M9 9l6 6M15 9l-6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  const ord = byOrder(pk.sel, itemOrder());
+  const chip = id => { const it = byId(S.items, id); return it ? `<span class="pk-chip"><span class="pk-cn">${h(it.name)}</span><button type="button" data-act="pkRm" data-id="${id}" aria-label="移除${h(it.name)}">${X}</button></span>` : ''; };
+  const shown = pk.exp ? ord : ord.slice(0, LIM);
+  const chips = `<div class="pk-chips ${pk.exp ? 'exp' : ''}"><span class="sc-l">${PK_FLD[pk.kind]}</span><div class="pk-cl">${shown.map(chip).join('')}${!pk.exp && ord.length > LIM ? `<span class="pk-more">+${ord.length - LIM}</span>` : ''}${ord.length ? '' : '<span class="pk-ph">尚未選擇品項</span>'}</div>${ord.length > 1 ? `<button type="button" class="pk-lk" data-act="pkExp">${pk.exp ? '收合' : '展開'}</button>` : ''}${ord.length ? `<button type="button" class="pk-clr" data-act="pkClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}</div>`;
+  const cnt = g => g.l.filter(x => sel.has(x.id)).length;
+  const nav = gs.map(g => (g.un && gs.length > 1 ? '<div class="pk-div"></div>' : '') + `<button type="button" class="pk-nav ${g.k === pk.cat ? 'on' : ''} ${g.un ? 'un' : ''}" data-act="pkCat" data-k="${g.k}"><span class="pk-nn">${h(g.name)}</span><span class="pk-nc">(${cnt(g)}/${g.l.length})</span></button>`).join('');
+  let pane;
+  if (cur) { const n = cnt(cur), st = n === cur.l.length ? 'on' : n ? 'part' : '';
+    pane = `<div class="pk-gh ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="pkGrp"><span class="pk-cb"></span><b>${h(cur.name)}</b><small>(${n}/${cur.l.length})</small></div>
+      <div class="pk-list">${cur.l.map(x => { const on = sel.has(x.id); return `<div class="pk-row ${on ? 'on' : ''}" role="checkbox" aria-checked="${on}" data-act="pkTog" data-id="${x.id}"><span class="pk-cb"></span><span class="pk-nm">${h(x.name)}</span>${x.sku ? `<span class="pk-sku">(${h(x.sku)})</span>` : ''}</div>`; }).join('')}</div>`;
+  } else pane = (pk.q || '').trim() ? emptyBlock('查無結果', '', 'noresult') : emptyBlock('尚無品項', '', 'empty');
+  const mn = pk.kind === 'tg' && S.menus.length > 1 ? byId(S.menus, pk.key.split(':')[0]) : null;
+  return `<div class="scrim mscrim" style="z-index:80"></div><div class="dlg pk-dlg" style="z-index:81" role="dialog" aria-label="${PK_TITLE[pk.kind]}">
+    <div class="dlg-h"><h2>${PK_TITLE[pk.kind]}${mn ? `<small>${h(mn.name)}</small>` : ''}</h2><button class="dlg-x" data-act="pkCancel" aria-label="關閉">${fi('close', 20)}</button></div>
+    <div class="pk-main"><div class="pk-cnt">共 ${ord.length} 個${pk.kind === 'op' ? '選項' : '品項'}</div>${chips}
+      ${searchBox('pkSearch', pk.q || '')}
+      <div class="pk-body">${gs.length ? `<div class="pk-side">${nav}</div>` : ''}<div class="pk-pane">${pane}</div></div></div>
+    <div class="dlg-f"><button type="button" class="dlg-btn" data-act="pkCancel">取消</button><button type="button" class="dlg-btn blue" data-act="pkOk">確認</button></div></div>`;
+}
+function renderPk(keep) {
+  let host = document.getElementById('pkHost');
+  if (!host) { host = document.createElement('div'); host.id = 'pkHost'; document.body.appendChild(host); }
+  const old = host.querySelector('.pk-list'), st = old ? old.scrollTop : 0, ae = document.activeElement, wasS = ae && ae.id === 'pkSearch', pos = wasS ? ae.selectionStart : 0;
+  host.innerHTML = ui.pk ? pkHtml() : '';
+  if (!ui.pk) return;
+  const cl = host.querySelector('.pk-cl'), lk = host.querySelector('.pk-lk'); if (lk && !ui.pk.exp && ui.pk.sel.length <= 6 && cl.scrollWidth <= cl.clientWidth + 1) lk.style.display = 'none';
+  const nl = host.querySelector('.pk-list'); if (nl && keep) nl.scrollTop = st;
+  const n = host.querySelector('#pkSearch'); if (wasS && n) { n.focus(); n.setSelectionRange(pos, pos); }
+}
+function pkOpen(kind, key) {
+  const d = ui.panel.draft; ui.aiDd = ui.opDd = false; ui.tgDd = null;
+  ui.pk = { kind, key, sel:[], q:'', cat:null, exp:false };
+  const pool = new Set(pkPool().map(x => x.id)), cur = kind === 'op' ? d.options.map(o => o.itemId) : (d.itemIds || []);
+  ui.pk.sel = cur.filter(id => pool.has(id));
+  const hit = pkGroups().find(g => g.l.some(x => ui.pk.sel.includes(x.id))); if (hit) ui.pk.cat = hit.k;
+  redrawDrawer(); renderPk();
+  const first = document.querySelector('#pkHost .pk-nav.on'); if (first && first.scrollIntoView) first.scrollIntoView({ block:'nearest' });
+}
+function pkCommit() {
+  const pk = ui.pk, d = ui.panel.draft, pool = new Set(pkPool().map(x => x.id)), sel = pk.sel.filter(id => pool.has(id));
+  if (pk.kind === 'op') {
+    d.options = d.options.filter(o => !pool.has(o.itemId) || sel.includes(o.itemId));
+    sel.forEach(id => { if (!d.options.some(o => o.itemId === id)) { const it = byId(S.items, id); if (it) d.options.push(optDef({ id:nid('o'), itemId:id, name:it.name, sku:it.sku, price:0, webDel:'', sub:it.attrs.find(x => x !== d.id) || '' })); } });
+  } else d.itemIds = [...(d.itemIds || []).filter(id => !pool.has(id)), ...sel];
+  ui.pk = null; renderPk(); redrawDrawer();
+}
+document.addEventListener('input', e => { if (e.target.id === 'pkSearch' && ui.pk && !e.isComposing) { ui.pk.q = e.target.value; renderPk(); } });
+document.addEventListener('compositionend', e => { if (e.target.id === 'pkSearch' && ui.pk) { ui.pk.q = e.target.value; renderPk(); } });
 function tgPool(k) { const [mid, kind] = k.split(':'); return kind === 'c' ? { f:'catIds', ids:catsOf(mid).map(c => c.id) } : { f:'itemIds', ids:[...menuItemIds(mid)] }; }
 const cats_ = mid => catsOf(mid);
 function tgFiltered(k) { const q = (ui.tgQ || '').trim().toLowerCase(), isI = k.endsWith(':i'), { ids } = tgPool(k); if (!q) return ids; return ids.filter(id => { const o = byId(isI ? S.items : S.cats, id); return o && (o.name.toLowerCase().includes(q) || (isI && ((o.adminName || '').toLowerCase().includes(q) || (o.sku || '').toLowerCase().includes(q)))); }); }
@@ -2518,6 +2659,7 @@ function drawerBody() {
         else body = fl.map(id => `<label class="sc-opt ${selAll.includes(id) ? 'on' : ''}"><input type="checkbox" data-b="tgc.${id}" ${selAll.includes(id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(nameOf(id))}</span></label>`).join('');
         dd = `<div class="sc-dd" role="listbox">${head}${body || `<div class="st-empty">${pool.length ? '找不到符合的' + (isI ? '品項' : '類別') : '此菜單尚無' + (isI ? '品項' : '類別')}</div>`}</div>`;
       }
+      if (isI) return pkField({ attrs:`data-tgk="${key}"`, label:label, items:sel.map(id => ({ name:nameOf(id), rm:`data-act="tgRm" data-k="${key}" data-id="${id}"` })), open:`data-act="tgOpen" data-k="${key}"`, edit:'編輯品項' });
       return `<div class="sc ${open ? 'open' : ''}" data-tgk="${key}"><div class="sc-box" ${open ? '' : `data-act="tgOpen" data-k="${key}"`}><span class="sc-l">${label}</span>
         <div class="sc-v">${tags}${!sel.length && !open ? `<span class="sc-ph">${ph}</span>` : ''}${open ? `<input type="text" id="tgSearch" class="sc-in" placeholder="${sel.length ? '' : ph}" value="${h(ui.tgQ || '')}" autocomplete="off" />` : ''}</div>
         <div class="sc-ctl">${sel.length ? `<button class="sc-x" data-act="tgClear" data-k="${key}" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="tgDd" data-k="${key}" aria-label="${open ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${open ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${dd}</div>`;
@@ -2648,9 +2790,7 @@ function drawerBody() {
   const opOrd = (() => { const ord = itemOrder(); return d.options.map((o, i) => [o, i]).sort((a, b) => { const f = x => { const k = ord.indexOf(x[0].itemId); return k < 0 ? ord.length : k; }; return f(a) - f(b); }); })();
   const opTags = ui.opDd ? opOrd.map(([o, i]) => opChip(o, i)).join('') : opOrd.slice(0, opLim).map(([o, i]) => opChip(o, i)).join('') + (d.options.length > opLim ? `<span class="sc-more">+${d.options.length - opLim}</span>` : '');
   const opList = [...new Map([...S.menus.flatMap(m => catsOf(m.id).flatMap(c => opFl.filter(x => x.catIds.includes(c.id)))), ...opFl.filter(x => !x.catIds.length)].map(x => [x.id, x])).values()];
-  const opBox = `<div class="sc ${ui.opDd ? 'open' : ''}" id="sec-op"><div class="sc-box" ${ui.opDd ? '' : 'data-act="opOpen"'}><span class="sc-l">選項</span>
-    <div class="sc-v">${opTags}${!d.options.length && !ui.opDd ? '<span class="sc-ph">從既有品項選擇選項</span>' : ''}${ui.opDd ? `<input type="text" id="opSearch" class="sc-in" placeholder="${d.options.length ? '' : '從既有品項選擇選項'}" value="${h(ui.opQ || '')}" autocomplete="off" />` : ''}</div>
-    <div class="sc-ctl">${d.options.length ? `<button class="sc-x" data-act="opClear" aria-label="清除全部"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8C8C" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>` : ''}<span class="sc-sep"></span><button class="sc-ar" data-act="opDd" aria-label="${ui.opDd ? '收合' : '展開'}"><svg width="24" height="24" viewBox="0 0 24 24" fill="#8D8C8C"><path d="${ui.opDd ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z'}"/></svg></button></div></div>${ui.opDd ? `<div class="sc-dd" role="listbox"><div class="st-head"><span>已選 <b>${d.options.length}</b> / ${S.items.length}</span></div>${opList.length ? opList.map(x => `<label class="sc-opt ${opIds.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="optItem.${x.id}" ${opIds.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}${x.sku ? `<small class="sc-sku">(${h(x.sku)})</small>` : ''}</span></label>`).join('') : '<div class="st-empty">找不到符合的品項</div>'}</div>` : ''}</div>`;
+  const opBox = pkField({ attrs:'id="sec-op"', label:'選項', items:opOrd.map(([o, i]) => { const it = byId(S.items, o.itemId); return it ? { name:it.name, rm:`data-act="optDel" data-i="${i}"` } : null; }).filter(Boolean), open:'data-act="opOpen"', edit:'編輯選項' });
   const optHtml = d.options.map((o, i) => {
     const it = byId(S.items, o.itemId);
     const bp = String(o.price || 0), pre = `options.${i}.`;
@@ -3045,8 +3185,8 @@ document.addEventListener('click', e => {
     case 'cpPreset': { const c = cpHsv(cpParse(D.c)); cpApply({ h:c.s === 0 ? ui.cp.h : c.h, s:c.s, v:c.v, a:1 }); return; }
     case 'tgTog': ui.tgOpen.has(D.m) ? ui.tgOpen.delete(D.m) : ui.tgOpen.add(D.m); ui.tgDd = null; ui.tgQ = ''; redrawDrawer(); return;
     case 'tgOpenAll': ui.tgOpen = D.v === '1' ? new Set(S.menus.map(m => m.id)) : new Set(); ui.tgDd = null; ui.tgQ = ''; redrawDrawer(); return;
-    case 'tgOpen': ui.tgDd = D.k; ui.tgQ = ''; redrawDrawer(); document.getElementById('tgSearch')?.focus(); return;
-    case 'tgDd': ui.tgDd = ui.tgDd === D.k ? null : D.k; ui.tgQ = ''; redrawDrawer(); if (ui.tgDd) document.getElementById('tgSearch')?.focus(); return;
+    case 'tgOpen': if (D.k.endsWith(':i')) { pkOpen('tg', D.k); return; } ui.tgDd = D.k; ui.tgQ = ''; redrawDrawer(); document.getElementById('tgSearch')?.focus(); return;
+    case 'tgDd': if (D.k.endsWith(':i')) { pkOpen('tg', D.k); return; } ui.tgDd = ui.tgDd === D.k ? null : D.k; ui.tgQ = ''; redrawDrawer(); if (ui.tgDd) document.getElementById('tgSearch')?.focus(); return;
     case 'tgRm': { const { f } = tgPool(D.k); ui.panel.draft[f] = (ui.panel.draft[f] || []).filter(x => x !== D.id); redrawDrawer(); if (ui.tgDd) document.getElementById('tgSearch')?.focus(); return; }
     case 'tgClear': { const { f, ids } = tgPool(D.k); ui.panel.draft[f] = (ui.panel.draft[f] || []).filter(x => !ids.includes(x)); redrawDrawer(); if (ui.tgDd) document.getElementById('tgSearch')?.focus(); return; }
     case 'tgGrp': { const ids = (D.ids || '').split(',').filter(Boolean), cur = ui.panel.draft.itemIds || [], all = ids.every(id => cur.includes(id)); ui.panel.draft.itemIds = all ? cur.filter(id => !ids.includes(id)) : [...new Set([...cur, ...ids])]; redrawDrawer(); document.getElementById('tgSearch')?.focus(); return; }
@@ -3160,8 +3300,15 @@ document.addEventListener('click', e => {
     case 'ssCopy': { const d = ui.panel.draft, src = d.storeSettings[D.s], us = unitsOf(d).filter(u => u.sid !== D.s); us.forEach(u => u.members.forEach(x => { d.storeSettings[x] = clone(src); })); redrawDrawer(); toast(`已套用到其他 ${us.length} 個選項`); return; }
     case 'optTog': { const k = D.id; ui.optOpen.has(k) ? ui.optOpen.delete(k) : ui.optOpen.add(k); redrawDrawer(); return; }
     case 'optAll': ui.optOpen = D.v === '1' ? new Set(ui.panel.draft.options.map(o => o.id)) : new Set(); redrawDrawer(); return;
-    case 'opOpen': ui.opDd = true; redrawDrawer(); document.getElementById('opSearch')?.focus(); return;
-    case 'opDd': ui.opDd = !ui.opDd; if (!ui.opDd) ui.opQ = ''; redrawDrawer(); if (ui.opDd) document.getElementById('opSearch')?.focus(); return;
+    case 'opOpen': case 'opDd': pkOpen('op'); return;
+    case 'pkRm': ui.pk.sel = ui.pk.sel.filter(x => x !== D.id); renderPk(true); return;
+    case 'pkClear': ui.pk.sel = []; renderPk(true); return;
+    case 'pkExp': ui.pk.exp = !ui.pk.exp; renderPk(true); return;
+    case 'pkCat': ui.pk.cat = D.k; renderPk(); return;
+    case 'pkTog': { const s = ui.pk.sel, i = s.indexOf(D.id); if (i < 0) s.push(D.id); else s.splice(i, 1); renderPk(true); return; }
+    case 'pkGrp': { const g = pkGroups().find(x => x.k === ui.pk.cat); if (!g) return; const ids = g.l.map(x => x.id), s = ui.pk.sel, all = ids.every(id => s.includes(id)); ui.pk.sel = all ? s.filter(x => !ids.includes(x)) : [...new Set([...s, ...ids])]; renderPk(true); return; }
+    case 'pkCancel': ui.pk = null; renderPk(); return;
+    case 'pkOk': pkCommit(); return;
     case 'opClear': ui.panel.draft.options = []; redrawDrawer(); if (ui.opDd) document.getElementById('opSearch')?.focus(); return;
     case 'optDel': ui.panel.draft.options.splice(+D.i, 1); redrawDrawer(); if (ui.opDd) document.getElementById('opSearch')?.focus(); return;
     case 'dsw': { const d = ui.panel.draft, p = D.p; const om = p.match(/^options\.(\d+)\.sale\./); if (om) { const o = d.options[om[1]]; o.sale = { ...optSaleDef(), ...(o.sale || {}) }; } if (p.startsWith('sale.')) { if (!d.enabled) return; d.inherit = false; } setp(d, p, !getp(d, p)); redrawDrawer(); return; }
@@ -3169,9 +3316,7 @@ document.addEventListener('click', e => {
     case 'subSet': { ui.panel.draft.options[+D.i].sub = D.id; ui.subPop = null; redrawDrawer(); return; }
     case 'dispPop': ui.subPop = null; ui.dispPop = !ui.dispPop; redrawDrawer(); return;
     case 'dispSet': { const d = ui.panel.draft; d.display = D.id; ui.dispPop = false; redrawDrawer(); return; }
-    case 'aiOpen': ui.aiDd = true; ui.aiOpenG = []; redrawDrawer(); document.getElementById('aiSearch')?.focus(); return;
-    case 'aiDd': ui.aiDd = !ui.aiDd; if (ui.aiDd) ui.aiOpenG = []; if (!ui.aiDd) ui.aiQ = ''; redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
-        case 'aiSelOpen': ui.aiSelDlg = true; ui.aiDd = false; renderOverlay(); return;
+    case 'aiOpen': case 'aiDd': case 'aiSelOpen': pkOpen('ai'); return;
     case 'aiSelClose': ui.aiSelDlg = false; renderOverlay(); return;
     case 'tcMenu': ui.tcMenu = D.id; redrawDrawer(); document.getElementById('tcSearch')?.focus(); return;
     case 'aiRm': ui.panel.draft.itemIds = ui.panel.draft.itemIds.filter(x => x !== D.id); redrawDrawer(); if (ui.aiDd) document.getElementById('aiSearch')?.focus(); return;
@@ -3274,6 +3419,7 @@ document.addEventListener('keydown', e => {
   if (e.target.id === 'paSearch' && ui.panel) { const pa = ui.panel.draft.attrs || []; if (e.key === 'Backspace' && !e.target.value && pa.length) { ui.panel.draft.attrs = pa.slice(0, -1); redrawDrawer(); document.getElementById('paSearch')?.focus(); return; } if (e.key === 'Escape') { e.stopPropagation(); ui.paDd = false; ui.paQ = ''; redrawDrawer(); return; } }
   if (e.target.id === 'tagSearch' && ui.panel) { const tg = ui.panel.draft.tags || []; if (e.key === 'Backspace' && !e.target.value && tg.length) { ui.panel.draft.tags = tg.slice(0, -1); redrawDrawer(); document.getElementById('tagSearch')?.focus(); return; } if (e.key === 'Escape') { e.stopPropagation(); ui.tagDd = false; ui.tagQ = ''; redrawDrawer(); return; } }
   if (e.target.id === 'storeSearch' && ui.panel) { const st = ui.panel.draft.stores; if (e.key === 'Backspace' && !e.target.value && st.length) { st.pop(); redrawDrawer(); document.getElementById('storeSearch')?.focus(); return; } if (e.key === 'Escape') { e.stopPropagation(); ui.storeDd = false; ui.storeQ = ''; redrawDrawer(); return; } }
+  if (e.key === 'Escape' && ui.pk) { ui.pk = null; renderPk(); return; }
   if (e.target.dataset?.inl !== undefined) { if (e.key === 'Enter') commitInline(e.target.value); if (e.key === 'Escape') { ui.editing = null; render(); } }
   else if (e.key === 'Escape' && ui.delDlg) { ui.delDlg = null; renderOverlay(); }
   else if (e.key === 'Escape' && ui.panel) { if (ui.discardDlg) { ui.discardDlg = false; renderOverlay(); } else tryClosePanel(); }
