@@ -679,6 +679,7 @@ table.tb td.sale-td { white-space: normal; }
 .tb td.wrap { white-space: normal; }
 .spanel.scroll { overflow-x: auto; }
 .spanel.first { border-top-left-radius: 0; }
+@media (max-width: 700px) { .spanel.last { border-top-right-radius: 0; } }
 
 /* 菜單資訊展開收合（依 Figma 72:1534） */
 .u-mhead { display: flex; flex-direction: column; gap: 12px; }
@@ -1062,6 +1063,18 @@ table.tb td.sale-td { white-space: normal; }
 .st-b { flex: 1 1 0; min-width: 0; flex-wrap: wrap; gap: 8px 40px; }
 .st-sw { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: #53545C; }
 .st-sw .sw { margin: 0 6px 0 8px; }
+.st-sw { white-space: nowrap; }
+@media (max-width: 700px) {
+  .cat-tbl.st .st-a { width: 68px; flex: 0 0 68px; white-space: nowrap; padding-left: 12px; padding-right: 0; }
+  .cat-tbl.st .st-b { gap: 8px 20px; padding-left: 16px; padding-right: 8px; }
+  .st-sw { gap: 2px; }
+  .st-sw .sw { margin: 0 6px 0 4px; }
+}
+@media (max-width: 400px) {
+  .cat-tbl.st .st-b { gap: 8px 10px; padding-left: 4px; padding-right: 4px; }
+  .st-sw { gap: 2px; }
+  .st-sw .sw { margin: 0 0 0 2px; }
+}
 .cat-tbl.lock { opacity: .55; }
 .sw-line { display: flex; align-items: center; gap: 40px; }
 .sw-l { display: flex; align-items: center; gap: 8px; width: 200px; padding: 8px 0; font-size: 16px; line-height: 1.5; color: #53545C; }
@@ -1265,6 +1278,7 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .sy-row:hover { background: #F5FAF9; }
 .sy-sn { font-size: 16px; color: #53545C; }
 .sy-n { margin-left: auto; font-size: 14px; color: #8E8F98; }
+@media (max-width: 700px) { .sy-row { padding: 0 4px 0 12px; } .sy-sn { white-space: nowrap; } .sy-n { text-align: right; } }
 #chkbar { flex-shrink: 0; }
 .chk-bar { background: #FFF4E5; color: #663C00; border-bottom: 1px solid #FFE2B7; }
 .cb-row { display: flex; align-items: center; gap: 12px; padding: 10px 24px; min-height: 48px; box-sizing: border-box; }
@@ -1490,7 +1504,7 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .pk-nn { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pk-nc { flex-shrink: 0; color: #8E8F98; }
 .pk-div { height: 1px; background: #D4D4D4; margin: 8px 0; }
-.pk-pane { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.pk-pane { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
 .pk-gh { flex-shrink: 0; display: flex; align-items: center; gap: 4px; padding: 4px 8px; background: #F3F3F4; border-bottom: 1px solid #D4D4D4; cursor: pointer; font-size: 16px; line-height: 1.5; color: #53545C; }
 .pk-gh b { font-weight: 600; }
 .pk-gh small { margin-left: 4px; font-size: 16px; color: #8E8F98; }
@@ -1507,6 +1521,9 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .pk-pane .empty-blk { flex: 1; min-height: 0; margin: 0; border-radius: 0; overflow: auto; }
 .pk-pane .empty-st { height: 100%; min-height: 200px; }
 @media (max-width: 700px) {
+  .pk-main { gap: 12px; padding: 12px; }
+  .pk-chips.exp .pk-cl { max-height: 84px; }
+  .pk-body { min-height: 200px; }
   .pk-body { flex-direction: column; }
   .pk-side { width: auto; display: flex; gap: 4px; padding: 8px; border-right: 0; border-bottom: 1px solid #D4D4D4; overflow-x: auto; overflow-y: hidden; flex-shrink: 0; }
   .pk-nav { width: auto; flex-shrink: 0; white-space: nowrap; }
@@ -2007,7 +2024,7 @@ function render() {
           </div>
         </div>
         <div class="sect"><div class="stabs">${tabs.map(t => `<button class="stab ${ui.tab === t[0] ? 'active' : ''}" data-act="tab" data-t="${t[0]}">${t[1]}</button>`).join('')}</div>
-          <div class="spanel ${ui.tab === 'tree' ? 'first' : 'scroll'}">${{ tree:renderTree, menus:renderMenus, cats:renderCats, items:renderItems, attrs:renderAttrs }[ui.tab]()}</div></div>
+          <div class="spanel ${ui.tab === 'tree' ? 'first' : 'scroll'}${ui.tab === 'attrs' ? ' last' : ''}">${{ tree:renderTree, menus:renderMenus, cats:renderCats, items:renderItems, attrs:renderAttrs }[ui.tab]()}</div></div>
         <div class="pfoot">隱私權政策　|　© 電小二智慧點餐系統</div>
       </div>
     </div>`}`;
@@ -2158,6 +2175,7 @@ function pkPlace() {
   const H = el.offsetHeight, W = el.offsetWidth;
   let top, maxH = null;
   if (H <= below) top = K.y + gap;
+  else if (innerWidth <= 700 && H <= innerHeight - 2 * m && H > above) top = Math.max(m, (innerHeight - H) / 2);
   else if (H <= above) top = fieldTop - gap - H;
   else if (below >= above) { top = K.y + gap; maxH = below; }
   else { maxH = above; top = fieldTop - gap - above; }
