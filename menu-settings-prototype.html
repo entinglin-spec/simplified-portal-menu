@@ -2677,12 +2677,11 @@ function drawerBody() {
       let dd = '';
       if (open) {
         const fl = tgFiltered(key), flSet = new Set(fl), nSel = fl.filter(id => selAll.includes(id)).length;
-        const head = `<div class="st-head"><span>已選 <b>${pool.filter(id => selAll.includes(id)).length}</b> / ${pool.length}</span><span><a href="#" data-act="tgAll" data-k="${key}" data-v="1">全選</a>｜<a href="#" data-act="tgAll" data-k="${key}" data-v="0">全部清除</a></span></div>`;
         let body;
         if (isI) body = cats_(m.id).map(c => ({ c, l:itemsOf(c.id).filter(x => flSet.has(x.id)) })).filter(x => x.l.length).map(({ c, l }) => { const n = l.filter(x => selAll.includes(x.id)).length, st = n === l.length ? 'on' : n ? 'part' : '';
           return `<div class="sc-grp ${st}" role="checkbox" aria-checked="${st === 'on' ? 'true' : st ? 'mixed' : 'false'}" data-act="tgGrp" data-ids="${l.map(x => x.id).join(',')}"><span class="ckb-b"></span>類別：${h(c.name)}<small>${n} / ${l.length}</small></div>` + l.map(x => `<label class="sc-opt ${selAll.includes(x.id) ? 'on' : ''}"><input type="checkbox" data-b="tgi.${x.id}" ${selAll.includes(x.id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(x.name)}</span></label>`).join(''); }).join('');
         else body = fl.map(id => `<label class="sc-opt ${selAll.includes(id) ? 'on' : ''}"><input type="checkbox" data-b="tgc.${id}" ${selAll.includes(id) ? 'checked' : ''} /><span class="ckb-b"></span><span class="sc-on">${h(nameOf(id))}</span></label>`).join('');
-        dd = `<div class="sc-dd" role="listbox">${head}${body || `<div class="st-empty">${pool.length ? '找不到符合的' + (isI ? '品項' : '類別') : '此菜單尚無' + (isI ? '品項' : '類別')}</div>`}</div>`;
+        dd = `<div class="sc-dd" role="listbox">${body || `<div class="st-empty">${pool.length ? '找不到符合的' + (isI ? '品項' : '類別') : '此菜單尚無' + (isI ? '品項' : '類別')}</div>`}</div>`;
       }
       if (isI) return pkField({ attrs:`data-tgk="${key}"`, label:label, items:sel.map(id => ({ name:nameOf(id), rm:`data-act="tgRm" data-k="${key}" data-id="${id}"` })), open:`data-act="tgOpen" data-k="${key}"`, edit:'編輯品項' });
       return `<div class="sc ${open ? 'open' : ''}" data-tgk="${key}"><div class="sc-box" ${open ? '' : `data-act="tgOpen" data-k="${key}"`}><span class="sc-l">${label}</span>
