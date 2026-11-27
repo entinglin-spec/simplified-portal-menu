@@ -1647,7 +1647,7 @@ const LANGS = [{ code:'en', label:'英文', path:'enName' }, { code:'ja', label:
 const menuLangs = m => LANGS.filter(l => (m ? m.stores : []).some(id => (byId(STORES, id)?.langs || []).includes(l.code)));
 const S = {
   menus: [
-    { id:'m3', name:'松屋菜單', stores:['s4','s6'], channels:{kiosk:true,pos:true,web:true,staff:true,uber:true,fp:true}, periods:[{ id:'p3a', start:'2026-01-01', end:'2026-12-31', days:[0,1,2,3,4,5,6], slots:[{s:'00:00',e:'23:59'}] }], tax:5 },
+    { id:'m3', name:'松屋菜單', stores:['s4','s6','s1','s2','s15','s3','s16','s17'], groups:['g1'], channels:{kiosk:true,pos:true,web:true,staff:true,uber:true,fp:true}, periods:[{ id:'p3a', start:'2026-01-01', end:'2026-12-31', days:[0,1,2,3,4,5,6], slots:[{s:'00:00',e:'23:59'}] }], tax:5 },
     { id:'m2', name:'早餐菜單', stores:['s1','s2'], channels:{kiosk:true,pos:true,web:true,staff:true,uber:false,fp:false}, periods:[{ id:'p2a', start:'2026-01-01', end:'2026-12-31', days:[1,2,3,4,5], slots:[{s:'07:00',e:'10:30'}] }], tax:5 },
   ],
   cats: [
