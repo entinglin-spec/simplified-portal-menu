@@ -1205,7 +1205,7 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .sc-opt.on .ckb-b::after { content: ""; position: absolute; left: 12px; top: 12px; width: 18px; height: 18px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4.5 9.5l3 3 6-6.5'/></svg>") center / 18px 18px no-repeat; }
 .sc-on { font-size: 16px; line-height: 1.5; color: #53545C; }
 /* 商店群組設定入口 + dialog */
-.grp-row { margin-bottom: 16px; }
+.grp-row { margin-top: -12px; margin-bottom: 0; }
 .grp-ttl { flex: 1; display: flex; align-items: baseline; gap: 8px; line-height: 1.5; }
 .grp-l { font-size: 16px; color: #53545C; }
 .grp-c { font-size: 14px; color: #8E8F98; }
@@ -3416,6 +3416,7 @@ document.addEventListener('click', e => {
         if (!n) m.groups = m.groups.filter(x => x !== o.id);
         else m.stores = [...new Set([...(m.stores || []).filter(id => !o.stores.includes(id)), ...n.stores])]; }); });
       STORE_GROUPS.splice(0, STORE_GROUPS.length, ...g.list);
+      menus.forEach(m => g.list.forEach(gr => { if (gr.stores.length && !(m.groups || []).includes(gr.id) && gr.stores.every(id => (m.stores || []).includes(id))) m.groups = [...(m.groups || []), gr.id]; }));
       if (was) ui.panelSnap = JSON.stringify(dr);
       ui.grpDlg = null; redrawDrawer(); return; }
     case 'langEdit': { const d = ui.panel.draft, list = JSON.parse(D.list); d._lg = Object.fromEntries(list.map(([, pth]) => [pth, getp(d, pth) || ''])); ui.langDlg = { nm:D.nm, list }; renderOverlay(); setTimeout(() => document.querySelector('.dlg-lang input')?.focus(), 0); return; }
