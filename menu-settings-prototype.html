@@ -1228,14 +1228,14 @@ button.sc-more:hover { color: #2f8f81; text-decoration: underline; }
 .grp-it .gi-m { width: 100%; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
 .gi-chip { display: inline-flex; align-items: center; height: 24px; box-sizing: border-box; padding: 3px 10px; border: 1px solid #D4D4D4; border-radius: 100px; background: #fff; color: #53545C; font-size: 12px; line-height: 1.5; white-space: nowrap; }
 .grp-empty { padding: 24px 0; text-align: center; color: #8E8F98; }
+.dlg-grp .empty-blk { margin: 0; border: 1px solid #D4D4D4; border-radius: 8px; overflow: hidden; }
+.dlg-grp .empty-st { height: 226px; }
 .grp-backb { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 8px 12px; border: 0; border-radius: 4px; background: transparent; color: #58B6A8; font-size: 14px; font-weight: 600; letter-spacing: .5px; cursor: pointer; }
 .grp-backb:hover { background: #F5FAF9; }
 .grp-gl { display: flex; align-items: baseline; gap: 10px; font-size: 16px; line-height: 1.5; }
 .grp-gl small { font-size: 14px; color: #8E8F98; }
-.grp-sch { display: flex; align-items: center; gap: 8px; height: 40px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D4D4D4; border-radius: 4px; background: #fff; }
-.grp-sch input { flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 16px; line-height: 1.5; color: #53545C; background: transparent; }
-.grp-sch input::placeholder { color: #8E8F98; }
-.grp-sch:focus-within { border-color: #58B6A8; box-shadow: 0 0 0 3px rgba(88,182,168,.22); }
+.dlg-grp .sbox { display: flex; width: 100%; }
+.dlg-grp .sbox .search { width: 100%; height: 40px; box-sizing: border-box; }
 .grp-stores { border: 1px solid #D4D4D4; border-radius: 8px; padding: 11px; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); column-gap: 24px; row-gap: 12px; max-height: 300px; overflow-y: auto; }
 .grp-stores .ckb { min-height: 42px; box-sizing: border-box; }
 .grp-stores .ckb .ckb-t { white-space: nowrap; line-height: 24px; }
@@ -3073,8 +3073,8 @@ function renderOverlay() {
       body = `<button class="grp-backb" data-act="grpBack">${fi('back', 20)}返回群組列表</button>
         <div><label class="qp-fld ${nameErr ? 'bad' : ''}"><span class="qp-fl">群組名稱<b>*</b></span><span class="qp-in ${nameErr ? 'bad' : ''}"><input type="text" id="grpName" value="${h(g.name)}" autocomplete="off" /></span></label>${nameErr ? `<div class="grp-err">${nameErr}</div>` : ''}</div>
         <div><div class="grp-gl"><span>群組商店</span><small>已選 ${g.stores.length} 間</small></div>${stErr ? `<div class="grp-err">${stErr}</div>` : ''}</div>
-        <label class="grp-sch">${fi('search', 24)}<input type="text" id="grpQ" placeholder="搜尋商店" value="${h(g.q || '')}" autocomplete="off" /></label>
-        <div class="grp-stores">${shown.length ? shown.map(x => { const o = other(x.id); return `<label class="ckb ${g.stores.includes(x.id) ? 'on' : ''} ${o ? 'dis' : ''}"><input type="checkbox" data-gs="${x.id}" ${g.stores.includes(x.id) ? 'checked' : ''} ${o ? 'disabled' : ''} /><span class="ckb-b"></span><span class="ckb-t">${h(x.name)}${o ? `<small>已屬於${h(o.name)}</small>` : ''}</span></label>`; }).join('') : '<div class="grp-empty" style="grid-column:1/-1">找不到符合的商店</div>'}</div>
+        ${searchBox('grpQ', g.q || '', '搜尋商店')}
+        ${shown.length ? `<div class="grp-stores">${shown.map(x => { const o = other(x.id); return `<label class="ckb ${g.stores.includes(x.id) ? 'on' : ''} ${o ? 'dis' : ''}"><input type="checkbox" data-gs="${x.id}" ${g.stores.includes(x.id) ? 'checked' : ''} ${o ? 'disabled' : ''} /><span class="ckb-b"></span><span class="ckb-t">${h(x.name)}${o ? `<small>已屬於${h(o.name)}</small>` : ''}</span></label>`; }).join('')}</div>` : emptyBlock('查無結果', '', 'noresult')}
 `;
       foot = `<button class="dlg-btn" data-act="grpBack">取消</button><button class="dlg-btn blue" data-act="grpSave">確認</button>`;
     }
