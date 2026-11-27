@@ -3065,7 +3065,7 @@ function renderOverlay() {
     if (g.view === 'list') {
       body = `<div class="grp-top"><p>將多間商店設為群組，方便套用菜單與統一管理。</p><button class="grp-addb" data-act="grpNew">${fi('plusW', 20)}新增群組</button></div>`
         + (g.list.length ? g.list.map(x => `<div class="grp-it"><span class="gi-n">${h(x.name)}</span><span class="gi-c">（${x.stores.length} 間商店）</span><span class="gi-b"><button data-act="grpEdit" data-id="${x.id}" aria-label="編輯${h(x.name)}">${fi('edit24', 20)}</button><button data-act="grpDel" data-id="${x.id}" aria-label="刪除${h(x.name)}">${fi('trash', 20)}</button></span><div class="gi-m">${x.stores.map(id => `<span class="gi-chip">${h(storeName(id))}</span>`).join('')}</div></div>`).join('')
-          : '<div class="grp-empty">尚無商店群組，請先新增</div>');
+          : emptyBlock('尚無商店群組', '', 'empty'));
       foot = `<button class="dlg-btn" data-act="grpClose">取消</button><button class="dlg-btn blue" data-act="grpCommit">確認</button>`;
     } else {
       const nameErr = g.chk ? (!g.name.trim() ? '請輸入群組名稱' : g.list.some(x => x.id !== g.id && x.name === g.name.trim()) ? '群組名稱不可重複' : '') : '', stErr = g.chk && !g.stores.length ? '請至少選擇一間商店' : '';
